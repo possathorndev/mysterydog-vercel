@@ -1,7 +1,14 @@
 import type { Metadata } from 'next';
-import { Balsamiq_Sans, Gaegu } from 'next/font/google';
-import '../styles/globals.css';
+import AuthSessionProvider from '@/contexts/AuthSessionProvider';
 import { ThemeProvider } from '@/components/ThemeProvider/theme-provider';
+import { Toaster } from '@/components/ui/toaster';
+
+// Fonts
+import { Balsamiq_Sans, Gaegu } from 'next/font/google';
+
+// Styles
+import '../styles/globals.css';
+import '../styles/custom-style.scss';
 
 const balsamiqSans = Balsamiq_Sans({
   subsets: ['latin'],
@@ -35,7 +42,8 @@ export default async function RootLayout({
         }
       >
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
-          {children}
+          <AuthSessionProvider>{children}</AuthSessionProvider>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
