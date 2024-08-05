@@ -1,3 +1,4 @@
+// Components
 import Navbar from '@/components/Navbar/navbar';
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
@@ -8,7 +9,6 @@ export default async function Layout({ children }: { children: React.ReactNode }
       </div>
       <div className='relative pb-9 pt-24'>{children}</div>
       {/* <Footer /> */}
-      {/*<ComingSoonFooter />*/}
     </>
   );
 }
