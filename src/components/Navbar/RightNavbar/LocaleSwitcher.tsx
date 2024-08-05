@@ -1,16 +1,25 @@
 import React from 'react';
 import { useLocale } from 'next-intl';
 import { Link } from '@/utils/navigation';
+import { usePathname } from 'next/navigation';
 
 const LocaleSwitcher = () => {
+  const pathname = usePathname();
   const locale = useLocale();
+
+  const handleLocaleSwitch = (e, selectLocale) => {
+    if (locale === selectLocale) {
+      e.preventDefault();
+      return;
+    }
+  };
 
   return (
     <>
-      <Link href='/' locale='en' aria-disabled={locale === 'en'} onClick={(e) => locale === 'en' && e.preventDefault()}>
+      <Link href={pathname} locale='en' aria-disabled={locale === 'en'} onClick={(e) => handleLocaleSwitch(e, 'en')}>
         EN
       </Link>
-      <Link href='/' locale='th' onClick={(e) => locale === 'th' && e.preventDefault()} className='mx-2'>
+      <Link href={pathname} locale='th' onClick={(e) => handleLocaleSwitch(e, 'th')} className='mx-2'>
         TH
       </Link>
     </>
