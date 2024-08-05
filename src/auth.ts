@@ -30,9 +30,6 @@ export const authOptions = {
     }),
   ],
   database: process.env.NEXT_PUBLIC_DATABASE_URL,
-  session: {
-    jwt: true,
-  },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {

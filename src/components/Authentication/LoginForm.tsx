@@ -4,8 +4,6 @@ import { Form, FormProvider, useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import useAuthentication from '@/hooks/useAuthentication';
-import { LoginPayload } from '@/lib/api/authentication';
 import { signIn } from 'next-auth/react';
 
 export const loginFormSchema = z.object({
@@ -14,8 +12,6 @@ export const loginFormSchema = z.object({
 });
 
 const LoginForm = () => {
-  const { login } = useAuthentication();
-
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
