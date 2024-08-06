@@ -1,7 +1,7 @@
 import createMiddleware from 'next-intl/middleware';
 
 import { auth } from '@/auth';
-import { locales, defaultLocale } from '@/consts/config';
+import { locales, defaultLocale } from '@/constants/config';
 
 const intlMiddleware = createMiddleware({
   locales,

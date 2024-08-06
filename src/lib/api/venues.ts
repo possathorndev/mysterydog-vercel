@@ -3,7 +3,7 @@ import qs from 'qs';
 import { defaultStaleTime, publicAPI } from '@/lib/api';
 import { Category } from '@/lib/api/categories';
 import { getCookie } from 'cookies-next';
-import { defaultLocale } from '@/consts/config';
+import { defaultLocale } from '@/constants/config';
 import { ListResponseData, ResponseData, SingleResponseData } from '@/lib/api/utils/common';
 
 export type Venue = {
