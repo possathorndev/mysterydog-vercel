@@ -7,13 +7,13 @@ import { getCookie } from 'cookies-next';
 import { defaultLocale } from '@/consts/config';
 import { ListResponseData, ResponseData, SingleResponseData } from '@/lib/api/utils/common';
 
-export type Venue = {
+export type Location = {
   slug: string;
   name: string;
   categories: Category[];
 };
 
-export const findVenues = async ({ queryKey }: {queryKey: string[]}): Promise<ListResponseData<Venue>> => {
+export const findLocations = async ({ queryKey }: { queryKey: string[] }): Promise<ListResponseData<Location>> => {
   const [_key, query] = queryKey;
 
   const queryString = qs.stringify(
@@ -28,20 +28,20 @@ export const findVenues = async ({ queryKey }: {queryKey: string[]}): Promise<Li
   return response?.data;
 };
 
-export const findVenueBySlug = async (slug: string): Promise<Venue> => {
+export const findLocationBySlug = async (slug: string): Promise<Location> => {
   const response = await publicAPI.get(`/locations/${slug}`);
 
   return response?.data?.data?.attributes;
 };
 
-export const findVenueBySlugSSR = async ({ queryKey }: {queryKey: QueryKey}): Promise<Venue> => {
+export const findLocationBySlugSSR = async ({ queryKey }: { queryKey: QueryKey }): Promise<Location | undefined> => {
   const [_key, slug] = queryKey;
 
   const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/locations/${slug}`, {
     next: { revalidate: defaultStaleTime },
   });
 
-  const result: SingleResponseData<Venue> = await response.json();
+  const result: SingleResponseData<Location> = await response.json();
 
-  return result.data?.attributes;
+  return result?.data?.attributes;
 };

@@ -2,26 +2,26 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
 // Types
-import { Venue } from '@/lib/api/venues';
+import { Location } from '@/lib/api/locations';
 import { Link } from '@/utils/navigation';
 
-const VenueCard = ({ data }: { data: Venue }) => {
+const LocationCard = ({ data }: { data: Location }) => {
   return (
     <Link href={`/locations/${data?.slug}`}>
       <Card>
         <CardHeader>
           <CardTitle>{data?.name}</CardTitle>
-          <CardDescription>Venue Description</CardDescription>
+          <CardDescription>Location Description</CardDescription>
         </CardHeader>
         <CardContent>
           <p>{data?.categories?.toString()}</p>
         </CardContent>
         <CardFooter>
-          <p>Venue Footer</p>
+          <p>Location Footer</p>
         </CardFooter>
       </Card>
     </Link>
   );
 };
 
-export default VenueCard;
+export default LocationCard;
