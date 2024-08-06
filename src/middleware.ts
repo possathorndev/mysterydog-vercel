@@ -1,5 +1,6 @@
 import createMiddleware from 'next-intl/middleware';
-import { NextRequest } from 'next/server';
+
+import { auth } from '@/auth';
 import { locales, defaultLocale } from '@/consts/config';
 
 const intlMiddleware = createMiddleware({
@@ -8,7 +9,7 @@ const intlMiddleware = createMiddleware({
   localePrefix: 'never',
 });
 
-export default function middleware(request: NextRequest) {
+export default auth((request) => {
   const { pathname } = request.nextUrl;
 
   const shouldHandle = /^\/(?!api\/|_next\/|_vercel\/|.*\..*).*$/.test(pathname);
@@ -16,4 +17,4 @@ export default function middleware(request: NextRequest) {
   if (!shouldHandle) return;
 
   return intlMiddleware(request);
-}
+});
