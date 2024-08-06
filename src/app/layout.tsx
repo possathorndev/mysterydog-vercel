@@ -9,6 +9,7 @@ import { Balsamiq_Sans, Gaegu } from 'next/font/google';
 // Styles
 import '../styles/globals.css';
 import '../styles/custom-style.scss';
+import APIQueryProvider from '@/contexts/APIQueryProvider';
 
 const balsamiqSans = Balsamiq_Sans({
   subsets: ['latin'],
@@ -42,7 +43,9 @@ export default async function RootLayout({
         }
       >
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
-          <AuthSessionProvider>{children}</AuthSessionProvider>
+          <AuthSessionProvider>
+            <APIQueryProvider>{children}</APIQueryProvider>
+          </AuthSessionProvider>
           <Toaster />
         </ThemeProvider>
       </body>

@@ -11,7 +11,7 @@ const intlMiddleware = createMiddleware({
 export default function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const shouldHandle = pathname === '/' || new RegExp(`^/(${locales.join('|')})(/.*)?$`).test(request.nextUrl.pathname);
+  const shouldHandle = /^\/(?!api\/|_next\/|_vercel\/|.*\..*).*$/.test(pathname);
 
   if (!shouldHandle) return;
 
