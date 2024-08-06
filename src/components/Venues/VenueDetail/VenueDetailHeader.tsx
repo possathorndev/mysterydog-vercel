@@ -7,8 +7,8 @@ const VenueDetailHeader = ({ data, isLoading }: { data?: Venue; isLoading: boole
   return (
     <div className='flex max-w-3xl flex-col gap-3 py-10'>
       <div className='flex w-full flex-col gap-3'>
-        <p className='text-green text-xs'>Venue: {data.slug}</p>
-        <h3 className='font-pixel8 text-4xl font-bold uppercase'>{data.name}</h3>
+        <p className='text-green text-xs'>Venue: {data?.slug}</p>
+        <h3 className='font-pixel8 text-4xl font-bold uppercase'>{data?.name}</h3>
         <p className='text-description text-base'>
           Ut sagittis sollicitudin eu neque. Egestas auctor dictum tempus sed sagittis. Congue ornare lacus vel
           fringilla nulla eu tellus

@@ -14,7 +14,7 @@ const VenueCard = ({ data }: { data: Venue }) => {
           <CardDescription>Venue Description</CardDescription>
         </CardHeader>
         <CardContent>
-          <p>{data?.categories}</p>
+          <p>{data?.categories?.toString()}</p>
         </CardContent>
         <CardFooter>
           <p>Venue Footer</p>

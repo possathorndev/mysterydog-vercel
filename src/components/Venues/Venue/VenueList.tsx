@@ -16,7 +16,7 @@ const VenueList = () => {
 
   if (isLoading) return <p>Loading ...</p>;
 
-  if (venuesData?.length < 1) return <p>No venues in this area</p>;
+  if (!venuesData || venuesData?.length < 1) return <p>No venues in this area</p>;
 
   return (
     <div className='flex flex-col gap-4'>
