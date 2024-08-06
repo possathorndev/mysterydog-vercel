@@ -2,8 +2,10 @@ import React from 'react';
 import { useLocale } from 'next-intl';
 import { Link } from '@/utils/navigation';
 import { usePathname } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 
 const LocaleSwitcher = () => {
+  const queryClient = useQueryClient();
   const pathname = usePathname();
   const locale = useLocale();
 
@@ -12,6 +14,7 @@ const LocaleSwitcher = () => {
       e.preventDefault();
       return;
     }
+    queryClient.invalidateQueries();
   };
 
   return (

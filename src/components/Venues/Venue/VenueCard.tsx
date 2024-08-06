@@ -2,19 +2,19 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
 // Types
-import { VenueAttribute } from '@/lib/api/venues';
+import { Venue } from '@/lib/api/venues';
 import { Link } from '@/utils/navigation';
 
-const VenueCard = ({ data }: { data: VenueAttribute }) => {
+const VenueCard = ({ data }: { data: Venue }) => {
   return (
-    <Link href={`/venue/${data?.attributes?.slug}`}>
+    <Link href={`/venue/${data?.slug}`}>
       <Card>
         <CardHeader>
-          <CardTitle>{data?.attributes?.name}</CardTitle>
+          <CardTitle>{data?.name}</CardTitle>
           <CardDescription>Venue Description</CardDescription>
         </CardHeader>
         <CardContent>
-          <p>{data?.attributes?.categories}</p>
+          <p>{data?.categories}</p>
         </CardContent>
         <CardFooter>
           <p>Venue Footer</p>

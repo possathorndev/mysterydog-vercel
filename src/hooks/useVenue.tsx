@@ -15,7 +15,7 @@ const useVenues = () => {
 export const useVenueBySlug = (slug: string) => {
   return useQuery({
     queryKey: ['venue', slug],
-    queryFn: findVenueBySlug,
+    queryFn: () => findVenueBySlug(slug),
     enabled: !!slug,
   });
 };

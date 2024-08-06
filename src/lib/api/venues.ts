@@ -1,9 +1,10 @@
 import qs from 'qs';
 
-import { publicAPI } from '@/lib/api';
+import { defaultStaleTime, publicAPI } from '@/lib/api';
 import { Category } from '@/lib/api/categories';
 import { getCookie } from 'cookies-next';
 import { defaultLocale } from '@/consts/config';
+import { ListResponseData, ResponseData, SingleResponseData } from '@/lib/api/utils/common';
 
 export type Venue = {
   slug: string;
@@ -11,16 +12,9 @@ export type Venue = {
   categories: Category[];
 };
 
-export type VenueAttribute = {
-  id: number;
-  attributes: Venue;
-};
+export const findVenues = async ({ queryKey }): Promise<ListResponseData<Venue>> => {
+  const [_key, query] = queryKey;
 
-export type FindVenuesResponse = {
-  data: VenueAttribute[];
-};
-
-export const findVenues = async (query?: {}) => {
   const queryString = qs.stringify(
     {
       ...query,
@@ -29,19 +23,25 @@ export const findVenues = async (query?: {}) => {
     { encode: false },
   );
 
-  const response = await publicAPI.get<FindVenuesResponse>(`/venues?${queryString}`);
+  const response = await publicAPI.get(`/venues?${queryString}`);
 
-  return response.data.data;
+  return response?.data;
 };
 
-export type FindVenueBySlugResponse = {
-  data: VenueAttribute;
+export const findVenueBySlug = async (slug: string): Promise<Venue> => {
+  const response = await publicAPI.get<ResponseData<Venue>>(`/venues/${slug}`);
+
+  return response?.data?.data?.attributes;
 };
 
-export const findVenueBySlug = async ({ queryKey }) => {
-  const [_key, { slug }] = queryKey;
+export const findVenueBySlugSSR = async ({ queryKey }): Promise<Venue> => {
+  const [_key, slug] = queryKey;
 
-  const response = await publicAPI.get<FindVenueBySlugResponse>(`/venues/${slug}`);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/venues/${slug}`, {
+    next: { revalidate: defaultStaleTime },
+  });
 
-  return response.data.data;
+  const result: Promise<SingleResponseData<Venue>> = await response.json();
+
+  return result.data?.attributes;
 };

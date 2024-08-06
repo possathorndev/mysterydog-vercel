@@ -1,6 +1,10 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { getSession, signOut } from 'next-auth/react';
 
+// NEXT Fetch
+export const defaultStaleTime = 60; // 60s
+
+// AXIOS
 export const publicAPI: AxiosInstance = axios.create({ baseURL: process.env.NEXT_PUBLIC_BACKEND_URL });
 export const authApi: AxiosInstance = axios.create({ baseURL: process.env.NEXT_PUBLIC_BACKEND_URL });
 
