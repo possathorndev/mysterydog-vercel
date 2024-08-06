@@ -29,17 +29,12 @@ const config = {
           foreground: 'hsl(var(--primary-foreground))',
         },
         secondary: {
-          DEFAULT: 'var(--secondary)',
+          DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))',
         },
         tertiary: {
-          DEFAULT: 'var(--tertiary)',
-          foreground: 'hsl(var(--secondary-foreground))',
-        },
-        main: {
-          support1: 'var(--main-support-1)',
-          support2: 'var(--main-support-2)',
-          venue: 'var(--main-venue)',
+          DEFAULT: 'hsl(var(--tertiary))',
+          foreground: 'hsl(var(--tertiary-foreground))',
         },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',

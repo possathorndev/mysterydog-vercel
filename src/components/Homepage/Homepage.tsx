@@ -11,6 +11,11 @@ export default function Homepage() {
 
   return (
     <main className='flex min-h-screen flex-col items-center p-24'>
+      <div className='my-4 flex gap-4'>
+        <Button>Primary</Button>
+        <Button variant='secondary'>Secondary</Button>
+        <Button variant='tertiary'>Tertiary</Button>
+      </div>
       <div className='mb-8 w-1/2 rounded-xl border-2 px-8 py-8'>
         <h1 className='mb-2 text-xl'>Font Family</h1>
         <h1 className='font-sans text-primary'>Balsamiq Sans: {t('title')}</h1>
