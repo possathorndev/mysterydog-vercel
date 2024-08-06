@@ -7,7 +7,7 @@ import { Link } from '@/utils/navigation';
 
 const VenueCard = ({ data }: { data: Venue }) => {
   return (
-    <Link href={`/venue/${data?.slug}`}>
+    <Link href={`/locations/${data?.slug}`}>
       <Card>
         <CardHeader>
           <CardTitle>{data?.name}</CardTitle>

@@ -23,13 +23,13 @@ export const findVenues = async ({ queryKey }): Promise<ListResponseData<Venue>>
     { encode: false },
   );
 
-  const response = await publicAPI.get(`/venues?${queryString}`);
+  const response = await publicAPI.get(`/locations?${queryString}`);
 
   return response?.data;
 };
 
 export const findVenueBySlug = async (slug: string): Promise<Venue> => {
-  const response = await publicAPI.get<ResponseData<Venue>>(`/venues/${slug}`);
+  const response = await publicAPI.get<ResponseData<Venue>>(`/locations/${slug}`);
 
   return response?.data?.data?.attributes;
 };
@@ -37,7 +37,7 @@ export const findVenueBySlug = async (slug: string): Promise<Venue> => {
 export const findVenueBySlugSSR = async ({ queryKey }): Promise<Venue> => {
   const [_key, slug] = queryKey;
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/venues/${slug}`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/locations/${slug}`, {
     next: { revalidate: defaultStaleTime },
   });
 
