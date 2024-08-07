@@ -11,7 +11,7 @@ export const NavbarMenuList = [
     url: '/maps',
   },
   {
-    title: 'Blog',
+    title: 'Blogs',
     url: '/blogs',
   },
 ];

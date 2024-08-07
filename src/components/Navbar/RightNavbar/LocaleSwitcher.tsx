@@ -20,11 +20,11 @@ const LocaleSwitcher = ({ color = 'primary' }: { color?: 'primary' | 'secondary'
   };
 
   return (
-    <div className={cn('rounded-md', color === 'primary' && 'bg-accent', color === 'secondary' && 'bg-primary/50')}>
+    <div className={cn('rounded-md', color === 'primary' && 'bg-accent', color === 'secondary' && 'bg-accent/15')}>
       <Button
         variant='ghost'
         className={cn(
-          'm-1 h-8 px-3 font-bold',
+          'm-1 h-8 px-3 font-bold rounded-sm',
           color === 'primary' && 'inherit text-gray-500 hover:bg-primary/20 hover:text-gray-500',
           color === 'secondary' && 'text-white hover:bg-inherit hover:text-white',
           locale === 'en' && color === 'primary' && 'bg-primary text-white hover:bg-primary/80 hover:text-white',
@@ -40,7 +40,7 @@ const LocaleSwitcher = ({ color = 'primary' }: { color?: 'primary' | 'secondary'
       <Button
         variant='ghost'
         className={cn(
-          'm-1 h-8 px-3 font-bold',
+          'm-1 h-8 px-3 font-bold rounded-sm',
           color === 'primary' && 'inherit text-gray-500 hover:bg-primary/20 hover:text-gray-500',
           color === 'secondary' && 'text-white hover:bg-inherit hover:text-white',
           locale === 'th' && color === 'primary' && 'bg-primary text-white hover:bg-primary/80 hover:text-white',
