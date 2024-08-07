@@ -11,13 +11,20 @@ import {
 } from '@/components/ui/dropdown-menu';
 import SearchForm from '@/components/SearchBar/SearchForm';
 import { useRouter } from 'next/navigation';
+import CategorySelect from '@/components/SearchBar/CategorySelect';
+import { LOCATION_PATH } from '@/constants/config';
 
 const SearchBar = () => {
   const [open, setOpen] = useState<boolean>(false);
   const router = useRouter();
 
   const handleSearch = async (search: string) => {
-    router.push(`/locations?_q=${search}`);
+    router.push(`${LOCATION_PATH}?_q=${search}`);
+    setOpen(false);
+  };
+
+  const handleCategorySelect = async (slug: string) => {
+    router.push(`${LOCATION_PATH}?category=${slug}`);
     setOpen(false);
   };
 
@@ -31,6 +38,7 @@ const SearchBar = () => {
       <DropdownMenuContent className='h-[calc(100vh-60px)] w-[100vw]'>
         <SearchForm handleSubmit={handleSearch} />
         <DropdownMenuSeparator />
+        <CategorySelect handleSubmit={handleCategorySelect} />
       </DropdownMenuContent>
     </DropdownMenu>
   );
