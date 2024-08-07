@@ -7,11 +7,10 @@ export default async function LocaleLayout({ children }: { children: React.React
 
   return (
     <NextIntlClientProvider messages={messages}>
-      <div className='fixed top-0 z-50 w-full bg-[#0D0D0D]'>
+      <div className='fixed top-0 z-50 w-full'>
         <Navbar />
       </div>
-      <div className='relative pb-9 pt-24'>{children}</div>
-      {/* <Footer /> */}
+      {children}
     </NextIntlClientProvider>
   );
 }
