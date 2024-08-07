@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { NavbarMenuList } from '@/constants/config';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, Search, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,6 +15,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import LocaleSwitcher from '@/components/Navbar/RightNavbar/LocaleSwitcher';
+import SearchBar from '@/components/SearchBar/SearchBar';
 
 const HamburgerMenu = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -53,6 +54,7 @@ const HamburgerMenu = () => {
     </DropdownMenu>
   );
 };
+
 const MobileNavbar = () => {
   return (
     <div className='flex w-full items-center justify-between'>
@@ -60,9 +62,7 @@ const MobileNavbar = () => {
       <Link href='/'>
         <Image className='w-[158px]' src='/logo.png' alt='Mystery Dog Logo' width={158} height={25} />
       </Link>
-      <Button variant='outline' size='icon' className='bg-secondary/10 hover:bg-secondary/20'>
-        <Search className='h-6 w-6 text-secondary' />
-      </Button>
+      <SearchBar />
     </div>
   );
 };
