@@ -1,17 +1,21 @@
 export const locales = ['en', 'th'];
 export const defaultLocale = 'en';
 
+export const LOCATION_PATH = '/locations';
+export const MAPS_PATH = '/maps';
+export const BLOGS_PATH = '/blogs';
+
 export const NavbarMenuList = [
   {
     title: 'Area List',
-    url: '/locations',
+    url: LOCATION_PATH,
   },
   {
     title: 'Map',
-    url: '/maps',
+    url: MAPS_PATH,
   },
   {
     title: 'Blogs',
-    url: '/blogs',
+    url: BLOGS_PATH,
   },
 ];

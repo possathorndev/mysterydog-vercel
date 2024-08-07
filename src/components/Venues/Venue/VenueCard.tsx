@@ -1,5 +1,6 @@
 // Components
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { LOCATION_PATH } from '@/constants/config';
 
 // Types
 import { Venue } from '@/lib/api/venues';
@@ -7,7 +8,7 @@ import { Link } from '@/utils/navigation';
 
 const VenueCard = ({ data }: { data: Venue }) => {
   return (
-    <Link href={`/locations/${data?.slug}`}>
+    <Link href={`${LOCATION_PATH}/${data?.slug}`}>
       <Card>
         <CardHeader>
           <CardTitle>{data?.name}</CardTitle>
