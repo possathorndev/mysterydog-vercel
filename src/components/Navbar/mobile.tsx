@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { NavbarMenuList } from '@/constants/config';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, Search } from 'lucide-react';
+import { Menu, Search, X } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,7 +23,7 @@ const HamburgerMenu = () => {
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
         <Button variant='outline' size='icon' className='bg-primary hover:bg-primary/80'>
-          <Menu className='h-6 w-6 text-white' />
+          {open ? <X className='h-6 w-6 text-white' /> : <Menu className='h-6 w-6 text-white' />}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='w-[100vw] bg-primary p-4 text-white'>
