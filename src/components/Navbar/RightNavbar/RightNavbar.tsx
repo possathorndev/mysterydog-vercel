@@ -6,9 +6,9 @@ import AuthenticationModal from '@/components/Navbar/RightNavbar/AuthenticationM
 
 const RightNavbar = () => {
   return (
-    <div className='right-navbar-content flex items-center'>
+    <div className='flex items-center gap-4'>
       <LocaleSwitcher />
-      <AuthenticationModal />
+      {/* <AuthenticationModal /> */}
     </div>
   );
 };
