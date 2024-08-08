@@ -123,7 +123,7 @@ const GoogleMapComponent = ({
   selectedMarker,
   onMarkerSelect,
 }: {
-  locations: Location[];
+  locations?: Location[];
   selectedMarker?: Location;
   onMarkerSelect: (marker: Location) => void;
 }) => {
@@ -135,7 +135,7 @@ const GoogleMapComponent = ({
         map.setCenter({ lat: position.coords.latitude, lng: position.coords.longitude });
       });
     }
-  }, [map, navigator]);
+  }, [map]);
 
   return (
     <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''} loadingElement={<Loader />}>

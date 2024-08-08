@@ -21,7 +21,7 @@ const MapPage = () => {
   }, [data]);
 
   return (
-    <main>
+    <div className='h-[calc(100vh-70px)]'>
       {/* MAP */}
       <GoogleMap
         locations={locationsData}
@@ -31,7 +31,7 @@ const MapPage = () => {
 
       {/* DIRECTORY */}
       <Directory selectedMarker={selectedMarker} onMarkerDeselect={() => setSelectedMarker(undefined)} />
-    </main>
+    </div>
   );
 };
 
