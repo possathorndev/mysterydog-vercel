@@ -4,11 +4,11 @@ import { Metadata, ResolvingMetadata } from 'next';
 // API
 import { HydrationBoundary } from '@tanstack/react-query';
 import { prefetchQuerySSR } from '@/lib/api/utils/query';
-import { findVenueBySlugSSR } from '@/lib/api/venues';
+import { findLocationBySlugSSR } from '@/lib/api/locations';
 import { generatePageMetadata } from '@/lib/api/utils/metadata';
 
 // Components
-import VenueDetailPage from '@/components/Venues/VenueDetail/VenueDetailPage';
+import LocationDetailPage from '@/components/Locations/LocationDetail/LocationDetailPage';
 
 type Props = {
   params: { slug: string };
@@ -17,7 +17,7 @@ type Props = {
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
   const metadata = await generatePageMetadata({
     query: params.slug,
-    fn: findVenueBySlugSSR,
+    fn: findLocationBySlugSSR,
   });
 
   if (!metadata) return {};
@@ -29,13 +29,13 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
 
 export default async function Page({ params }: Props) {
   const dehydratedState = await prefetchQuerySSR({
-    queryKey: ['venue', params.slug],
-    queryFn: findVenueBySlugSSR,
+    queryKey: ['location', params.slug],
+    queryFn: findLocationBySlugSSR,
   });
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <VenueDetailPage slug={params.slug} />
+      <LocationDetailPage slug={params.slug} />
     </HydrationBoundary>
   );
 }

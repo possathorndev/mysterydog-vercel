@@ -1,4 +1,5 @@
 import qs from 'qs';
+import { QueryKey } from '@tanstack/react-query';
 
 import { defaultStaleTime, publicAPI } from '@/lib/api';
 import { Category } from '@/lib/api/categories';
@@ -6,19 +7,21 @@ import { getCookie } from 'cookies-next';
 import { defaultLocale } from '@/constants/config';
 import { ListResponseData, ResponseData, SingleResponseData } from '@/lib/api/utils/common';
 
-export type Venue = {
+export type Location = {
   slug: string;
   name: string;
+  lat: number;
+  long: number;
   categories: Category[];
 };
 
-export const findVenues = async ({ queryKey }): Promise<ListResponseData<Venue>> => {
+export const findLocations = async ({ queryKey }: { queryKey: string[] }): Promise<ListResponseData<Location>> => {
   const [_key, query] = queryKey;
 
   const queryString = qs.stringify(
     {
-      ...query,
       locale: getCookie('NEXT_LOCALE') || defaultLocale,
+      // populate: '*',
     },
     { encode: false },
   );
@@ -28,20 +31,20 @@ export const findVenues = async ({ queryKey }): Promise<ListResponseData<Venue>>
   return response?.data;
 };
 
-export const findVenueBySlug = async (slug: string): Promise<Venue> => {
-  const response = await publicAPI.get<ResponseData<Venue>>(`/locations/${slug}`);
+export const findLocationBySlug = async (slug: string): Promise<Location> => {
+  const response = await publicAPI.get(`/locations/${slug}`);
 
   return response?.data?.data?.attributes;
 };
 
-export const findVenueBySlugSSR = async ({ queryKey }): Promise<Venue> => {
+export const findLocationBySlugSSR = async ({ queryKey }: { queryKey: QueryKey }): Promise<Location | undefined> => {
   const [_key, slug] = queryKey;
 
   const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/locations/${slug}`, {
     next: { revalidate: defaultStaleTime },
   });
 
-  const result: Promise<SingleResponseData<Venue>> = await response.json();
+  const result: SingleResponseData<Location> = await response.json();
 
-  return result.data?.attributes;
+  return result?.data?.attributes;
 };
