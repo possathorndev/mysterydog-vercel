@@ -3,26 +3,26 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { LOCATION_PATH } from '@/constants/config';
 
 // Types
-import { Venue } from '@/lib/api/venues';
+import { Location } from '@/lib/api/locations';
 import { Link } from '@/utils/navigation';
 
-const VenueCard = ({ data }: { data: Venue }) => {
+const LocationCard = ({ data }: { data: Location }) => {
   return (
     <Link href={`${LOCATION_PATH}/${data?.slug}`}>
       <Card>
         <CardHeader>
           <CardTitle>{data?.name}</CardTitle>
-          <CardDescription>Venue Description</CardDescription>
+          <CardDescription>Location Description</CardDescription>
         </CardHeader>
         <CardContent>
-          <p>{data?.categories}</p>
+          <p>{data?.categories?.toString()}</p>
         </CardContent>
         <CardFooter>
-          <p>Venue Footer</p>
+          <p>Location Footer</p>
         </CardFooter>
       </Card>
     </Link>
   );
 };
 
-export default VenueCard;
+export default LocationCard;

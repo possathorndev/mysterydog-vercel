@@ -1,7 +1,7 @@
-import VenuePage from "@/components/Venues/Venue/VenuePage";
+import LocationPage from '@/components/Locations/Location/LocationPage';
 
 const page = () => {
-    return <VenuePage />
-}
+  return <LocationPage />;
+};
 
-export default page
+export default page;

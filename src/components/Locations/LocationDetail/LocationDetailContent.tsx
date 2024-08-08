@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import React from 'react';
-import { Venue } from '@/lib/api/venues';
+import { Location } from '@/lib/api/locations';
 
-const VenueDetailContent = ({ data, isLoading }: { data?: Venue; isLoading: boolean }) => {
+const LocationDetailContent = ({ data, isLoading }: { data?: Location; isLoading: boolean }) => {
   return (
     <div className='flex flex-col gap-16'>
       {/* FIRST PARAGRAPH */}
@@ -77,4 +77,4 @@ const VenueDetailContent = ({ data, isLoading }: { data?: Venue; isLoading: bool
   );
 };
 
-export default VenueDetailContent;
+export default LocationDetailContent;
