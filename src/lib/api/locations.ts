@@ -10,6 +10,8 @@ import { ListResponseData, ResponseData, SingleResponseData } from '@/lib/api/ut
 export type Location = {
   slug: string;
   name: string;
+  lat: number;
+  long: number;
   categories: Category[];
 };
 
@@ -19,6 +21,7 @@ export const findLocations = async ({ queryKey }: { queryKey: string[] }): Promi
   const queryString = qs.stringify(
     {
       locale: getCookie('NEXT_LOCALE') || defaultLocale,
+      // populate: '*',
     },
     { encode: false },
   );
