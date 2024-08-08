@@ -3,28 +3,25 @@ import { Tag } from '@/lib/api/tags';
 import { FindResponse, Image, ListResponseData, SingleResponseData } from '@/lib/api/utils/common';
 import qs from 'qs';
 
-export type Category = {
+export type Area = {
   name: string;
   slug: string;
   shortDescription: string;
   description: string;
-  locale: string;
-  color: string;
-  icon: SingleResponseData<Image>;
-  image: SingleResponseData<Image>;
-  tags: ListResponseData<Tag>;
-  iconMarker: SingleResponseData<Image>;
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
+  locale: string;
+  image: SingleResponseData<Image>;
+  tags: ListResponseData<Tag>;
 };
 
 const defaultQuery = {
   filters: {},
-  populate: ['icon'],
+  populate: [],
 };
 
-export const findLocationCategories = async (params: { query: any }): Promise<FindResponse<Category>> => {
+export const findLocationAreas = async (params: { query: any }): Promise<FindResponse<Area>> => {
   const query = qs.stringify(
     {
       ...params.query,
@@ -34,7 +31,7 @@ export const findLocationCategories = async (params: { query: any }): Promise<Fi
     { encodeValuesOnly: true },
   );
 
-  const response = await publicAPI.get<FindResponse<Category>>(`/location-categories?${query}`);
+  const response = await publicAPI.get<FindResponse<Area>>(`/location-areas?${query}`);
 
   return response.data;
 };
