@@ -18,14 +18,14 @@ const AuthenticationModal = () => {
   const [open, setOpen] = useState(false);
   const [formState, setFormState] = useState(0);
 
-  const handleLogout = (e) => {
+  const handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     signOut();
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         {session.status === 'authenticated' ? (
           <Button onClick={handleLogout}>Logout</Button>
         ) : session.status === 'unauthenticated' ? (

@@ -11,7 +11,7 @@ const LocaleSwitcher = ({ color = 'primary' }: { color?: 'primary' | 'secondary'
   const pathname = usePathname();
   const locale = useLocale();
 
-  const handleLocaleSwitch = (e, selectLocale) => {
+  const handleLocaleSwitch = (e: React.MouseEvent<HTMLAnchorElement>, selectLocale: 'en' | 'th') => {
     if (locale === selectLocale) {
       e.preventDefault();
       return;

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { loginAPI, LoginPayload, registerAPI } from '@/lib/api/authentication';
+import { loginAPI, LoginPayload, registerAPI, RegisterPayload } from '@/lib/api/authentication';
 
 const useAuthentication = () => {
   const { status, data: session } = useSession();
@@ -28,7 +28,7 @@ const useAuthentication = () => {
     [logout],
   );
 
-  const register = useCallback(async (payload, callback?: () => void) => {
+  const register = useCallback(async (payload: RegisterPayload, callback?: () => void) => {
     try {
       const result = await registerAPI(payload);
       toast({ title: 'Success', description: 'Thank you for register!' });

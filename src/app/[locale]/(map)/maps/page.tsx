@@ -1,7 +1,7 @@
-import React from 'react';
+import MapPage from '@/components/MapPage/MapPage';
 
 const Page = () => {
-  return <div>Maps</div>;
+  return <MapPage />;
 };
 
 export default Page;
