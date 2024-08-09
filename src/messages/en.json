@@ -10,6 +10,11 @@
     "Blogs": "Blogs"
   },
   "HomePage": {
-    "title": "Hello world!"
+    "title": "Hello world!",
+    "mapTitle": "Elit eleifend auctor. Aliquet sed arcu.",
+    "mapDescription": "Nunc bibendum quisque elit eleifend auctor. Aliquet sed arcu.",
+    "mapLinkTitle": "Map",
+    "mapLinkDescription": "Find the purr-fect spot for your furry friend!",
+    "mapLinkNavigate": "Open map now"
   }
 }

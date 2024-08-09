@@ -10,6 +10,11 @@
     "Blogs": "บทความ"
   },
   "HomePage": {
-    "title": "สวัสดี!"
+    "title": "สวัสดี!",
+    "mapTitle": "่ด้ดเ้ด้เดเ้้ดเ",
+    "mapDescription": "ไำดไำดำไดไำดหกดหกดหหกด",
+    "mapLinkTitle": "หกดหกด",
+    "mapLinkDescription": "กดหดกหดหกดหกหกดกดห",
+    "mapLinkNavigate": "หกดหกดหกดหกด"
   }
 }
