@@ -40,7 +40,7 @@ export const findHomeServerSide = async (): Promise<Home> => {
   );
 
   const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/home?${query}`, {
-    next: { revalidate: defaultStaleTime },
+    next: { revalidate: 60 * 60 },
   });
 
   const result: SingleResponseData<Home> = await response.json();

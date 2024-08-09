@@ -1,5 +1,8 @@
 import Homepage from '@/components/Homepage/Homepage';
+import { findHomeServerSide } from '@/lib/api/home';
 
-export default function Home() {
-  return <Homepage />;
+export default async function Home() {
+  const data = await findHomeServerSide();
+
+  return <Homepage initialData={data} />;
 }
