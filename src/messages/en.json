@@ -1,4 +1,8 @@
 {
+  "Global": {
+    "category": "Category",
+    "categoryDescription": "Find the purr-fect spot for your furry friend!"
+  },
   "Navbar": {
     "ChangeLanguage": "Change Language",
     "AreaList": "Area List",

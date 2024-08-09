@@ -1,4 +1,8 @@
 {
+  "Global": {
+    "category": "หมวดหมู่",
+    "categoryDescription": "หกดหมทกดื หกสดา่หสกา่ด สาหก่ดสา่หกสด่"
+  },
   "Navbar": {
     "ChangeLanguage": "เปลี่ยนภาษา",
     "AreaList": "สถานที่",
