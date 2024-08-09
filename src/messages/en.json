@@ -1,4 +1,10 @@
 {
+  "Navbar": {
+    "ChangeLanguage": "Change Language",
+    "AreaList": "Area List",
+    "Maps": "Maps",
+    "Blogs": "Blogs"
+  },
   "HomePage": {
     "title": "Hello world!"
   }

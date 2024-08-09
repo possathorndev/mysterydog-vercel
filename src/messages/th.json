@@ -1,4 +1,10 @@
 {
+  "Navbar": {
+    "ChangeLanguage": "เปลี่ยนภาษา",
+    "AreaList": "สถานที่",
+    "Maps": "แผนที่",
+    "Blogs": "บทความ"
+  },
   "HomePage": {
     "title": "สวัสดี!"
   }

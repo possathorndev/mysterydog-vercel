@@ -16,9 +16,11 @@ import {
 } from '@/components/ui/dropdown-menu';
 import LocaleSwitcher from '@/components/Navbar/RightNavbar/LocaleSwitcher';
 import SearchBar from '@/components/SearchBar/SearchBar';
+import { useTranslations } from 'next-intl';
 
 const HamburgerMenu = () => {
   const [open, setOpen] = useState<boolean>(false);
+  const t = useTranslations('Navbar');
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -38,14 +40,14 @@ const HamburgerMenu = () => {
                 onClick={() => setOpen(false)}
               >
                 <Image src='/icons/arrow-right.png' alt='Mystery Dog Logo' width={18} height={18} />
-                <span>{item.title.toUpperCase()}</span>
+                <span>{t(item.key)?.toUpperCase()}</span>
               </Link>
             </DropdownMenuItem>
           ))}
         </DropdownMenuGroup>
 
         <DropdownMenuGroup className='mt-4'>
-          <span className='ml-2 text-sm'>Change Language</span>
+          <span className='ml-2 text-sm'>{t('ChangeLanguage')}</span>
           <div className='ml-2 mt-1 w-[102px]'>
             <LocaleSwitcher color='secondary' />
           </div>

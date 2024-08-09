@@ -1,4 +1,7 @@
+'use client';
+
 import { NavbarMenuList } from '@/constants/config';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -22,6 +25,8 @@ const SocialList = [
 ];
 
 const Footer = () => {
+  const t = useTranslations('Navbar');
+
   return (
     <div className='h-[140px] w-full border-t-[1px] border-[#007AFF29] bg-white sm:h-[90px]'>
       <div className='mx-auto flex h-full max-w-screen-2xl items-center justify-between px-6 py-2'>
@@ -33,7 +38,7 @@ const Footer = () => {
           <div className='flex flex-col items-end gap-1 sm:flex-row sm:items-start sm:gap-4'>
             {NavbarMenuList.map((item, index) => (
               <Link href={item.url} key={index} className='text-xs text-secondary'>
-                {item.title}
+                {t(item.key)}
               </Link>
             ))}
           </div>
