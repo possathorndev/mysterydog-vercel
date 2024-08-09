@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import AuthSessionProvider from '@/contexts/AuthSessionProvider';
+import APIQueryProvider from '@/contexts/APIQueryProvider';
+
+// Components
 import { ThemeProvider } from '@/components/ThemeProvider/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
-import APIQueryProvider from '@/contexts/APIQueryProvider';
 
 // Fonts
 import { Balsamiq_Sans, Gaegu } from 'next/font/google';

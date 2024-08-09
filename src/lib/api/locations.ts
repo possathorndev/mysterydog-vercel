@@ -5,30 +5,35 @@ import { defaultStaleTime, publicAPI } from '@/lib/api';
 import { Category } from '@/lib/api/categories';
 import { getCookie } from 'cookies-next';
 import { defaultLocale } from '@/constants/config';
-import { ListResponseData, ResponseData, SingleResponseData } from '@/lib/api/utils/common';
+import { FindResponse, ListResponseData, Query, ResponseData, SingleResponseData } from '@/lib/api/utils/common';
 
 export type Location = {
   slug: string;
   name: string;
   lat: number;
   long: number;
-  categories: Category[];
+  categories: ListResponseData<Category>;
 };
 
-export const findLocations = async ({ queryKey }: { queryKey: string[] }): Promise<ListResponseData<Location>> => {
-  const [_key, query] = queryKey;
+const defaultQuery = {
+  filters: {},
+  populate: ['thumbnailImage', 'tags', 'categories', 'categories.iconMarker'],
+};
 
+export const findLocations = async (params: { query: Query }): Promise<FindResponse<Location>> => {
   const queryString = qs.stringify(
     {
+      ...params.query,
+      filters: { ...defaultQuery.filters, ...params.query?.filters },
+      populate: [...defaultQuery.populate, ...(params.query?.populate ? params.query?.populate : [])],
       locale: getCookie('NEXT_LOCALE') || defaultLocale,
-      // populate: '*',
     },
     { encode: false },
   );
 
   const response = await publicAPI.get(`/locations?${queryString}`);
 
-  return response?.data;
+  return response.data;
 };
 
 export const findLocationBySlug = async (slug: string): Promise<Location> => {
