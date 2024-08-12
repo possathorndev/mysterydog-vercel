@@ -1,27 +1,25 @@
 import { publicAPI } from '@/lib/api';
-import { Tag } from '@/lib/api/tags';
-import { FindResponse, Image, ListResponseData, Query, SingleResponseData } from '@/lib/api/utils/common';
+import { FindResponse, Image, Query, SingleResponseData } from '@/lib/api/utils/common';
 import qs from 'qs';
 
-export type Area = {
+export type Service = {
   name: string;
   slug: string;
-  shortDescription: string;
   description: string;
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
   locale: string;
-  image: SingleResponseData<Image>;
-  tags: ListResponseData<Tag>;
+  icon: SingleResponseData<Image>;
+  color: string;
 };
 
 const defaultQuery = {
   filters: {},
-  populate: [],
+  populate: ['icon'],
 };
 
-export const findLocationAreas = async (params: { query: Query }): Promise<FindResponse<Area>> => {
+export const findLocationServices = async (params: { query: Query }): Promise<FindResponse<Service>> => {
   const query = qs.stringify(
     {
       ...params.query,
@@ -31,7 +29,7 @@ export const findLocationAreas = async (params: { query: Query }): Promise<FindR
     { encodeValuesOnly: true },
   );
 
-  const response = await publicAPI.get<FindResponse<Area>>(`/location-areas?${query}`);
+  const response = await publicAPI.get<FindResponse<Service>>(`/location-services?${query}`);
 
   return response.data;
 };
