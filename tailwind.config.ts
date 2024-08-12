@@ -14,6 +14,14 @@ const config = {
       },
     },
     extend: {
+      fontSize: {
+        '2xs': [
+          '0.625rem',
+          {
+            lineHeight: '0.75rem',
+          },
+        ],
+      },
       fontFamily: {
         sans: ['var(--font-sans)', ...fontFamily.sans],
         gaegu: ['var(--font-gaegu)'],
@@ -59,6 +67,11 @@ const config = {
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
+        },
+        font: {
+          header: 'hsl(var(--font-header))',
+          subheader: 'hsl(var(--font-sub-header))',
+          description: 'hsl(var(--font-description))',
         },
       },
       borderRadius: {
