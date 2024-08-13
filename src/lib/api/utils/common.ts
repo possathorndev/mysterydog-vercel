@@ -122,3 +122,13 @@ export type Query = {
   fields?: Fields;
   pagination?: Pagination;
 };
+
+export type Address = {
+  address1: string;
+  address2: string;
+  district: string;
+  subDistrict: string;
+  city: string;
+  country: string;
+  postcode: string;
+};
