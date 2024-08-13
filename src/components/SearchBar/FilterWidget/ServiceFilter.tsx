@@ -28,7 +28,7 @@ const ServiceFilter = () => {
           {isServiceLoading ? (
             <span>Loading ...</span>
           ) : (
-            <div className='flex flex-wrap'>
+            <div className='flex flex-wrap gap-2'>
               {servicesData?.map((data: Service, index: number) => (
                 <ServiceBadge key={index} item={data} formController={control} />
               ))}

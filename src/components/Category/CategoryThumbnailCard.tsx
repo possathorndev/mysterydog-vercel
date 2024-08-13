@@ -15,7 +15,13 @@ const CategoryThumbnailCard = ({ data }: { data: Category }) => {
       <div className='text-wrap break-words px-4 pt-4 text-xl text-white'>{data.name}</div>
       <div className='relative mx-auto h-full w-[90%]'>
         {data?.thumbnailImage?.data?.attributes?.url && (
-          <Image src={data?.thumbnailImage?.data?.attributes?.url} alt={data.name} fill className='object-cover' />
+          <Image
+            src={data?.thumbnailImage?.data?.attributes?.url}
+            alt={data.name}
+            fill
+            className='object-cover'
+            sizes='100%'
+          />
         )}
       </div>
     </div>
