@@ -5,6 +5,7 @@ import { Home } from '@/lib/api/home';
 import BannerImages from '@/components/Homepage/BannerImages';
 import CategoryList from '@/components/Category/CategoryList';
 import MapBanner from '@/components/Homepage/MapBanner';
+import LocationNearMe from '@/components/Homepage/LocationNearMe';
 
 export default function Homepage({ initialData }: { initialData?: Home }) {
   const { data } = useHome({ initialData });
@@ -18,8 +19,7 @@ export default function Homepage({ initialData }: { initialData?: Home }) {
           <MapBanner />
           <CategoryList data={data?.categories?.data?.map((item) => item.attributes)} />
         </div>
-
-        {/* <LocationNearMe /> */}
+        <LocationNearMe />
         {/* <BlogList /> */}
         {/* <AreaList /> */}
       </div>

@@ -1,7 +1,8 @@
 {
   "Global": {
     "category": "Category",
-    "categoryDescription": "Find the purr-fect spot for your furry friend!"
+    "categoryDescription": "Find the purr-fect spot for your furry friend!",
+    "seeAll": "See all"
   },
   "Navbar": {
     "ChangeLanguage": "Change Language",
@@ -15,6 +16,8 @@
     "mapDescription": "Nunc bibendum quisque elit eleifend auctor. Aliquet sed arcu.",
     "mapLinkTitle": "Map",
     "mapLinkDescription": "Find the purr-fect spot for your furry friend!",
-    "mapLinkNavigate": "Open map now"
+    "mapLinkNavigate": "Open map now",
+    "locationHeader": "Venue near me",
+    "locationDescription": "Find the purr-fect spot for your furry friend!"
   }
 }
