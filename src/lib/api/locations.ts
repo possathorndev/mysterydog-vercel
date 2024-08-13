@@ -44,7 +44,16 @@ export type Location = {
 
 const defaultQuery = {
   filters: {},
-  populate: ['thumbnailImage', 'tags', 'categories', 'categories.iconMarker'],
+  populate: [
+    'thumbnailImage',
+    'tags',
+    'categories',
+    'categories.iconMarker',
+    'address',
+    'openingHours',
+    'services',
+    'services.icon',
+  ],
 };
 
 export const findLocations = async (params: { query: Query }): Promise<FindResponse<Location>> => {
