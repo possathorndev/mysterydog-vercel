@@ -13,18 +13,21 @@ import { useLocationQueryCtx } from '@/contexts/LocationQueryProvider';
 // Types
 import { Location } from '@/lib/api/locations';
 import SearchFormWithFilter, { LocationSearchQuery } from '@/components/SearchBar/SearchFormWithFilter';
+import { useMapParamsCtx } from '@/contexts/MapParamsProvider';
 
 const MapPage = () => {
   const [selectedMarker, setSelectedMarker] = useState<Location | undefined>();
 
   const { locations } = useLocations();
   const { handleSearch, handleFilter } = useLocationQueryCtx();
+  const { handleUpdateParams } = useMapParamsCtx();
 
   const locationsData = useMemo(() => {
     return locations?.pages?.flatMap((page) => page.data).map((location) => location.attributes);
   }, [locations]);
 
   const onSearch = async (searchQuery: LocationSearchQuery) => {
+    handleUpdateParams('search', searchQuery.search);
     await handleSearch(searchQuery.search);
   };
 

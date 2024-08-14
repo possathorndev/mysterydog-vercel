@@ -20,9 +20,9 @@ export const MapParamsContextProvider = ({ children }: { children: React.ReactNo
   const hasServicesParams = !!useSearchParams().get('services');
   const hasAreasParams = !!useSearchParams().get('areas');
 
-  const handleUpdateParams = (key: 'categories' | 'services' | 'areas', updatedParams: string[]) => {
+  const handleUpdateParams = (key: 'search' | 'categories' | 'services' | 'areas', updatedParams: string[]) => {
     const newParams = {
-      ...(updatedParams?.length > 0 && { [key]: updatedParams.join(',') }),
+      ...(updatedParams?.length > 0 && { [key]: key === 'search' ? updatedParams : updatedParams.join(',') }),
       ...Array.from(searchParams.entries()).reduce(
         (acc, [k, v]) => {
           if (k !== key) acc[k] = v;

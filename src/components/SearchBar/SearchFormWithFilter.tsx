@@ -44,6 +44,10 @@ const SearchFormWithFilter = ({ handleSearch, handleFilter }: SearchFormWithFilt
     },
   });
 
+  const searchString = useMemo(() => {
+    return searchParams.get('search') || '';
+  }, [searchParams]);
+
   const categories = useMemo(() => {
     const categoriesString = searchParams.get('categories');
     return categoriesString ? categoriesString.split(',') : [];
@@ -60,10 +64,11 @@ const SearchFormWithFilter = ({ handleSearch, handleFilter }: SearchFormWithFilt
   }, [searchParams]);
 
   useEffect(() => {
+    form.setValue('search', searchString);
     form.setValue('selectedCategories', categories);
     form.setValue('selectedServices', services);
     form.setValue('selectedAreas', areas);
-  }, [categories, services, areas]);
+  }, [searchString, categories, services, areas]);
 
   useEffect(() => {
     const subscription = form.watch(form.handleSubmit(handleFilter));
