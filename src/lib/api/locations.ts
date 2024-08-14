@@ -5,19 +5,55 @@ import { defaultStaleTime, publicAPI } from '@/lib/api';
 import { Category } from '@/lib/api/categories';
 import { getCookie } from 'cookies-next';
 import { defaultLocale } from '@/constants/config';
-import { FindResponse, ListResponseData, Query, ResponseData, SingleResponseData } from '@/lib/api/utils/common';
+import {
+  Address,
+  FindResponse,
+  Image,
+  ListResponseData,
+  Query,
+  ResponseData,
+  SingleResponseData,
+} from '@/lib/api/utils/common';
+import { Service } from '@/lib/api/services';
+import { Area } from '@/lib/api/areas';
+import { Tag } from '@/lib/api/tags';
+
+export type OpeningHour = {
+  title: string;
+  openTime: string;
+  closeTime: string;
+  displayValue: string;
+};
 
 export type Location = {
   slug: string;
   name: string;
+  thumbnailImage: SingleResponseData<Image>;
+  images: ListResponseData<Image>;
+  shortDescription: string;
+  description: string;
   lat: number;
   long: number;
+  address: Address;
+  openingHours: OpeningHour[];
+  services: ListResponseData<Service>;
   categories: ListResponseData<Category>;
+  areas: ListResponseData<Area>;
+  tags: ListResponseData<Tag>;
 };
 
 const defaultQuery = {
   filters: {},
-  populate: ['thumbnailImage', 'tags', 'categories', 'categories.iconMarker'],
+  populate: [
+    'thumbnailImage',
+    'tags',
+    'categories',
+    'categories.iconMarker',
+    'address',
+    'openingHours',
+    'services',
+    'services.icon',
+  ],
 };
 
 export const findLocations = async (params: { query: Query }): Promise<FindResponse<Location>> => {
@@ -27,6 +63,7 @@ export const findLocations = async (params: { query: Query }): Promise<FindRespo
       filters: { ...defaultQuery.filters, ...params.query?.filters },
       populate: [...defaultQuery.populate, ...(params.query?.populate ? params.query?.populate : [])],
       locale: getCookie('NEXT_LOCALE') || defaultLocale,
+      sort: params.query?.sort || [],
     },
     { encode: false },
   );

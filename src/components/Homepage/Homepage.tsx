@@ -1,32 +1,29 @@
 'use client';
 
-import { useTranslations, useLocale } from 'next-intl';
-import { useSession } from 'next-auth/react';
-import { useEffect } from 'react';
-import { Button } from '@/components/ui/button';
+import useHome from '@/hooks/useHome';
+import { Home } from '@/lib/api/home';
+import BannerImages from '@/components/Homepage/BannerImages';
+import CategoryList from '@/components/Category/CategoryList';
+import MapBanner from '@/components/Homepage/MapBanner';
+import LocationNearMe from '@/components/Homepage/LocationNearMe';
+import BlogList from '@/components/Blog/BlogList';
 
-export default function Homepage() {
-  const t = useTranslations('HomePage');
-  const session = useSession();
+export default function Homepage({ initialData }: { initialData?: Home }) {
+  const { data } = useHome({ initialData });
 
   return (
-    <main className='flex min-h-screen flex-col items-center p-24'>
-      <div className='my-4 flex gap-4'>
-        <Button>Primary</Button>
-        <Button variant='secondary'>Secondary</Button>
-        <Button variant='tertiary'>Tertiary</Button>
+    <div className='mx-auto flex w-full flex-col gap-4'>
+      <BannerImages images={data?.bannerImages} />
+      <div className='mx-auto flex max-w-screen-2xl flex-col gap-6 px-2 md:gap-8 md:px-6 xl:px-0'>
+        {/* Reverse order when desktop */}
+        <div className='flex flex-col gap-6 md:flex-col-reverse'>
+          <MapBanner />
+          <CategoryList data={data?.categories?.data?.map((item) => item.attributes)} />
+        </div>
+        <LocationNearMe />
       </div>
-      <div className='mb-8 w-1/2 rounded-xl border-2 px-8 py-8'>
-        <h1 className='mb-2 text-xl'>Font Family</h1>
-        <h1 className='font-sans text-primary'>Balsamiq Sans: {t('title')}</h1>
-        <h1 className='font-gaegu text-lg text-primary'>Gaegu: {t('title')}</h1>
-      </div>
-
-      <div className='mb-8 w-1/2 rounded-xl border-2 px-8 py-8'>
-        <h1 className='mb-2 text-xl'>Authentication</h1>
-        <h1 className='font-sans text-primary'>status: {session?.status}</h1>
-        <h1 className='font-sans text-primary'>user: {session?.data?.user?.username || '-'}</h1>
-      </div>
-    </main>
+      <BlogList />
+      {/* <AreaList /> */}
+    </div>
   );
 }

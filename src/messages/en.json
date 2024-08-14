@@ -1,5 +1,25 @@
 {
+  "Global": {
+    "category": "Category",
+    "categoryDescription": "Find the purr-fect spot for your furry friend!",
+    "seeAll": "See all"
+  },
+  "Navbar": {
+    "ChangeLanguage": "Change Language",
+    "AreaList": "Area List",
+    "Maps": "Maps",
+    "Blogs": "Blogs"
+  },
   "HomePage": {
-    "title": "Hello world!"
+    "title": "Hello world!",
+    "mapTitle": "Elit eleifend auctor. Aliquet sed arcu.",
+    "mapDescription": "Nunc bibendum quisque elit eleifend auctor. Aliquet sed arcu.",
+    "mapLinkTitle": "Map",
+    "mapLinkDescription": "Find the purr-fect spot for your furry friend!",
+    "mapLinkNavigate": "Open map now",
+    "locationHeader": "Venue near me",
+    "locationDescription": "Find the purr-fect spot for your furry friend!",
+    "blogHeader": "Pet's Diary",
+    "blogDescription": "Find the purr-fect spot for your furry friend!"
   }
 }

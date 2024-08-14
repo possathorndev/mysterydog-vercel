@@ -8,14 +8,17 @@ export const BLOGS_PATH = '/blogs';
 export const NavbarMenuList = [
   {
     title: 'Area List',
+    key: 'AreaList',
     url: LOCATION_PATH,
   },
   {
-    title: 'Map',
+    title: 'Maps',
+    key: 'Maps',
     url: MAPS_PATH,
   },
   {
     title: 'Blogs',
+    key: 'Blogs',
     url: BLOGS_PATH,
   },
 ];

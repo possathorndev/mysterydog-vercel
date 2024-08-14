@@ -13,7 +13,7 @@ export type Home = {
 
 const defaultQuery = {
   filters: {},
-  populate: ['bannerImages', 'categories', 'popularAreas'],
+  populate: ['bannerImages', 'categories', 'popularAreas', 'categories.thumbnailImage'],
 };
 
 export const findHome = async (): Promise<Home> => {
@@ -40,7 +40,7 @@ export const findHomeServerSide = async (): Promise<Home> => {
   );
 
   const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/home?${query}`, {
-    next: { revalidate: defaultStaleTime },
+    next: { revalidate: 60 * 60 },
   });
 
   const result: SingleResponseData<Home> = await response.json();

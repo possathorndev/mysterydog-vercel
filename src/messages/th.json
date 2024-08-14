@@ -1,5 +1,25 @@
 {
+  "Global": {
+    "category": "หมวดหมู่",
+    "categoryDescription": "หกดหมทกดื หกสดา่หสกา่ด สาหก่ดสา่หกสด่",
+    "seeAll": "ทั้งหมด"
+  },
+  "Navbar": {
+    "ChangeLanguage": "เปลี่ยนภาษา",
+    "AreaList": "สถานที่",
+    "Maps": "แผนที่",
+    "Blogs": "บทความ"
+  },
   "HomePage": {
-    "title": "สวัสดี!"
+    "title": "สวัสดี!",
+    "mapTitle": "่ด้ดเ้ด้เดเ้้ดเ",
+    "mapDescription": "ไำดไำดำไดไำดหกดหกดหหกด",
+    "mapLinkTitle": "หกดหกด",
+    "mapLinkDescription": "กดหดกหดหกดหกหกดกดห",
+    "mapLinkNavigate": "หกดหกดหกดหกด",
+    "locationHeader": "สถานที่ใกล้ฉัน",
+    "locationDescription": "ดหกดหกดหกดกหด",
+    "blogHeader": "หกดหกดดหก",
+    "blogDescription": "กดหหกดกดหกดหกดหดกห"
   }
 }

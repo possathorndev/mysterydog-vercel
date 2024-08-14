@@ -12,7 +12,7 @@ export type Category = {
   locale: string;
   color: string;
   icon: SingleResponseData<Image>;
-  image: SingleResponseData<Image>;
+  thumbnailImage: SingleResponseData<Image>;
   tags: ListResponseData<Tag>;
   iconMarker: SingleResponseData<Image>;
   createdAt: string;

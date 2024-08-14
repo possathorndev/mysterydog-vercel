@@ -43,6 +43,28 @@ const useLocations = () => {
   };
 };
 
+// Find Location Near Me
+export const useLocationsNearMe = () => {
+  // TODO: get user current location
+
+  const { data: locations, isLoading } = useQuery({
+    queryKey: ['locationsNearMe'],
+    queryFn: () => {
+      return findLocations({
+        query: {
+          sort: ['createdAt:desc'],
+          filters: {},
+        },
+      });
+    },
+  });
+
+  return {
+    locations,
+    isLoading,
+  };
+};
+
 // Find Location from slug
 export const useLocationBySlug = (slug: string) => {
   return useQuery({

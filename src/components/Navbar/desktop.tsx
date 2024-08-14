@@ -7,9 +7,11 @@ import { usePathname } from 'next/navigation';
 import { NavbarMenuList } from '@/constants/config';
 import { cn } from '@/lib/utils';
 import RightNavbar from '@/components/Navbar/RightNavbar/RightNavbar';
+import { useTranslations } from 'next-intl';
 
 const DesktopNavbar = () => {
   const pathname = usePathname();
+  const t = useTranslations('Navbar');
 
   return (
     <div className='flex w-full items-center justify-between'>
@@ -24,7 +26,7 @@ const DesktopNavbar = () => {
               key={index}
               className={cn('pt-1 text-base font-bold text-secondary', pathname.includes(item.url) && 'text-[#0F1EAF]')}
             >
-              {item.title}
+              {t(item.key)}
             </Link>
           ))}
         </div>
