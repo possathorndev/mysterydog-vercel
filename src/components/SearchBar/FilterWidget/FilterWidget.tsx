@@ -26,7 +26,7 @@ const FilterWidget = () => {
       </SheetTrigger>
       <SheetContent
         side={'left' as StringToBoolean<'left'>}
-        className='mt-auto flex h-[calc(100vh-70px)] w-full flex-col py-0'
+        className='mt-auto flex h-[calc(100vh-140px)] w-full flex-col py-0'
       >
         <div className='no-scrollbar overflow-y-scroll py-4'>
           <SheetHeader>
