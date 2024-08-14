@@ -16,13 +16,19 @@ export const MapParamsContextProvider = ({ children }: { children: React.ReactNo
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const selectedLocation = useSearchParams().get('selected');
   const hasCategoriesParams = !!useSearchParams().get('categories');
   const hasServicesParams = !!useSearchParams().get('services');
   const hasAreasParams = !!useSearchParams().get('areas');
 
-  const handleUpdateParams = (key: 'search' | 'categories' | 'services' | 'areas', updatedParams: string[]) => {
+  const handleUpdateParams = (
+    key: 'selected' | 'search' | 'categories' | 'services' | 'areas',
+    updatedParams: string[],
+  ) => {
     const newParams = {
-      ...(updatedParams?.length > 0 && { [key]: key === 'search' ? updatedParams : updatedParams.join(',') }),
+      ...(updatedParams?.length > 0 && {
+        [key]: key === 'search' || key === 'selected' ? updatedParams : updatedParams.join(','),
+      }),
       ...Array.from(searchParams.entries()).reduce(
         (acc, [k, v]) => {
           if (k !== key) acc[k] = v;
@@ -40,6 +46,7 @@ export const MapParamsContextProvider = ({ children }: { children: React.ReactNo
   return (
     <MapParamsContext.Provider
       value={{
+        selectedLocation,
         hasCategoriesParams,
         hasServicesParams,
         hasAreasParams,
