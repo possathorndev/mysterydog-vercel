@@ -7,6 +7,7 @@ import CategoryList from '@/components/Category/CategoryList';
 import MapBanner from '@/components/Homepage/MapBanner';
 import LocationNearMe from '@/components/Homepage/LocationNearMe';
 import BlogList from '@/components/Blog/BlogList';
+import AreaList from '@/components/Area/AreaList';
 
 export default function Homepage({ initialData }: { initialData?: Home }) {
   const { data } = useHome({ initialData });
@@ -23,7 +24,9 @@ export default function Homepage({ initialData }: { initialData?: Home }) {
         <LocationNearMe />
       </div>
       <BlogList />
-      {/* <AreaList /> */}
+      <div className='max-w-screen-2xl px-2 md:px-6 xl:px-0'>
+        <AreaList data={data?.popularAreas} />
+      </div>
     </div>
   );
 }
