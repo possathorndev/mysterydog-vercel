@@ -151,8 +151,11 @@ const GoogleMapComponent = ({
         bounds.extend(new google.maps.LatLng(location.lat, location.long));
       });
 
-      map.fitBounds(bounds);
-      map.getZoom() > 16 && map.setZoom(16);
+      map?.fitBounds(bounds);
+      const zoomLevel = map?.getZoom() || 16;
+      if (map && zoomLevel > 16) {
+        map.setZoom(16);
+      }
     }
   }, [map, locations]);
 

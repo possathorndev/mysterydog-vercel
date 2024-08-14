@@ -5,9 +5,23 @@ import qs from 'qs';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useRouter } from '@/utils/navigation';
 
-type MapParamsContextValues = {};
+type MapParamsContextValues = {
+  selectedLocation: string;
+  hasCategoriesParams: boolean;
+  hasServicesParams: boolean;
+  hasAreasParams: boolean;
+  handleUpdateParams: (key: 'search' | 'categories' | 'services' | 'areas', updatedParams: string[] | string) => void;
+  handleSelectLocation: (slug: string) => void;
+};
 
-const initialState: MapParamsContextValues = {};
+const initialState: MapParamsContextValues = {
+  selectedLocation: '',
+  hasCategoriesParams: false,
+  hasServicesParams: false,
+  hasAreasParams: false,
+  handleUpdateParams: () => {},
+  handleSelectLocation: () => {},
+};
 
 export const MapParamsContext: React.Context<MapParamsContextValues> =
   createContext<MapParamsContextValues>(initialState);
@@ -17,7 +31,7 @@ export const MapParamsContextProvider = ({ children }: { children: React.ReactNo
   const params = useParams();
   const searchParams = useSearchParams();
 
-  const selectedLocation = params?.slug;
+  const selectedLocation = params?.slug as string;
   const hasCategoriesParams = !!useSearchParams().get('categories');
   const hasServicesParams = !!useSearchParams().get('services');
   const hasAreasParams = !!useSearchParams().get('areas');
@@ -26,14 +40,18 @@ export const MapParamsContextProvider = ({ children }: { children: React.ReactNo
     const currentParams = searchParams.toString();
     const queryString = currentParams ? `?${currentParams}` : '';
 
-    router.push(`/maps/${slug || ''}${queryString}`, { shallow: true });
+    router.push(`/maps/${slug || ''}${queryString}`);
   };
 
-  const handleUpdateParams = (key: 'search' | 'categories' | 'services' | 'areas', updatedParams: string[]) => {
+  const handleUpdateParams = (
+    key: 'search' | 'categories' | 'services' | 'areas',
+    updatedParams: string[] | string,
+  ) => {
     const newParams = {
-      ...(updatedParams?.length > 0 && {
-        [key]: key === 'search' ? updatedParams : updatedParams.join(','),
-      }),
+      ...(updatedParams &&
+        updatedParams?.length > 0 && {
+          [key]: Array.isArray(updatedParams) ? updatedParams.join(',') : updatedParams,
+        }),
       ...Array.from(searchParams.entries()).reduce(
         (acc, [k, v]) => {
           if (k !== key) acc[k] = v;

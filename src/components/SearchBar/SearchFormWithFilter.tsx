@@ -71,7 +71,9 @@ const SearchFormWithFilter = ({ handleSearch, handleFilter }: SearchFormWithFilt
   }, [searchString, categories, services, areas]);
 
   useEffect(() => {
+    // @ts-ignore
     const subscription = form.watch(form.handleSubmit(handleFilter));
+    // @ts-ignore
     return () => subscription.unsubscribe();
   }, [form.handleSubmit, form.watch]);
 

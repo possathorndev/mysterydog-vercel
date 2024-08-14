@@ -41,7 +41,7 @@ const MapPage = () => {
   };
 
   const onMarkerSelect = async (marker?: Location) => {
-    handleSelectLocation(marker?.slug);
+    handleSelectLocation(marker?.slug || '');
   };
 
   useEffect(() => {
