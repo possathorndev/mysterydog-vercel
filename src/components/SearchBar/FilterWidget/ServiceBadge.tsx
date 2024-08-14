@@ -1,14 +1,19 @@
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Service } from '@/lib/api/services';
-import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { Control, useController } from 'react-hook-form';
+
+// Components
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+
+// Types
+import { Service } from '@/lib/api/services';
+import { cn } from '@/lib/utils';
+import { useMapParamsCtx } from '@/contexts/MapParamsProvider';
 
 interface ServiceBadge {
   item: Service;
   formController: Control;
-  handleSubmit?: (search: string) => Promise<void>;
+  selectAll: boolean;
 }
 
 export const ServiceDisplayBadge = ({
@@ -45,7 +50,8 @@ export const ServiceDisplayBadge = ({
   );
 };
 
-const ServiceBadge = ({ item, formController, handleSubmit }: ServiceBadge) => {
+const ServiceBadge = ({ item, formController, selectAll }: ServiceBadge) => {
+  const { handleUpdateParams } = useMapParamsCtx();
   const { field } = useController({
     name: 'selectedServices',
     control: formController,
@@ -54,11 +60,11 @@ const ServiceBadge = ({ item, formController, handleSubmit }: ServiceBadge) => {
   const isSelected = field.value.includes(item.slug);
 
   const handleClick = () => {
-    if (isSelected) {
-      field.onChange(field.value.filter((slug: string) => slug !== item.slug));
-    } else {
-      field.onChange([...field.value, item.slug]);
-    }
+    const updatedParams = isSelected
+      ? field.value.filter((slug: string) => slug !== item.slug)
+      : [...field.value, item.slug];
+
+    handleUpdateParams('services', updatedParams);
   };
 
   return (
@@ -66,7 +72,7 @@ const ServiceBadge = ({ item, formController, handleSubmit }: ServiceBadge) => {
       {/* TODO: to use ServiceDisplayBadge */}
       <Badge
         style={{
-          ...(isSelected
+          ...(isSelected || selectAll
             ? { borderWidth: 2, borderColor: item.color, color: item.color, backgroundColor: `${item.color}10` }
             : { color: item.color, backgroundColor: `${item.color}10` }),
         }}

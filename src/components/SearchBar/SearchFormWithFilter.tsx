@@ -1,5 +1,8 @@
 'use client';
 
+import { useEffect, useMemo } from 'react';
+import { useSearchParams } from 'next/navigation';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -29,6 +32,8 @@ const formSchema = z.object({
 });
 
 const SearchFormWithFilter = ({ handleSearch, handleFilter }: SearchFormWithFilter) => {
+  const searchParams = useSearchParams();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -38,6 +43,32 @@ const SearchFormWithFilter = ({ handleSearch, handleFilter }: SearchFormWithFilt
       selectedAreas: [],
     },
   });
+
+  const categories = useMemo(() => {
+    const categoriesString = searchParams.get('categories');
+    return categoriesString ? categoriesString.split(',') : [];
+  }, [searchParams]);
+
+  const services = useMemo(() => {
+    const servicesString = searchParams.get('services');
+    return servicesString ? servicesString.split(',') : [];
+  }, [searchParams]);
+
+  const areas = useMemo(() => {
+    const areasString = searchParams.get('areas');
+    return areasString ? areasString.split(',') : [];
+  }, [searchParams]);
+
+  useEffect(() => {
+    form.setValue('selectedCategories', categories);
+    form.setValue('selectedServices', services);
+    form.setValue('selectedAreas', areas);
+  }, [categories, services, areas]);
+
+  useEffect(() => {
+    const subscription = form.watch(form.handleSubmit(handleFilter));
+    return () => subscription.unsubscribe();
+  }, [form.handleSubmit, form.watch]);
 
   return (
     <Form {...form}>
@@ -62,7 +93,7 @@ const SearchFormWithFilter = ({ handleSearch, handleFilter }: SearchFormWithFilt
               </>
             )}
           />
-          <FilterWidget onSubmit={form.handleSubmit(handleFilter)} />
+          <FilterWidget />
         </div>
       </form>
     </Form>

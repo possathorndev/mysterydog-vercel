@@ -6,16 +6,18 @@ import React, { useMemo, useState } from 'react';
 import GoogleMap from '@/components/MapPage/GoogleMap/GoogleMap';
 import Directory from '@/components/MapPage/Directory/Directory';
 
+// Hooks
+import useLocations from '@/hooks/useLocation';
+import { useLocationQueryCtx } from '@/contexts/LocationQueryProvider';
+
 // Types
 import { Location } from '@/lib/api/locations';
-import useLocations from '@/hooks/useLocation';
 import SearchFormWithFilter, { LocationSearchQuery } from '@/components/SearchBar/SearchFormWithFilter';
-import { useLocationQueryCtx } from '@/contexts/LocationQueryProvider';
 
 const MapPage = () => {
   const [selectedMarker, setSelectedMarker] = useState<Location | undefined>();
 
-  const { isLocationLoading, locations } = useLocations();
+  const { locations } = useLocations();
   const { handleSearch, handleFilter } = useLocationQueryCtx();
 
   const locationsData = useMemo(() => {

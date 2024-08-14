@@ -1,17 +1,25 @@
+import Image from 'next/image';
+
+import { Control, useController } from 'react-hook-form';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from '@/utils/navigation';
+import { useMapParamsCtx } from '@/contexts/MapParamsProvider';
+
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Category } from '@/lib/api/categories';
-import Image from 'next/image';
-import { Control, useController } from 'react-hook-form';
 
 interface CategoryBadge {
   item: Category;
+  selectAll?: boolean;
   showIcon?: boolean;
   formController?: Control;
   handleSubmit?: (search: string) => Promise<void>;
 }
 
-const CategoryBadge = ({ item, handleSubmit, formController, showIcon = false }: CategoryBadge) => {
+const CategoryBadge = ({ item, handleSubmit, formController, selectAll = false, showIcon = false }: CategoryBadge) => {
+  const { handleUpdateParams } = useMapParamsCtx();
+
   const { field } = useController({
     name: 'selectedCategories',
     control: formController,
@@ -20,11 +28,11 @@ const CategoryBadge = ({ item, handleSubmit, formController, showIcon = false }:
   const isSelected = field.value.includes(item.slug);
 
   const handleClick = () => {
-    if (isSelected) {
-      field.onChange(field.value.filter((slug: string) => slug !== item.slug));
-    } else {
-      field.onChange([...field.value, item.slug]);
-    }
+    const updatedParams = isSelected
+      ? field.value.filter((slug: string) => slug !== item.slug)
+      : [...field.value, item.slug];
+
+    handleUpdateParams('categories', updatedParams);
   };
 
   // With icon
@@ -33,7 +41,7 @@ const CategoryBadge = ({ item, handleSubmit, formController, showIcon = false }:
       <Button asChild onClick={handleClick} className='h-full w-full rounded-2xl'>
         <Badge
           style={{
-            ...(isSelected
+            ...(isSelected || selectAll
               ? { backgroundColor: item.color, borderWidth: 4, borderColor: '#03071236' }
               : { backgroundColor: `${item.color}90` }),
           }}

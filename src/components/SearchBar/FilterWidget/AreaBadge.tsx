@@ -1,15 +1,18 @@
 import { Area } from '@/lib/api/areas';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Control, useController } from 'react-hook-form';
+import { useMapParamsCtx } from '@/contexts/MapParamsProvider';
 
 interface AreaBadge {
   item: Area;
   formController: Control;
+  selectAll: boolean;
   showAlphabet?: boolean;
-  handleSubmit?: (search: string) => Promise<void>;
 }
 
-const AreaBadge = ({ formController, item, showAlphabet = false, handleSubmit }: AreaBadge) => {
+const AreaBadge = ({ formController, item, showAlphabet = false, selectAll }: AreaBadge) => {
+  const { handleUpdateParams } = useMapParamsCtx();
+
   const { field } = useController({
     name: 'selectedAreas',
     control: formController,
@@ -18,18 +21,18 @@ const AreaBadge = ({ formController, item, showAlphabet = false, handleSubmit }:
   const isSelected = field.value.includes(item.slug);
 
   const handleClick = () => {
-    if (isSelected) {
-      field.onChange(field.value.filter((slug: string) => slug !== item.slug));
-    } else {
-      field.onChange([...field.value, item.slug]);
-    }
+    const updatedParams = isSelected
+      ? field.value.filter((slug: string) => slug !== item.slug)
+      : [...field.value, item.slug];
+
+    handleUpdateParams('areas', updatedParams);
   };
 
   return (
     <div className='flex items-center'>
       <Checkbox
         className='border-secondary data-[state=checked]:bg-secondary'
-        checked={isSelected}
+        checked={isSelected || selectAll}
         onClick={handleClick}
       />
       <p className='ml-2 text-sm text-secondary'>{item.name}</p>
