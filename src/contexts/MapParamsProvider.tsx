@@ -2,7 +2,7 @@
 
 import { createContext, useContext } from 'react';
 import qs from 'qs';
-import { useSearchParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { useRouter } from '@/utils/navigation';
 
 type MapParamsContextValues = {};
@@ -14,20 +14,25 @@ export const MapParamsContext: React.Context<MapParamsContextValues> =
 
 export const MapParamsContextProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
+  const params = useParams();
   const searchParams = useSearchParams();
 
-  const selectedLocation = useSearchParams().get('selected');
+  const selectedLocation = params?.slug;
   const hasCategoriesParams = !!useSearchParams().get('categories');
   const hasServicesParams = !!useSearchParams().get('services');
   const hasAreasParams = !!useSearchParams().get('areas');
 
-  const handleUpdateParams = (
-    key: 'selected' | 'search' | 'categories' | 'services' | 'areas',
-    updatedParams: string[],
-  ) => {
+  const handleSelectLocation = (slug: string) => {
+    const currentParams = searchParams.toString();
+    const queryString = currentParams ? `?${currentParams}` : '';
+
+    router.push(`/maps/${slug || ''}${queryString}`, { shallow: true });
+  };
+
+  const handleUpdateParams = (key: 'search' | 'categories' | 'services' | 'areas', updatedParams: string[]) => {
     const newParams = {
       ...(updatedParams?.length > 0 && {
-        [key]: key === 'search' || key === 'selected' ? updatedParams : updatedParams.join(','),
+        [key]: key === 'search' ? updatedParams : updatedParams.join(','),
       }),
       ...Array.from(searchParams.entries()).reduce(
         (acc, [k, v]) => {
@@ -51,6 +56,7 @@ export const MapParamsContextProvider = ({ children }: { children: React.ReactNo
         hasServicesParams,
         hasAreasParams,
         handleUpdateParams,
+        handleSelectLocation,
       }}
     >
       {children}

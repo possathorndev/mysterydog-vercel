@@ -20,7 +20,7 @@ const MapPage = () => {
 
   const { locations } = useLocations();
   const { handleSearch, handleFilter } = useLocationQueryCtx();
-  const { selectedLocation, handleUpdateParams } = useMapParamsCtx();
+  const { selectedLocation, handleUpdateParams, handleSelectLocation } = useMapParamsCtx();
   const { data, isLoading } = useLocationBySlug(selectedLocation);
 
   const locationsData = useMemo(() => {
@@ -41,8 +41,7 @@ const MapPage = () => {
   };
 
   const onMarkerSelect = async (marker?: Location) => {
-    setSelectedMarker(marker);
-    handleUpdateParams('selected', marker?.slug);
+    handleSelectLocation(marker?.slug);
   };
 
   useEffect(() => {
@@ -53,11 +52,13 @@ const MapPage = () => {
 
   return (
     <div className='h-[calc(100vh-70px)]'>
-      <div className='absolute z-40 w-full pt-[70px]'>
-        <div className='mx-auto max-w-screen-2xl bg-white px-2'>
-          <SearchFormWithFilter handleSearch={onSearch} handleFilter={onFilter} />
+      {window && (
+        <div className='absolute z-40 w-full pt-[70px]'>
+          <div className='bg-white px-2 md:ml-[20px] md:mt-[20px] md:max-w-screen-sm md:rounded-xl'>
+            <SearchFormWithFilter handleSearch={onSearch} handleFilter={onFilter} />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* MAP */}
       <GoogleMap

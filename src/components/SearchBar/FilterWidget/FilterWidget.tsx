@@ -10,18 +10,21 @@ import { SlidersHorizontal } from 'lucide-react';
 
 // Types
 import { StringToBoolean } from 'class-variance-authority/types';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 const FilterWidget = () => {
+  const isDesktop = useMediaQuery('(min-width: 768px)');
   const [open, setOpen] = useState<boolean>(false);
 
   return (
     <Sheet open={open} modal={false}>
       <SheetTrigger asChild>
         <div
-          className={`cursor-pointer rounded-sm p-2 ${open ? 'bg-secondary' : 'bg-secondary/10'}`}
+          className={`flex cursor-pointer items-center justify-center rounded-sm p-2 ${open ? 'bg-secondary' : 'bg-secondary/10'} md:bg-white`}
           onClick={() => setOpen(!open)}
         >
-          <SlidersHorizontal className={`h-6 w-6 ${open ? 'text-white' : 'text-secondary'}`} />
+          <SlidersHorizontal className={`h-6 w-6 ${open ? 'text-white' : 'text-secondary'} md:text-secondary`} />
+          {isDesktop && <p className='ml-1 mt-1 font-bold text-font-header'>Filters</p>}
         </div>
       </SheetTrigger>
       <SheetContent
