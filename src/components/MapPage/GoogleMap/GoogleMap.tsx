@@ -141,7 +141,7 @@ const GoogleMapComponent = ({
       const latLng = new google.maps.LatLng(currentLocation.latitude, currentLocation.longitude);
       map.setCenter(latLng);
     }
-  }, [currentLocation, map]);
+  }, [map, currentLocation]);
 
   useEffect(() => {
     if (map && locations.length > 0) {
@@ -152,8 +152,9 @@ const GoogleMapComponent = ({
       });
 
       map.fitBounds(bounds);
+      map.getZoom() > 16 && map.setZoom(16);
     }
-  }, [locations, map]);
+  }, [map, locations]);
 
   return isLoaded ? (
     <GoogleMap
