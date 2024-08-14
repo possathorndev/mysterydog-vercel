@@ -38,7 +38,7 @@ const LocationCard = ({
             className={cn('bg-muted', imagePosition === 'top' && 'rounded-t-[13.8px]')}
           >
             <Image
-              src={data?.thumbnailImage?.data?.attributes?.url || 'location-placeholder.png'}
+              src={data?.thumbnailImage?.data?.attributes?.url || '/images/image-placeholder.png'}
               alt='Banner Image'
               fill
               className={cn('object-cover', imagePosition === 'top' && 'rounded-t-[13.8px]')}
