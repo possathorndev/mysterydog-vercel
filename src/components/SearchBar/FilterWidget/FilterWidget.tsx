@@ -28,7 +28,7 @@ const FilterWidget = ({ onSubmit }: FormWidget) => {
   const [open, setOpen] = useState<boolean>(false);
 
   return (
-    <Sheet open={open}>
+    <Sheet open={open} modal={false}>
       <SheetTrigger asChild>
         <div className='cursor-pointer rounded-sm bg-secondary/10 p-2' onClick={() => setOpen(true)}>
           <SlidersHorizontal className='h-6 w-6 text-secondary' />
