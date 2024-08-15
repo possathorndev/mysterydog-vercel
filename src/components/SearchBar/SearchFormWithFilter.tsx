@@ -16,10 +16,10 @@ import { Separator } from '@/components/ui/separator';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 export interface LocationSearchQuery {
-  search: string;
-  selectedCategories: string[];
-  selectedServices: string[];
-  selectedAreas: string[];
+  search?: string;
+  selectedCategories?: string[];
+  selectedServices?: string[];
+  selectedAreas?: string[];
 }
 
 export interface SearchFormWithFilter {

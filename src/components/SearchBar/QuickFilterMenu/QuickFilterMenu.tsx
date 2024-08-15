@@ -14,20 +14,21 @@ import { useLocationCategories } from '@/hooks/useLocation';
 import { Category } from '@/lib/api/categories';
 import CategoryBadge from '@/components/SearchBar/CategoryBadge';
 import { useMapParamsCtx } from '@/contexts/MapParamsProvider';
+import ConnectForm from '@/components/FormConnect/FormConnect';
 
 export interface LocationSearchQuery {
   selectedCategories: string[];
 }
 
 export interface QuickFilterMenu {
-  handleFilter: (searchQuery: LocationSearchQuery) => void;
+  handleFilter: (searchQuery: LocationSearchQuery) => Promise<void>;
 }
 
 const formSchema = z.object({
   selectedCategories: z.array(z.string()),
 });
 
-const QuickFilterMenu = ({ handleSearch, handleFilter }: QuickFilterMenu) => {
+const QuickFilterMenu = ({ handleFilter }: QuickFilterMenu) => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const searchParams = useSearchParams();
   const { categoriesParams } = useMapParamsCtx();
@@ -70,22 +71,30 @@ const QuickFilterMenu = ({ handleSearch, handleFilter }: QuickFilterMenu) => {
         {isCategoryLoading ? (
           <></>
         ) : (
-          <div
-            className={
-              isDesktop ? 'ml-[40px] mt-[20px] grid grid-cols-8 gap-1' : 'no-scrollbar flex overflow-x-scroll px-2 pt-2'
-            }
-          >
-            {allCategories?.map((item: Category, index) => (
-              <CategoryBadge
-                key={index}
-                item={item}
-                displayMode={isDesktop ? 'sm' : 'md'}
-                formController={control}
-                selectAll={!categoriesParams}
-                handleSubmit={handleSubmit(handleFilter)}
-              />
-            ))}
-          </div>
+          <ConnectForm>
+            {({ control }) => {
+              return (
+                <div
+                  className={
+                    isDesktop
+                      ? 'ml-[40px] mt-[20px] grid grid-cols-8 gap-1'
+                      : 'no-scrollbar flex overflow-x-scroll px-2 pt-2'
+                  }
+                >
+                  {allCategories?.map((item: Category, index) => (
+                    <CategoryBadge
+                      key={index}
+                      item={item}
+                      displayMode={isDesktop ? 'sm' : 'md'}
+                      formController={control}
+                      selectAll={!categoriesParams}
+                      handleSubmit={handleSubmit(handleFilter)}
+                    />
+                  ))}
+                </div>
+              );
+            }}
+          </ConnectForm>
         )}
       </form>
     </Form>

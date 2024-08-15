@@ -3,7 +3,6 @@
 import { createContext, useContext } from 'react';
 import qs from 'qs';
 import { useParams, useSearchParams } from 'next/navigation';
-import { useRouter } from '@/utils/navigation';
 
 type MapParamsContextValues = {
   selectedLocation: string;

@@ -29,15 +29,17 @@ const MapPage = () => {
   }, [locations]);
 
   const onSearch = async (searchQuery: LocationSearchQuery) => {
+    if (!searchQuery?.search) return;
+
     handleUpdateParams('search', searchQuery.search);
     await handleSearch(searchQuery.search);
   };
 
   const onFilter = async (searchQuery: LocationSearchQuery) => {
     await handleFilter({
-      categories: searchQuery.selectedCategories,
-      services: searchQuery.selectedServices,
-      areas: searchQuery.selectedAreas,
+      categories: searchQuery?.selectedCategories || [],
+      services: searchQuery?.selectedServices || [],
+      areas: searchQuery?.selectedAreas || [],
     });
   };
 
@@ -58,7 +60,7 @@ const MapPage = () => {
             <SearchFormWithFilter handleSearch={onSearch} handleFilter={onFilter} />
           </div>
           <div className='z-10'>
-            <QuickFilterMenu />
+            <QuickFilterMenu handleFilter={onFilter} />
           </div>
         </div>
       </div>
