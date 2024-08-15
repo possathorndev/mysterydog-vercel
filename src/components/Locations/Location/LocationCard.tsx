@@ -28,8 +28,15 @@ const LocationCard = ({
 
   return (
     <Card
-      style={{ border: `2px solid ${defaultCategory?.color || '#0307121F'}` }}
-      className={cn('overflow-hidden', size === 'small' ? 'max-h-72 w-52' : 'max-h-96 max-w-96')}
+      style={{
+        border: `2px solid ${defaultCategory?.color || '#0307121F'}`,
+        backgroundColor: defaultCategory?.color + '0A' || '#fff',
+      }}
+      className={cn(
+        'overflow-hidden',
+        size === 'small' ? 'max-w-52' : 'max-w-96',
+        imagePosition === 'left' ? 'max-h-72' : 'max-h-96 min-h-72',
+      )}
     >
       <CardContent className={cn('flex h-full w-full p-0', imagePosition === 'left' ? 'flex-row' : 'flex-col')}>
         <div className={cn(imagePosition === 'left' ? 'min-w-[33%]' : 'w-full')}>
@@ -46,10 +53,7 @@ const LocationCard = ({
           </AspectRatio>
         </div>
         {/* HEX Alpha - https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4 */}
-        <div
-          className='h-full rounded-b-[13.8px] p-2'
-          style={{ backgroundColor: defaultCategory?.color + '0A' || '#fff' }}
-        >
+        <div className='h-full rounded-b-[13.8px] p-2'>
           <div className='flex items-center justify-between'>
             <div style={{ color: defaultCategory?.color }} className='font-gaegu text-sm'>
               {defaultCategory?.name}
