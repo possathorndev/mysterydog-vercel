@@ -1,19 +1,24 @@
 import AreasPage from '@/components/Area/AreasPage';
 import { allowCities } from '@/constants/config';
 import { toUpperCaseFirstLetter } from '@/utils/helpers';
-import { Metadata } from 'next';
+import { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 
 type Props = {
   params: { city: string };
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
   const { city } = params;
+
+  const previousImages = (await parent).openGraph?.images || [];
 
   return {
     title: toUpperCaseFirstLetter(city),
     description: 'Explore all pet friendly areas in ' + city,
+    openGraph: {
+      images: [...previousImages],
+    },
   };
 }
 

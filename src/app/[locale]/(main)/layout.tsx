@@ -4,7 +4,7 @@ import MapPin from '@/components/MapPin/MapPin';
 export default async function MainLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <div className='relative pb-9 pt-[70px]'>{children}</div>
+      <div className='relative pt-[70px]'>{children}</div>
       <div className='w-full'>
         <Footer />
       </div>
