@@ -24,6 +24,8 @@
     "popularAreaHeader": "Popular Areas"
   },
   "AreaPage": {
-    "title": "Pet Friendly in CITY"
+    "title": "Pet Friendly in CITY",
+    "detailTitle": "Find Pet Friendly Options in",
+    "detailLocationTitle": "Pet Friendly Places"
   }
 }
