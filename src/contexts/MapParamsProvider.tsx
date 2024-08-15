@@ -40,7 +40,7 @@ export const MapParamsContextProvider = ({ children }: { children: React.ReactNo
     const currentParams = searchParams.toString();
     const queryString = currentParams ? `?${currentParams}` : '';
 
-    router.push(`/maps/${slug || ''}${queryString}`);
+    router.replace(`/maps/${slug || ''}${queryString}`);
   };
 
   const handleUpdateParams = (
