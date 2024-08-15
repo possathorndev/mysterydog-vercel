@@ -10,9 +10,9 @@ import { useMemo } from 'react';
 
 interface CategoryBadge {
   item: Category;
-  displayMode: 'lg' | 'md' | 'sm';
+  displayMode?: 'lg' | 'md' | 'sm';
   selectAll?: boolean;
-  formController?: Control;
+  formController: Control;
   handleSubmit?: () => void;
 }
 
