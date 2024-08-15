@@ -34,7 +34,7 @@ const AreaList = ({ data, isLoading }: { data?: ListResponseData<Area>; isLoadin
         </div>
       ) : (
         <div className='grid w-full grid-cols-3 md:grid-cols-6 lg:grid-cols-8'>
-          {areas?.map((area, index) => <AreaCard key={index} data={area} />)}
+          {areas?.map((area, index) => <AreaCard key={index} data={area} navigateToMap />)}
         </div>
       )}
     </div>

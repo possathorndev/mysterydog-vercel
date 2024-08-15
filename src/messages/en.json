@@ -22,5 +22,8 @@
     "blogHeader": "Pet's Diary",
     "blogDescription": "Find the purr-fect spot for your furry friend!",
     "popularAreaHeader": "Popular Areas"
+  },
+  "AreaPage": {
+    "title": "Pet Friendly in CITY"
   }
 }

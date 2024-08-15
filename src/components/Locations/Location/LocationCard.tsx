@@ -29,7 +29,7 @@ const LocationCard = ({
   return (
     <Card
       style={{ border: `2px solid ${defaultCategory?.color || '#0307121F'}` }}
-      className={cn('overflow-hidden', size === 'small' ? 'max-h-72 w-52' : 'max-h-96 w-96')}
+      className={cn('overflow-hidden', size === 'small' ? 'max-h-72 w-52' : 'max-h-96 max-w-96')}
     >
       <CardContent className={cn('flex h-full w-full p-0', imagePosition === 'left' ? 'flex-row' : 'flex-col')}>
         <div className={cn(imagePosition === 'left' ? 'min-w-[33%]' : 'w-full')}>
