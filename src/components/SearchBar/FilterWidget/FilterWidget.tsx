@@ -1,16 +1,7 @@
 import { useState } from 'react';
 
 // Components
-import { Button } from '@/components/ui/button';
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 import CategoryFilter from '@/components/SearchBar/FilterWidget/CategoryFilter';
 import ServiceFilter from '@/components/SearchBar/FilterWidget/ServiceFilter';
@@ -19,24 +10,30 @@ import { SlidersHorizontal } from 'lucide-react';
 
 // Types
 import { StringToBoolean } from 'class-variance-authority/types';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 
-interface FormWidget {
+interface FilterWidget {
   onSubmit: () => void;
 }
 
-const FilterWidget = ({ onSubmit }: FormWidget) => {
+const FilterWidget = ({ onSubmit }: FilterWidget) => {
+  const isDesktop = useMediaQuery('(min-width: 768px)');
   const [open, setOpen] = useState<boolean>(false);
 
   return (
-    <Sheet open={open}>
+    <Sheet open={open} modal={false}>
       <SheetTrigger asChild>
-        <div className='cursor-pointer rounded-sm bg-secondary/10 p-2' onClick={() => setOpen(true)}>
-          <SlidersHorizontal className='h-6 w-6 text-secondary' />
+        <div
+          className={`flex cursor-pointer items-center justify-center rounded-sm p-2 ${open ? 'bg-secondary' : 'bg-secondary/10'} md:bg-white`}
+          onClick={() => setOpen(!open)}
+        >
+          <SlidersHorizontal className={`h-6 w-6 ${open ? 'text-white' : 'text-secondary'} md:text-secondary`} />
+          {isDesktop && <p className='ml-1 mt-1 font-bold text-font-header'>Filters</p>}
         </div>
       </SheetTrigger>
       <SheetContent
         side={'left' as StringToBoolean<'left'>}
-        className='mt-auto flex h-[calc(100vh-70px)] w-full flex-col pb-[70px] pt-0'
+        className='mt-auto flex h-[calc(100vh-140px)] w-full flex-col py-0'
       >
         <div className='no-scrollbar overflow-y-scroll py-4'>
           <SheetHeader>
@@ -46,31 +43,16 @@ const FilterWidget = ({ onSubmit }: FormWidget) => {
           <Separator className='mt-3' />
 
           <div className='grid gap-4 py-4'>
-            <CategoryFilter />
+            <CategoryFilter onSubmit={onSubmit} />
           </div>
 
           <div className='grid gap-4 py-4'>
-            <ServiceFilter />
+            <ServiceFilter onSubmit={onSubmit} />
           </div>
 
-          <div className='grid gap-4 pt-4'>
-            <AreaFilter />
+          <div className='mb-2 grid gap-4'>
+            <AreaFilter onSubmit={onSubmit} />
           </div>
-
-          <SheetFooter className='absolute bottom-0 left-0 right-0 flex h-[70px] items-center justify-center border-t-[1px] bg-white'>
-            <SheetClose asChild>
-              <Button
-                type='submit'
-                className='w-1/2'
-                onClick={() => {
-                  onSubmit();
-                  setOpen(false);
-                }}
-              >
-                Save changes
-              </Button>
-            </SheetClose>
-          </SheetFooter>
         </div>
       </SheetContent>
     </Sheet>
