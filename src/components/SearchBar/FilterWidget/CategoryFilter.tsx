@@ -17,7 +17,7 @@ interface CategoryFilter {
 }
 
 const CategoryFilter = ({ onSubmit }: CategoryFilter) => {
-  const { hasCategoriesParams } = useMapParamsCtx();
+  const { categoriesParams } = useMapParamsCtx();
   const { isCategoryLoading, categories } = useLocationCategories({ query: {} });
 
   const categoriesData = useMemo(() => {
@@ -41,9 +41,8 @@ const CategoryFilter = ({ onSubmit }: CategoryFilter) => {
                     key={index}
                     item={item}
                     formController={control}
-                    selectAll={!hasCategoriesParams}
+                    selectAll={!categoriesParams}
                     handleSubmit={onSubmit}
-                    showIcon
                   />
                 ))}
               </div>

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, useWatch } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Form, FormControl, FormField, FormMessage } from '@/components/ui/form';
@@ -12,6 +12,8 @@ import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import FilterWidget from '@/components/SearchBar/FilterWidget/FilterWidget';
 import { debounce } from 'next/dist/server/utils';
+import { Separator } from '@/components/ui/separator';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 export interface LocationSearchQuery {
   search: string;
@@ -33,6 +35,7 @@ const formSchema = z.object({
 });
 
 const SearchFormWithFilter = ({ handleSearch, handleFilter }: SearchFormWithFilter) => {
+  const isDesktop = useMediaQuery('(min-width: 768px)');
   const searchParams = useSearchParams();
 
   const methods = useForm<z.infer<typeof formSchema>>({
@@ -85,9 +88,9 @@ const SearchFormWithFilter = ({ handleSearch, handleFilter }: SearchFormWithFilt
   return (
     <Form {...methods}>
       <form onSubmit={handleSubmit(handleSearch)}>
-        <div className='flex items-center gap-2 p-4'>
+        <div className='flex items-center gap-2 p-4 md:h-[55px] md:rounded-sm md:border-2 md:border-secondary/10'>
           <div className='rounded-sm bg-secondary/10 p-2'>
-            <Search className='h-6 w-6 text-secondary' />
+            <Search className='h-6 w-6 text-secondary md:h-5 md:w-5' />
           </div>
           <FormField
             control={control}
@@ -97,7 +100,7 @@ const SearchFormWithFilter = ({ handleSearch, handleFilter }: SearchFormWithFilt
                 <FormControl>
                   <Input
                     placeholder='Search Area, Location Category...'
-                    className='h-8 border-none text-secondary placeholder:text-secondary focus-visible:ring-secondary/10'
+                    className='z-20 h-8 border-none text-font-header placeholder:text-secondary focus-visible:ring-secondary/10 md:focus-visible:ring-0'
                     {...field}
                   />
                 </FormControl>
@@ -105,6 +108,7 @@ const SearchFormWithFilter = ({ handleSearch, handleFilter }: SearchFormWithFilt
               </>
             )}
           />
+          {isDesktop && <Separator className='h-[55px]' orientation='vertical' />}
           <FilterWidget onSubmit={handleSubmit(handleFilter)} />
         </div>
       </form>
