@@ -4,6 +4,8 @@ import { defaultStaleTime, publicAPI } from '@/lib/api';
 import { Category } from '@/lib/api/categories';
 import { Image, ListResponseData, SingleResponseData } from '@/lib/api/utils/common';
 import { Area } from '@/lib/api/areas';
+import { defaultLocale } from '@/constants/config';
+import { getCookie } from 'cookies-next';
 
 export type Home = {
   bannerImages: ListResponseData<Image>;
@@ -13,7 +15,7 @@ export type Home = {
 
 const defaultQuery = {
   filters: {},
-  populate: ['bannerImages', 'categories', 'popularAreas', 'categories.thumbnailImage'],
+  populate: ['bannerImages', 'categories', 'popularAreas', 'categories.thumbnailImage', 'popularAreas.localizations'],
 };
 
 export const findHome = async (): Promise<Home> => {
@@ -21,6 +23,7 @@ export const findHome = async (): Promise<Home> => {
     {
       filters: { ...defaultQuery.filters },
       populate: [...defaultQuery.populate],
+      locale: getCookie('NEXT_LOCALE') || defaultLocale,
     },
     { encodeValuesOnly: true },
   );
@@ -35,6 +38,7 @@ export const findHomeServerSide = async (): Promise<Home> => {
     {
       filters: { ...defaultQuery.filters },
       populate: [...defaultQuery.populate],
+      locale: getCookie('NEXT_LOCALE') || defaultLocale,
     },
     { encodeValuesOnly: true },
   );
