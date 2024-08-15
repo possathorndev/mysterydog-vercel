@@ -1,11 +1,6 @@
 import type { Metadata } from 'next';
 import AuthSessionProvider from '@/contexts/AuthSessionProvider';
 import APIQueryProvider from '@/contexts/APIQueryProvider';
-import { getMessages } from 'next-intl/server';
-import { NextIntlClientProvider } from 'next-intl';
-import { LocationQueryContextProvider } from '@/contexts/LocationQueryProvider';
-import GeolocationContextProvider from '@/contexts/GeolocationProvider';
-import Navbar from '@/components/Navbar/navbar';
 
 // Components
 import { ThemeProvider } from '@/components/ThemeProvider/theme-provider';
@@ -44,8 +39,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const messages = await getMessages();
-
   return (
     <html lang='en' suppressHydrationWarning>
       <body
@@ -59,18 +52,7 @@ export default async function RootLayout({
       >
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
           <AuthSessionProvider>
-            <APIQueryProvider>
-              <NextIntlClientProvider messages={messages}>
-                <LocationQueryContextProvider>
-                  <GeolocationContextProvider>
-                    <div className='fixed top-0 z-50 w-full'>
-                      <Navbar />
-                    </div>
-                    {children}
-                  </GeolocationContextProvider>
-                </LocationQueryContextProvider>
-              </NextIntlClientProvider>
-            </APIQueryProvider>
+            <APIQueryProvider>{children}</APIQueryProvider>
           </AuthSessionProvider>
           <Toaster />
         </ThemeProvider>
