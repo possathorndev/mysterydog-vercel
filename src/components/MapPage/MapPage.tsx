@@ -1,28 +1,34 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 // Components
 import GoogleMap from '@/components/MapPage/GoogleMap/GoogleMap';
 import Directory from '@/components/MapPage/Directory/Directory';
+import SearchFormWithFilter, { LocationSearchQuery } from '@/components/SearchBar/SearchFormWithFilter';
+
+// Hooks
+import useLocations, { useLocationBySlug } from '@/hooks/useLocation';
+import { useLocationQueryCtx } from '@/contexts/LocationQueryProvider';
+import { useMapParamsCtx } from '@/contexts/MapParamsProvider';
 
 // Types
 import { Location } from '@/lib/api/locations';
-import useLocations from '@/hooks/useLocation';
-import SearchFormWithFilter, { LocationSearchQuery } from '@/components/SearchBar/SearchFormWithFilter';
-import { useLocationQueryCtx } from '@/contexts/LocationQueryProvider';
 
 const MapPage = () => {
   const [selectedMarker, setSelectedMarker] = useState<Location | undefined>();
 
-  const { isLocationLoading, locations } = useLocations();
+  const { locations } = useLocations();
   const { handleSearch, handleFilter } = useLocationQueryCtx();
+  const { selectedLocation, handleUpdateParams, handleSelectLocation } = useMapParamsCtx();
+  const { data, isLoading } = useLocationBySlug(selectedLocation);
 
   const locationsData = useMemo(() => {
     return locations?.pages?.flatMap((page) => page.data).map((location) => location.attributes);
   }, [locations]);
 
   const onSearch = async (searchQuery: LocationSearchQuery) => {
+    handleUpdateParams('search', searchQuery.search);
     await handleSearch(searchQuery.search);
   };
 
@@ -34,10 +40,19 @@ const MapPage = () => {
     });
   };
 
+  const onMarkerSelect = async (data?: Location) => {
+    setSelectedMarker(data);
+    handleSelectLocation(data?.slug || '');
+  };
+
+  useEffect(() => {
+    data && setSelectedMarker(data);
+  }, [data, selectedLocation]);
+
   return (
     <div className='h-[calc(100vh-70px)]'>
       <div className='absolute z-40 w-full pt-[70px]'>
-        <div className='mx-auto max-w-screen-2xl bg-white px-2'>
+        <div className='bg-white px-2 md:ml-[20px] md:mt-[20px] md:max-w-screen-sm md:rounded-xl'>
           <SearchFormWithFilter handleSearch={onSearch} handleFilter={onFilter} />
         </div>
       </div>
@@ -46,11 +61,11 @@ const MapPage = () => {
       <GoogleMap
         locations={locationsData as Location[]}
         selectedMarker={selectedMarker}
-        onMarkerSelect={(marker) => setSelectedMarker(marker)}
+        onMarkerSelect={onMarkerSelect}
       />
 
       {/* DIRECTORY */}
-      <Directory selectedMarker={selectedMarker} onMarkerDeselect={() => setSelectedMarker(undefined)} />
+      <Directory selectedMarker={selectedMarker} onMarkerDeselect={() => onMarkerSelect(undefined)} />
     </div>
   );
 };

@@ -4,14 +4,20 @@ import { useMemo } from 'react';
 import { Area } from '@/lib/api/areas';
 
 // Hooks
-import { useLocationAreas, useLocationCategories } from '@/hooks/useLocation';
+import { useLocationAreas } from '@/hooks/useLocation';
+import { useMapParamsCtx } from '@/contexts/MapParamsProvider';
 
 // Components
 import { Label } from '@/components/ui/label';
 import AreaBadge from '@/components/SearchBar/FilterWidget/AreaBadge';
 import ConnectForm from '@/components/FormConnect/FormConnect';
 
-const AreaFilter = () => {
+interface AreaFilter {
+  onSubmit: () => void;
+}
+
+const AreaFilter = ({ onSubmit }: AreaFilter) => {
+  const { hasAreasParams } = useMapParamsCtx();
   const { isAreaLoading, areas } = useLocationAreas({ query: { sort: ['name:asc'] } });
 
   const areasData = useMemo(() => {
@@ -47,7 +53,12 @@ const AreaFilter = () => {
                     {showAlphabet && (
                       <p className='my-1.5 text-sm text-font-description'>{item.name.charAt(0).toUpperCase()}</p>
                     )}
-                    <AreaBadge formController={control} item={item} />
+                    <AreaBadge
+                      formController={control}
+                      item={item}
+                      selectAll={!hasAreasParams}
+                      handleSubmit={onSubmit}
+                    />
                   </div>
                 );
               })}
