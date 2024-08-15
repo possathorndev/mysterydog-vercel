@@ -12,7 +12,11 @@ import CategoryBadge from '@/components/SearchBar/CategoryBadge';
 import { Label } from '@/components/ui/label';
 import ConnectForm from '@/components/FormConnect/FormConnect';
 
-const CategoryFilter = () => {
+interface CategoryFilter {
+  onSubmit: () => void;
+}
+
+const CategoryFilter = ({ onSubmit }: CategoryFilter) => {
   const { hasCategoriesParams } = useMapParamsCtx();
   const { isCategoryLoading, categories } = useLocationCategories({ query: {} });
 
@@ -38,6 +42,7 @@ const CategoryFilter = () => {
                     item={item}
                     formController={control}
                     selectAll={!hasCategoriesParams}
+                    handleSubmit={onSubmit}
                     showIcon
                   />
                 ))}

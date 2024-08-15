@@ -12,7 +12,11 @@ import ServiceBadge from '@/components/SearchBar/FilterWidget/ServiceBadge';
 import ConnectForm from '@/components/FormConnect/FormConnect';
 import { useMapParamsCtx } from '@/contexts/MapParamsProvider';
 
-const ServiceFilter = () => {
+interface ServiceFilter {
+  onSubmit: () => void;
+}
+
+const ServiceFilter = ({ onSubmit }: ServiceFilter) => {
   const { hasServicesParams } = useMapParamsCtx();
   const { isServiceLoading, services } = useLocationServices({ query: {} });
 
@@ -32,7 +36,13 @@ const ServiceFilter = () => {
           ) : (
             <div className='flex flex-wrap gap-2'>
               {servicesData?.map((data: Service, index: number) => (
-                <ServiceBadge key={index} item={data} formController={control} selectAll={!hasServicesParams} />
+                <ServiceBadge
+                  key={index}
+                  item={data}
+                  formController={control}
+                  selectAll={!hasServicesParams}
+                  handleSubmit={onSubmit}
+                />
               ))}
             </div>
           )}

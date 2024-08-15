@@ -1,16 +1,17 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Form, FormControl, FormField, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import FilterWidget from '@/components/SearchBar/FilterWidget/FilterWidget';
+import { debounce } from 'next/dist/server/utils';
 
 export interface LocationSearchQuery {
   search: string;
@@ -34,7 +35,7 @@ const formSchema = z.object({
 const SearchFormWithFilter = ({ handleSearch, handleFilter }: SearchFormWithFilter) => {
   const searchParams = useSearchParams();
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const methods = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       search: '',
@@ -43,6 +44,7 @@ const SearchFormWithFilter = ({ handleSearch, handleFilter }: SearchFormWithFilt
       selectedAreas: [],
     },
   });
+  const { control, handleSubmit, setValue } = methods;
 
   const searchString = useMemo(() => {
     return searchParams.get('search') || '';
@@ -63,29 +65,32 @@ const SearchFormWithFilter = ({ handleSearch, handleFilter }: SearchFormWithFilt
     return areasString ? areasString.split(',') : [];
   }, [searchParams]);
 
+  const debouncedSubmit = useCallback(
+    debounce(() => {
+      console.log('submitting ...');
+      methods.handleSubmit(handleFilter)();
+    }, 1000),
+    [],
+  );
+
   useEffect(() => {
-    form.setValue('search', searchString);
-    form.setValue('selectedCategories', categories);
-    form.setValue('selectedServices', services);
-    form.setValue('selectedAreas', areas);
+    setValue('search', searchString);
+    setValue('selectedCategories', categories);
+    setValue('selectedServices', services);
+    setValue('selectedAreas', areas);
+
+    methods.handleSubmit(handleFilter)();
   }, [searchString, categories, services, areas]);
 
-  useEffect(() => {
-    // @ts-ignore
-    const subscription = form.watch(form.handleSubmit(handleFilter));
-    // @ts-ignore
-    return () => subscription.unsubscribe();
-  }, [form.handleSubmit, form.watch]);
-
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSearch)}>
+    <Form {...methods}>
+      <form onSubmit={handleSubmit(handleSearch)}>
         <div className='flex items-center gap-2 p-4'>
           <div className='rounded-sm bg-secondary/10 p-2'>
             <Search className='h-6 w-6 text-secondary' />
           </div>
           <FormField
-            control={form.control}
+            control={control}
             name='search'
             render={({ field }) => (
               <>
@@ -100,7 +105,7 @@ const SearchFormWithFilter = ({ handleSearch, handleFilter }: SearchFormWithFilt
               </>
             )}
           />
-          <FilterWidget />
+          <FilterWidget onSubmit={handleSubmit(handleFilter)} />
         </div>
       </form>
     </Form>

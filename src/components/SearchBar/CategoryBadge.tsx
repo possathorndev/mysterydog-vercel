@@ -1,8 +1,6 @@
 import Image from 'next/image';
 
 import { Control, useController } from 'react-hook-form';
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from '@/utils/navigation';
 import { useMapParamsCtx } from '@/contexts/MapParamsProvider';
 
 import { Badge } from '@/components/ui/badge';
@@ -14,7 +12,7 @@ interface CategoryBadge {
   selectAll?: boolean;
   showIcon?: boolean;
   formController?: Control;
-  handleSubmit?: (search: string) => Promise<void>;
+  handleSubmit?: () => void;
 }
 
 const CategoryBadge = ({ item, handleSubmit, formController, selectAll = false, showIcon = false }: CategoryBadge) => {
@@ -31,6 +29,10 @@ const CategoryBadge = ({ item, handleSubmit, formController, selectAll = false, 
     const updatedParams = isSelected
       ? field.value.filter((slug: string) => slug !== item.slug)
       : [...field.value, item.slug];
+
+    field.onChange(updatedParams);
+
+    handleSubmit?.();
 
     handleUpdateParams('categories', updatedParams);
   };
@@ -56,7 +58,7 @@ const CategoryBadge = ({ item, handleSubmit, formController, selectAll = false, 
 
   // Without icon
   return (
-    <Button asChild variant='ghost' onClick={() => handleSubmit?.(item.slug)}>
+    <Button asChild variant='ghost' onClick={() => {}}>
       <Badge
         variant='outline'
         style={{ borderColor: item.color, color: item.color }}

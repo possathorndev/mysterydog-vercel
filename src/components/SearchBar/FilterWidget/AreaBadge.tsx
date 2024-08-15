@@ -8,9 +8,10 @@ interface AreaBadge {
   formController: Control;
   selectAll: boolean;
   showAlphabet?: boolean;
+  handleSubmit?: () => void;
 }
 
-const AreaBadge = ({ formController, item, showAlphabet = false, selectAll }: AreaBadge) => {
+const AreaBadge = ({ formController, handleSubmit, item, showAlphabet = false, selectAll }: AreaBadge) => {
   const { handleUpdateParams } = useMapParamsCtx();
 
   const { field } = useController({
@@ -24,6 +25,10 @@ const AreaBadge = ({ formController, item, showAlphabet = false, selectAll }: Ar
     const updatedParams = isSelected
       ? field.value.filter((slug: string) => slug !== item.slug)
       : [...field.value, item.slug];
+
+    field.onChange(updatedParams);
+
+    handleSubmit?.();
 
     handleUpdateParams('areas', updatedParams);
   };

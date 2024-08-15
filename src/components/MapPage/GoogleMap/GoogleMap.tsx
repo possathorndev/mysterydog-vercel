@@ -137,6 +137,13 @@ const GoogleMapComponent = ({
   const [map, setMap] = useState<google.maps.Map>();
 
   useEffect(() => {
+    if (map && selectedMarker) {
+      const latLng = new google.maps.LatLng(selectedMarker.lat, selectedMarker.long);
+      map.panTo(latLng);
+    }
+  }, [map, selectedMarker]);
+
+  useEffect(() => {
     if (map && currentLocation?.latitude && currentLocation?.longitude) {
       const latLng = new google.maps.LatLng(currentLocation.latitude, currentLocation.longitude);
       map.setCenter(latLng);

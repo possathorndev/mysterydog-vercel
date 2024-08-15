@@ -12,7 +12,11 @@ import { SlidersHorizontal } from 'lucide-react';
 import { StringToBoolean } from 'class-variance-authority/types';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 
-const FilterWidget = () => {
+interface FilterWidget {
+  onSubmit: () => void;
+}
+
+const FilterWidget = ({ onSubmit }: FilterWidget) => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const [open, setOpen] = useState<boolean>(false);
 
@@ -39,15 +43,15 @@ const FilterWidget = () => {
           <Separator className='mt-3' />
 
           <div className='grid gap-4 py-4'>
-            <CategoryFilter />
+            <CategoryFilter onSubmit={onSubmit} />
           </div>
 
           <div className='grid gap-4 py-4'>
-            <ServiceFilter />
+            <ServiceFilter onSubmit={onSubmit} />
           </div>
 
           <div className='mb-2 grid gap-4'>
-            <AreaFilter />
+            <AreaFilter onSubmit={onSubmit} />
           </div>
         </div>
       </SheetContent>

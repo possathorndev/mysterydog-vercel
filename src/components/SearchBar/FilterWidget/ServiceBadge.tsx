@@ -14,6 +14,7 @@ interface ServiceBadge {
   item: Service;
   formController: Control;
   selectAll: boolean;
+  handleSubmit: () => void;
 }
 
 export const ServiceDisplayBadge = ({
@@ -50,7 +51,7 @@ export const ServiceDisplayBadge = ({
   );
 };
 
-const ServiceBadge = ({ item, formController, selectAll }: ServiceBadge) => {
+const ServiceBadge = ({ item, formController, selectAll, handleSubmit }: ServiceBadge) => {
   const { handleUpdateParams } = useMapParamsCtx();
   const { field } = useController({
     name: 'selectedServices',
@@ -63,6 +64,10 @@ const ServiceBadge = ({ item, formController, selectAll }: ServiceBadge) => {
     const updatedParams = isSelected
       ? field.value.filter((slug: string) => slug !== item.slug)
       : [...field.value, item.slug];
+
+    field.onChange(updatedParams);
+
+    handleSubmit?.();
 
     handleUpdateParams('services', updatedParams);
   };

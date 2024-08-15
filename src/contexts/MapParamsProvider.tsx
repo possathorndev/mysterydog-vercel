@@ -27,7 +27,6 @@ export const MapParamsContext: React.Context<MapParamsContextValues> =
   createContext<MapParamsContextValues>(initialState);
 
 export const MapParamsContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();
 
@@ -37,10 +36,11 @@ export const MapParamsContextProvider = ({ children }: { children: React.ReactNo
   const hasAreasParams = !!useSearchParams().get('areas');
 
   const handleSelectLocation = (slug: string) => {
-    const currentParams = searchParams.toString();
+    const currentParams = decodeURIComponent(searchParams.toString());
+
     const queryString = currentParams ? `?${currentParams}` : '';
 
-    router.replace(`/maps/${slug || ''}${queryString}`);
+    window.history.replaceState(undefined, '', `/maps${slug ? `/${slug}` : ''}${queryString}`);
   };
 
   const handleUpdateParams = (
@@ -63,7 +63,7 @@ export const MapParamsContextProvider = ({ children }: { children: React.ReactNo
 
     const queryString = qs.stringify({ ...newParams }, { encode: false });
 
-    router.push(`?${queryString}`);
+    window.history.replaceState(undefined, '', `?${queryString}`);
   };
 
   return (

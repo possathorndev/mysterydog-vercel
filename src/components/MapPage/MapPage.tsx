@@ -40,25 +40,22 @@ const MapPage = () => {
     });
   };
 
-  const onMarkerSelect = async (marker?: Location) => {
-    handleSelectLocation(marker?.slug || '');
+  const onMarkerSelect = async (data?: Location) => {
+    setSelectedMarker(data);
+    handleSelectLocation(data?.slug || '');
   };
 
   useEffect(() => {
-    if (!data) return;
-
-    setSelectedMarker(data);
+    data && setSelectedMarker(data);
   }, [data, selectedLocation]);
 
   return (
     <div className='h-[calc(100vh-70px)]'>
-      {window && (
-        <div className='absolute z-40 w-full pt-[70px]'>
-          <div className='bg-white px-2 md:ml-[20px] md:mt-[20px] md:max-w-screen-sm md:rounded-xl'>
-            <SearchFormWithFilter handleSearch={onSearch} handleFilter={onFilter} />
-          </div>
+      <div className='absolute z-40 w-full pt-[70px]'>
+        <div className='bg-white px-2 md:ml-[20px] md:mt-[20px] md:max-w-screen-sm md:rounded-xl'>
+          <SearchFormWithFilter handleSearch={onSearch} handleFilter={onFilter} />
         </div>
-      )}
+      </div>
 
       {/* MAP */}
       <GoogleMap
