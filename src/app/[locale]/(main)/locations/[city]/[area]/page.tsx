@@ -1,15 +1,12 @@
 import React from 'react';
 import { Metadata, ResolvingMetadata } from 'next';
 
-// API
 import { HydrationBoundary } from '@tanstack/react-query';
 import { prefetchQuerySSR } from '@/lib/api/utils/query';
 import { generatePageMetadata } from '@/lib/api/utils/metadata';
 import { findAreaBySlugSSR } from '@/lib/api/areas';
-
-// Components
-import LocationDetailPage from '@/components/Locations/LocationDetail/LocationDetailPage';
 import { toUpperCaseFirstLetter } from '@/utils/helpers';
+import AreaDetailPage from '@/components/Area/AreaDetailPage';
 
 type Props = {
   params: { city: string; area: string };
@@ -37,8 +34,7 @@ export default async function Page({ params }: Props) {
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      {/* <LocationDetailPage slug={params.area} /> */}
-      {params.area}
+      <AreaDetailPage slug={params.area} />
     </HydrationBoundary>
   );
 }

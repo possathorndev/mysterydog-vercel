@@ -1,9 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
 // API
-import { findLocationAreas } from '@/lib/api/areas';
+import { findAreaBySlug, findLocationAreas } from '@/lib/api/areas';
 
-// Find Blogs
 export const useAreas = () => {
   const { data: areas, isLoading } = useQuery({
     queryKey: ['areas'],
@@ -21,4 +20,12 @@ export const useAreas = () => {
     areas,
     isLoading,
   };
+};
+
+export const useAreaBySlug = (slug: string) => {
+  return useQuery({
+    queryKey: ['area', slug],
+    queryFn: () => findAreaBySlug(slug),
+    enabled: !!slug,
+  });
 };
