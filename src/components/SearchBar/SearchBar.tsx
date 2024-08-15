@@ -12,19 +12,19 @@ import {
 import SearchForm from '@/components/SearchBar/SearchForm';
 import { useRouter } from 'next/navigation';
 import CategorySelect from '@/components/SearchBar/CategorySelect';
-import { LOCATION_PATH } from '@/constants/config';
+import { MAPS_PATH } from '@/constants/config';
 
 const SearchBar = () => {
   const [open, setOpen] = useState<boolean>(false);
   const router = useRouter();
 
   const handleSearch = async (search: string) => {
-    router.push(`${LOCATION_PATH}?_q=${search}`);
+    router.push(`${MAPS_PATH}?search=${search}`);
     setOpen(false);
   };
 
   const handleCategorySelect = async (slug: string) => {
-    router.push(`${LOCATION_PATH}?category=${slug}`);
+    router.push(`${MAPS_PATH}?categories=${slug}`);
     setOpen(false);
   };
 

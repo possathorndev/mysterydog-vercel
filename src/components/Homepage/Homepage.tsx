@@ -24,7 +24,7 @@ export default function Homepage({ initialData }: { initialData?: Home }) {
         <LocationNearMe />
       </div>
       <BlogList />
-      <div className='max-w-screen-2xl px-2 md:px-6 xl:px-0'>
+      <div className='mx-auto w-full max-w-screen-2xl px-2 md:px-6'>
         <AreaList data={data?.popularAreas} />
       </div>
     </div>

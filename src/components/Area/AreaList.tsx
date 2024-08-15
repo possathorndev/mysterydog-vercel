@@ -3,11 +3,9 @@
 import { useMemo } from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import BlogCard from '@/components/Blog/BlogCard';
-import { LOCATION_PATH } from '@/constants/config';
-import { useBlogs } from '@/hooks/useBlog';
+import { defaultCity, LOCATION_PATH } from '@/constants/config';
 import { Area } from '@/lib/api/areas';
-import { FindResponse, ListResponseData } from '@/lib/api/utils/common';
+import { ListResponseData } from '@/lib/api/utils/common';
 import AreaCard from '@/components/Area/AreaCard';
 
 const AreaList = ({ data, isLoading }: { data?: ListResponseData<Area>; isLoading?: boolean }) => {
@@ -23,7 +21,7 @@ const AreaList = ({ data, isLoading }: { data?: ListResponseData<Area>; isLoadin
       {/* Header */}
       <div className='flex items-center justify-between'>
         <div className='text-2xl font-bold text-font-header'>{tHome('popularAreaHeader')}</div>
-        <Link className='font-gaegu text-lg font-bold text-secondary' href={LOCATION_PATH}>
+        <Link className='font-gaegu text-lg font-bold text-secondary' href={`${LOCATION_PATH}/${defaultCity}`}>
           {tGlobal('seeAll')}
         </Link>
       </div>
