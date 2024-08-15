@@ -7,3 +7,7 @@ export const formatAddressToString = (obj: Address) => {
     .filter(Boolean)
     .join(', ');
 };
+
+export const toUpperCaseFirstLetter = (str: string) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};

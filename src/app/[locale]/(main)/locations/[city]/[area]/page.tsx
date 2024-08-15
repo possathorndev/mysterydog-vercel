@@ -9,9 +9,10 @@ import { findAreaBySlugSSR } from '@/lib/api/areas';
 
 // Components
 import LocationDetailPage from '@/components/Locations/LocationDetail/LocationDetailPage';
+import { toUpperCaseFirstLetter } from '@/utils/helpers';
 
 type Props = {
-  params: { area: string };
+  params: { city: string; area: string };
 };
 
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
   if (!metadata) return {};
 
   return {
-    title: metadata.name,
+    title: `${metadata.name} - ${toUpperCaseFirstLetter(params.city)}`,
     description: metadata.shortDescription,
   };
 }
