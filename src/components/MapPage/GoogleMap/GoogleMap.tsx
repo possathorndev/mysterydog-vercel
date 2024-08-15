@@ -138,6 +138,7 @@ const GoogleMapComponent = ({
 
   useEffect(() => {
     if (map && selectedMarker) {
+      map.setZoom(16);
       const latLng = new google.maps.LatLng(selectedMarker.lat, selectedMarker.long);
       map.panTo(latLng);
     }
