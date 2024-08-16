@@ -18,7 +18,7 @@ export default function Homepage({ initialData }: { initialData?: Home }) {
       <div className='mx-auto flex max-w-screen-2xl flex-col gap-6 px-2 md:gap-8 md:px-6 xl:px-0'>
         {/* Reverse order when desktop */}
         <div className='flex flex-col gap-6 md:flex-col-reverse'>
-          <MapBanner />
+          <MapBanner border />
           <CategoryList data={data?.categories?.data?.map((item) => item.attributes)} />
         </div>
         <LocationNearMe />

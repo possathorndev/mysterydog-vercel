@@ -1,16 +1,17 @@
 'use client';
 
 import { MAPS_PATH } from '@/constants/config';
+import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-const MapBanner = () => {
+const MapBanner = ({ border }: { border?: boolean }) => {
   const t = useTranslations('HomePage');
   return (
     <div
-      className='relative h-56 w-full rounded-md border-2 bg-primary/10'
+      className={cn('relative h-56 w-full bg-primary/10', border && 'rounded-md border-2')}
       style={{
         backgroundImage: 'url(/images/maps.png)',
         backgroundPosition: 'center',

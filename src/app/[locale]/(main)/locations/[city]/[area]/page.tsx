@@ -20,9 +20,14 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
 
   if (!metadata) return {};
 
+  const previousImages = (await parent).openGraph?.images || [];
+
   return {
     title: `${metadata.name} - ${toUpperCaseFirstLetter(params.city)}`,
     description: metadata.shortDescription,
+    openGraph: {
+      images: [metadata.image?.data?.attributes?.url, ...previousImages],
+    },
   };
 }
 
