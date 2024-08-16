@@ -72,7 +72,7 @@ const SearchFormWithFilter = ({ handleSearch, handleFilter }: SearchFormWithFilt
     debounce(() => {
       console.log('submitting ...');
       methods.handleSubmit(handleFilter)();
-    }, 1000),
+    }, 200),
     [],
   );
 
@@ -82,7 +82,7 @@ const SearchFormWithFilter = ({ handleSearch, handleFilter }: SearchFormWithFilt
     setValue('selectedServices', services);
     setValue('selectedAreas', areas);
 
-    methods.handleSubmit(handleFilter)();
+    debouncedSubmit();
   }, [searchString, categories, services, areas]);
 
   return (

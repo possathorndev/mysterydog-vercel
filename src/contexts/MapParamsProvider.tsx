@@ -62,7 +62,7 @@ export const MapParamsContextProvider = ({ children }: { children: React.ReactNo
 
     const queryString = qs.stringify({ ...newParams }, { encode: false });
 
-    window.history.replaceState(undefined, '', `?${queryString}`);
+    window.history.replaceState(undefined, '', `/maps?${queryString}`);
   };
 
   return (

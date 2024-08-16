@@ -30,7 +30,7 @@ const formSchema = z.object({
 
 const QuickFilterMenu = ({ handleFilter }: QuickFilterMenu) => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
-  const searchParams = useSearchParams();
+  const categoriesSearchParams = useSearchParams().get('categories');
   const { categoriesParams } = useMapParamsCtx();
 
   const { isCategoryLoading, categories: categoriesData } = useLocationCategories({ query: {} });
@@ -48,21 +48,20 @@ const QuickFilterMenu = ({ handleFilter }: QuickFilterMenu) => {
   const { control, handleSubmit, setValue } = methods;
 
   const categories = useMemo(() => {
-    const categoriesString = searchParams.get('categories');
-    return categoriesString ? categoriesString.split(',') : [];
-  }, [searchParams]);
+    return categoriesSearchParams ? categoriesSearchParams.split(',') : [];
+  }, [categoriesSearchParams]);
 
   const debouncedSubmit = useCallback(
     debounce(() => {
       console.log('submitting ...');
       methods.handleSubmit(handleFilter)();
-    }, 1000),
+    }, 200),
     [],
   );
 
   useEffect(() => {
     setValue('selectedCategories', categories);
-    methods.handleSubmit(handleFilter)();
+    debouncedSubmit();
   }, [categories]);
 
   return (

@@ -18,11 +18,12 @@ import QuickFilterMenu from '@/components/SearchBar/QuickFilterMenu/QuickFilterM
 
 const MapPage = () => {
   const [selectedMarker, setSelectedMarker] = useState<Location | undefined>();
+  const [filterInit, setFilterInit] = useState<boolean>(false);
 
   const { locations } = useLocations();
   const { handleSearch, handleFilter } = useLocationQueryCtx();
   const { selectedLocation, handleUpdateParams, handleSelectLocation } = useMapParamsCtx();
-  const { data, isLoading } = useLocationBySlug(selectedLocation);
+  const { data } = useLocationBySlug(selectedLocation);
 
   const locationsData = useMemo(() => {
     return locations?.pages?.flatMap((page) => page.data).map((location) => location.attributes);
@@ -41,6 +42,9 @@ const MapPage = () => {
       services: searchQuery?.selectedServices || [],
       areas: searchQuery?.selectedAreas || [],
     });
+
+    setTimeout(() => setFilterInit(true), 1000);
+    filterInit && setSelectedMarker(undefined);
   };
 
   const onMarkerSelect = async (data?: Location) => {
