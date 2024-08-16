@@ -17,7 +17,7 @@ interface AreaFilter {
 }
 
 const AreaFilter = ({ onSubmit }: AreaFilter) => {
-  const { hasAreasParams } = useMapParamsCtx();
+  const { areasParams } = useMapParamsCtx();
   const { isAreaLoading, areas } = useLocationAreas({ query: { sort: ['name:asc'] } });
 
   const areasData = useMemo(() => {
@@ -53,12 +53,7 @@ const AreaFilter = ({ onSubmit }: AreaFilter) => {
                     {showAlphabet && (
                       <p className='my-1.5 text-sm text-font-description'>{item.name.charAt(0).toUpperCase()}</p>
                     )}
-                    <AreaBadge
-                      formController={control}
-                      item={item}
-                      selectAll={!hasAreasParams}
-                      handleSubmit={onSubmit}
-                    />
+                    <AreaBadge formController={control} item={item} selectAll={!areasParams} handleSubmit={onSubmit} />
                   </div>
                 );
               })}

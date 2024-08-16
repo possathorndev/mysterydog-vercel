@@ -17,7 +17,7 @@ interface ServiceFilter {
 }
 
 const ServiceFilter = ({ onSubmit }: ServiceFilter) => {
-  const { hasServicesParams } = useMapParamsCtx();
+  const { servicesParams } = useMapParamsCtx();
   const { isServiceLoading, services } = useLocationServices({ query: {} });
 
   const servicesData = useMemo(() => {
@@ -40,7 +40,7 @@ const ServiceFilter = ({ onSubmit }: ServiceFilter) => {
                   key={index}
                   item={data}
                   formController={control}
-                  selectAll={!hasServicesParams}
+                  selectAll={!servicesParams}
                   handleSubmit={onSubmit}
                 />
               ))}

@@ -14,6 +14,7 @@ import { useMapParamsCtx } from '@/contexts/MapParamsProvider';
 
 // Types
 import { Location } from '@/lib/api/locations';
+import QuickFilterMenu from '@/components/SearchBar/QuickFilterMenu/QuickFilterMenu';
 
 const MapPage = () => {
   const [selectedMarker, setSelectedMarker] = useState<Location | undefined>();
@@ -28,15 +29,17 @@ const MapPage = () => {
   }, [locations]);
 
   const onSearch = async (searchQuery: LocationSearchQuery) => {
+    if (!searchQuery?.search) return;
+
     handleUpdateParams('search', searchQuery.search);
     await handleSearch(searchQuery.search);
   };
 
   const onFilter = async (searchQuery: LocationSearchQuery) => {
     await handleFilter({
-      categories: searchQuery.selectedCategories,
-      services: searchQuery.selectedServices,
-      areas: searchQuery.selectedAreas,
+      categories: searchQuery?.selectedCategories || [],
+      services: searchQuery?.selectedServices || [],
+      areas: searchQuery?.selectedAreas || [],
     });
   };
 
@@ -51,9 +54,14 @@ const MapPage = () => {
 
   return (
     <div className='h-[calc(100vh-70px)]'>
-      <div className='absolute z-40 w-full pt-[70px]'>
-        <div className='bg-white px-2 md:ml-[20px] md:mt-[20px] md:max-w-screen-sm md:rounded-xl'>
-          <SearchFormWithFilter handleSearch={onSearch} handleFilter={onFilter} />
+      <div className='absolute z-10 w-full pt-[70px] md:z-30'>
+        <div className='md:flex'>
+          <div className='w-full bg-white md:ml-[20px] md:mt-[20px] md:max-h-[55px] md:w-[420px] md:rounded-xl'>
+            <SearchFormWithFilter handleSearch={onSearch} handleFilter={onFilter} />
+          </div>
+          <div className='z-10'>
+            <QuickFilterMenu handleFilter={onFilter} />
+          </div>
         </div>
       </div>
 

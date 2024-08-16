@@ -3,22 +3,21 @@
 import { createContext, useContext } from 'react';
 import qs from 'qs';
 import { useParams, useSearchParams } from 'next/navigation';
-import { useRouter } from '@/utils/navigation';
 
 type MapParamsContextValues = {
   selectedLocation: string;
-  hasCategoriesParams: boolean;
-  hasServicesParams: boolean;
-  hasAreasParams: boolean;
+  categoriesParams: string;
+  servicesParams: string;
+  areasParams: string;
   handleUpdateParams: (key: 'search' | 'categories' | 'services' | 'areas', updatedParams: string[] | string) => void;
   handleSelectLocation: (slug: string) => void;
 };
 
 const initialState: MapParamsContextValues = {
   selectedLocation: '',
-  hasCategoriesParams: false,
-  hasServicesParams: false,
-  hasAreasParams: false,
+  categoriesParams: '',
+  servicesParams: '',
+  areasParams: '',
   handleUpdateParams: () => {},
   handleSelectLocation: () => {},
 };
@@ -31,9 +30,9 @@ export const MapParamsContextProvider = ({ children }: { children: React.ReactNo
   const searchParams = useSearchParams();
 
   const selectedLocation = params?.slug as string;
-  const hasCategoriesParams = !!useSearchParams().get('categories');
-  const hasServicesParams = !!useSearchParams().get('services');
-  const hasAreasParams = !!useSearchParams().get('areas');
+  const categoriesParams = useSearchParams().get('categories') || '';
+  const servicesParams = useSearchParams().get('services') || '';
+  const areasParams = useSearchParams().get('areas') || '';
 
   const handleSelectLocation = (slug: string) => {
     const currentParams = decodeURIComponent(searchParams.toString());
@@ -70,9 +69,9 @@ export const MapParamsContextProvider = ({ children }: { children: React.ReactNo
     <MapParamsContext.Provider
       value={{
         selectedLocation,
-        hasCategoriesParams,
-        hasServicesParams,
-        hasAreasParams,
+        categoriesParams,
+        servicesParams,
+        areasParams,
         handleUpdateParams,
         handleSelectLocation,
       }}
