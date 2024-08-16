@@ -82,7 +82,16 @@ export const findLocationBySlug = async (slug: string): Promise<Location> => {
 export const findLocationBySlugSSR = async ({ queryKey }: { queryKey: QueryKey }): Promise<Location | undefined> => {
   const [_key, slug] = queryKey;
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/locations/${slug}`, {
+  const query = qs.stringify(
+    {
+      populate: defaultQuery.populate,
+    },
+    {
+      encodeValuesOnly: true,
+    },
+  );
+
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/locations/${slug}?${query}`, {
     next: { revalidate: defaultStaleTime },
   });
 
