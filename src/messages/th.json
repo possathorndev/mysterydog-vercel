@@ -24,7 +24,7 @@
     "popularAreaHeader": "สถานที่ยอดฮิต"
   },
   "AreaPage": {
-    "title": "พื้นที่ใน CITY",
+    "title": "พื้นที่ใน {city}",
     "detailTitle": "พื้นที่ใน",
     "detailLocationTitle": "สาหกดาห าหกาหกกห"
   }

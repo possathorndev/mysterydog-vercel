@@ -27,7 +27,7 @@ const AreasPage = () => {
   return (
     <div className='mx-auto my-6 flex min-h-[calc(100vh-230px)] max-w-screen-2xl flex-col gap-6 px-6'>
       <div className='text-2xl font-bold text-font-header'>
-        {tAreaPage('title').replace('CITY', toUpperCaseFirstLetter(params.city))}
+        {tAreaPage('title', { city: toUpperCaseFirstLetter(params.city) })}
       </div>
 
       {isLoading ? (
