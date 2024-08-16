@@ -4,7 +4,7 @@ import { isMobile } from 'react-device-detect';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Service } from '@/lib/api/services';
-import { ServiceDisplayBadge } from '@/components/SearchBar/FilterWidget/ServiceBadge';
+import { ServiceDisplayBadge } from '@/components/MapPage/MapSheet/FilterWidget/ServiceBadge';
 
 const ServicePopover = ({ services }: { services?: Service[] }) => {
   const Trigger = (

@@ -5,66 +5,55 @@ import React, { useEffect, useMemo, useState } from 'react';
 // Components
 import GoogleMap from '@/components/MapPage/GoogleMap/GoogleMap';
 import Directory from '@/components/MapPage/Directory/Directory';
-import SearchFormWithFilter, { LocationSearchQuery } from '@/components/SearchBar/SearchFormWithFilter';
+import SearchFormWithFilter from '@/components/SearchBar/SearchFormWithFilter';
+import QuickFilterMenu from '@/components/MapPage/MapSheet/QuickFilterMenu/QuickFilterMenu';
 
 // Hooks
 import useLocations, { useLocationBySlug } from '@/hooks/useLocation';
-import { useLocationQueryCtx } from '@/contexts/LocationQueryProvider';
-import { useMapParamsCtx } from '@/contexts/MapParamsProvider';
+import { useMapParamsCtx } from '@/contexts/MapProvider/MapParamsProvider';
+import { useFormContext } from 'react-hook-form';
 
 // Types
 import { Location } from '@/lib/api/locations';
-import QuickFilterMenu from '@/components/SearchBar/QuickFilterMenu/QuickFilterMenu';
 
 const MapPage = () => {
   const [selectedMarker, setSelectedMarker] = useState<Location | undefined>();
-  const [filterInit, setFilterInit] = useState<boolean>(false);
+
+  const form = useFormContext();
+  const { watch, setValue } = form;
+  const locationWatch = watch('selectedLocation');
 
   const { locations } = useLocations();
-  const { handleSearch, handleFilter } = useLocationQueryCtx();
-  const { selectedLocation, handleUpdateParams, handleSelectLocation } = useMapParamsCtx();
+  const { selectedLocation, handleSelectLocation } = useMapParamsCtx();
   const { data } = useLocationBySlug(selectedLocation);
 
   const locationsData = useMemo(() => {
     return locations?.pages?.flatMap((page) => page.data).map((location) => location.attributes);
   }, [locations]);
 
-  const onSearch = async (searchQuery: LocationSearchQuery) => {
-    if (!searchQuery?.search) return;
-
-    handleUpdateParams('search', searchQuery.search);
-    await handleSearch(searchQuery.search);
-  };
-
-  const onFilter = async (searchQuery: LocationSearchQuery) => {
-    await handleFilter({
-      categories: searchQuery?.selectedCategories || [],
-      services: searchQuery?.selectedServices || [],
-      areas: searchQuery?.selectedAreas || [],
-    });
-
-    setTimeout(() => setFilterInit(true), 1000);
-    filterInit && setSelectedMarker(undefined);
-  };
-
   const onMarkerSelect = async (data?: Location) => {
     setSelectedMarker(data);
     handleSelectLocation(data?.slug || '');
+    setValue('selectedLocation', data?.slug);
   };
 
   useEffect(() => {
-    data && setSelectedMarker(data);
+    data && onMarkerSelect(data);
   }, [data, selectedLocation]);
+
+  useEffect(() => {
+    !locationWatch && setSelectedMarker(undefined);
+  }, [locationWatch]);
 
   return (
     <div className='h-[calc(100vh-70px)]'>
       <div className='absolute z-10 w-full pt-[70px] md:z-30'>
         <div className='md:flex'>
           <div className='w-full bg-white md:ml-[20px] md:mt-[20px] md:max-h-[55px] md:w-[420px] md:rounded-xl'>
-            <SearchFormWithFilter handleSearch={onSearch} handleFilter={onFilter} />
+            <SearchFormWithFilter />
           </div>
           <div className='z-10'>
-            <QuickFilterMenu handleFilter={onFilter} />
+            <QuickFilterMenu />
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import LocationCard from '@/components/Locations/Location/LocationCard';
-import { ServiceDisplayBadge } from '@/components/SearchBar/FilterWidget/ServiceBadge';
+import { ServiceDisplayBadge } from '@/components/MapPage/MapSheet/FilterWidget/ServiceBadge';
 import useLocations, { useLocationServices } from '@/hooks/useLocation';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { Area } from '@/lib/api/areas';
@@ -30,7 +30,7 @@ const AreaInfo = ({ data }: { data: Area }) => {
           ))}
         </div>
       )}
-      <div dangerouslySetInnerHTML={{ __html: data.description }} className='prose lg:prose-xl font-gaegu' />
+      <div dangerouslySetInnerHTML={{ __html: data.description }} className='prose font-gaegu lg:prose-xl' />
       <div className='flex flex-col gap-2'>
         <div className='text-2xl font-bold text-font-header'>
           <span className='text-secondary'>{data.name}</span> {tAreaPage('detailLocationTitle')}

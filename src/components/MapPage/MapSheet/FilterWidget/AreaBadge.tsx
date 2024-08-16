@@ -1,7 +1,7 @@
 import { Area } from '@/lib/api/areas';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Control, useController } from 'react-hook-form';
-import { useMapParamsCtx } from '@/contexts/MapParamsProvider';
+import { Control, useController, useFormContext } from 'react-hook-form';
+import { useMapParamsCtx } from '@/contexts/MapProvider/MapParamsProvider';
 
 interface AreaBadge {
   item: Area;
@@ -13,6 +13,9 @@ interface AreaBadge {
 
 const AreaBadge = ({ formController, handleSubmit, item, showAlphabet = false, selectAll }: AreaBadge) => {
   const { handleUpdateParams } = useMapParamsCtx();
+
+  const form = useFormContext();
+  const { setValue } = form;
 
   const { field } = useController({
     name: 'selectedAreas',
@@ -31,6 +34,7 @@ const AreaBadge = ({ formController, handleSubmit, item, showAlphabet = false, s
     handleSubmit?.();
 
     handleUpdateParams('areas', updatedParams);
+    setValue('selectedLocation', '');
   };
 
   return (

@@ -5,11 +5,11 @@ import { Area } from '@/lib/api/areas';
 
 // Hooks
 import { useLocationAreas } from '@/hooks/useLocation';
-import { useMapParamsCtx } from '@/contexts/MapParamsProvider';
+import { useMapParamsCtx } from '@/contexts/MapProvider/MapParamsProvider';
 
 // Components
 import { Label } from '@/components/ui/label';
-import AreaBadge from '@/components/SearchBar/FilterWidget/AreaBadge';
+import AreaBadge from '@/components/MapPage/MapSheet/FilterWidget/AreaBadge';
 import ConnectForm from '@/components/FormConnect/FormConnect';
 
 interface AreaFilter {

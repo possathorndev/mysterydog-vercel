@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Control, useController } from 'react-hook-form';
+import { Control, useController, useFormContext } from 'react-hook-form';
 
 // Components
 import { Badge } from '@/components/ui/badge';
@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 // Types
 import { Service } from '@/lib/api/services';
 import { cn } from '@/lib/utils';
-import { useMapParamsCtx } from '@/contexts/MapParamsProvider';
+import { useMapParamsCtx } from '@/contexts/MapProvider/MapParamsProvider';
 
 interface ServiceBadge {
   item: Service;
@@ -53,6 +53,10 @@ export const ServiceDisplayBadge = ({
 
 const ServiceBadge = ({ item, formController, selectAll, handleSubmit }: ServiceBadge) => {
   const { handleUpdateParams } = useMapParamsCtx();
+
+  const form = useFormContext();
+  const { setValue } = form;
+
   const { field } = useController({
     name: 'selectedServices',
     control: formController,
@@ -70,6 +74,7 @@ const ServiceBadge = ({ item, formController, selectAll, handleSubmit }: Service
     handleSubmit?.();
 
     handleUpdateParams('services', updatedParams);
+    setValue('selectedLocation', '');
   };
 
   return (

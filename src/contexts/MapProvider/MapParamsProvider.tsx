@@ -6,6 +6,7 @@ import { useParams, useSearchParams } from 'next/navigation';
 
 type MapParamsContextValues = {
   selectedLocation: string;
+  searchTextParams: string;
   categoriesParams: string;
   servicesParams: string;
   areasParams: string;
@@ -15,6 +16,7 @@ type MapParamsContextValues = {
 
 const initialState: MapParamsContextValues = {
   selectedLocation: '',
+  searchTextParams: '',
   categoriesParams: '',
   servicesParams: '',
   areasParams: '',
@@ -30,6 +32,7 @@ export const MapParamsContextProvider = ({ children }: { children: React.ReactNo
   const searchParams = useSearchParams();
 
   const selectedLocation = params?.slug as string;
+  const searchTextParams = useSearchParams().get('search') || '';
   const categoriesParams = useSearchParams().get('categories') || '';
   const servicesParams = useSearchParams().get('services') || '';
   const areasParams = useSearchParams().get('areas') || '';
@@ -69,6 +72,7 @@ export const MapParamsContextProvider = ({ children }: { children: React.ReactNo
     <MapParamsContext.Provider
       value={{
         selectedLocation,
+        searchTextParams,
         categoriesParams,
         servicesParams,
         areasParams,

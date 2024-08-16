@@ -5,10 +5,10 @@ import { Category } from '@/lib/api/categories';
 
 // Hooks
 import { useLocationCategories } from '@/hooks/useLocation';
-import { useMapParamsCtx } from '@/contexts/MapParamsProvider';
+import { useMapParamsCtx } from '@/contexts/MapProvider/MapParamsProvider';
 
 // Components
-import CategoryBadge from '@/components/SearchBar/CategoryBadge';
+import CategoryBadge from '@/components/MapPage/MapSheet/FilterWidget/CategoryBadge';
 import { Label } from '@/components/ui/label';
 import ConnectForm from '@/components/FormConnect/FormConnect';
 
