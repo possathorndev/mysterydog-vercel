@@ -1,53 +1,33 @@
 'use client';
 
 import { useCallback, useEffect, useMemo } from 'react';
-import { useSearchParams } from 'next/navigation';
-
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-
-import { Form, FormControl, FormField, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Search } from 'lucide-react';
-import FilterWidget from '@/components/SearchBar/FilterWidget/FilterWidget';
 import { debounce } from 'next/dist/server/utils';
-import { Separator } from '@/components/ui/separator';
+
+// Hooks
 import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { useSearchParams } from 'next/navigation';
+import { useFormContext } from 'react-hook-form';
+import { useMapSheetCtx } from '@/contexts/MapProvider/MapSheetProvider';
 
-export interface LocationSearchQuery {
-  search?: string;
-  selectedCategories?: string[];
-  selectedServices?: string[];
-  selectedAreas?: string[];
-}
+// Components
+import { Search } from 'lucide-react';
+import { FormControl, FormField, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import FilterWidget, { FilterSheetTrigger } from '@/components/MapPage/MapSheet/FilterWidget/FilterWidget';
+import { Separator } from '@/components/ui/separator';
 
-export interface SearchFormWithFilter {
-  handleSearch: (searchQuery: LocationSearchQuery) => void;
-  handleFilter: (searchQuery: LocationSearchQuery) => void;
-}
+// Context
+import { useMapFormCtx } from '@/contexts/MapProvider/MapFormProvider';
 
-const formSchema = z.object({
-  search: z.string(),
-  selectedCategories: z.array(z.string()),
-  selectedServices: z.array(z.string()),
-  selectedAreas: z.array(z.string()),
-});
-
-const SearchFormWithFilter = ({ handleSearch, handleFilter }: SearchFormWithFilter) => {
+const SearchFormWithFilter = () => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const searchParams = useSearchParams();
 
-  const methods = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      search: '',
-      selectedCategories: [],
-      selectedServices: [],
-      selectedAreas: [],
-    },
-  });
-  const { control, handleSubmit, setValue } = methods;
+  const { triggerOpen } = useMapSheetCtx();
+  const { onFilter } = useMapFormCtx();
+
+  const form = useFormContext();
+  const { control, handleSubmit, setValue } = form;
 
   const searchString = useMemo(() => {
     return searchParams.get('search') || '';
@@ -71,8 +51,8 @@ const SearchFormWithFilter = ({ handleSearch, handleFilter }: SearchFormWithFilt
   const debouncedSubmit = useCallback(
     debounce(() => {
       console.log('submitting ...');
-      methods.handleSubmit(handleFilter)();
-    }, 1000),
+      handleSubmit(onFilter)();
+    }, 200),
     [],
   );
 
@@ -82,37 +62,36 @@ const SearchFormWithFilter = ({ handleSearch, handleFilter }: SearchFormWithFilt
     setValue('selectedServices', services);
     setValue('selectedAreas', areas);
 
-    methods.handleSubmit(handleFilter)();
+    debouncedSubmit();
   }, [searchString, categories, services, areas]);
 
+  const onTrigger = () => triggerOpen(<FilterWidget onSubmit={handleSubmit(onFilter)} />);
+
   return (
-    <Form {...methods}>
-      <form onSubmit={handleSubmit(handleSearch)}>
-        <div className='flex items-center gap-2 p-4 md:h-[55px] md:rounded-sm md:border-2 md:border-secondary/10'>
-          <div className='rounded-sm bg-secondary/10 p-2'>
-            <Search className='h-6 w-6 text-secondary md:h-5 md:w-5' />
-          </div>
-          <FormField
-            control={control}
-            name='search'
-            render={({ field }) => (
-              <>
-                <FormControl>
-                  <Input
-                    placeholder='Search Area, Location Category...'
-                    className='z-20 h-8 border-none text-font-header placeholder:text-secondary focus-visible:ring-secondary/10 md:focus-visible:ring-0'
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </>
-            )}
-          />
-          {isDesktop && <Separator className='h-[55px]' orientation='vertical' />}
-          <FilterWidget onSubmit={handleSubmit(handleFilter)} />
-        </div>
-      </form>
-    </Form>
+    <div className='flex items-center gap-2 p-4 md:h-[55px] md:rounded-sm md:border-2 md:border-secondary/10'>
+      <div className='rounded-sm bg-secondary/10 p-2'>
+        <Search className='h-6 w-6 text-secondary md:h-5 md:w-5' />
+      </div>
+      <FormField
+        control={control}
+        name='search'
+        render={({ field }) => (
+          <>
+            <FormControl>
+              <Input
+                placeholder='Search Area, Location Category...'
+                className='z-20 h-8 border-none text-font-header placeholder:text-secondary focus-visible:ring-secondary/10 md:focus-visible:ring-0'
+                {...field}
+              />
+            </FormControl>
+            <FormMessage />
+          </>
+        )}
+      />
+      {isDesktop && <Separator className='h-[55px]' orientation='vertical' />}
+
+      <FilterSheetTrigger handleTrigger={onTrigger} />
+    </div>
   );
 };
 

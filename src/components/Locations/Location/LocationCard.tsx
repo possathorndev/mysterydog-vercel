@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { formatAddressToString } from '@/utils/helpers';
 import OpeningHourLabel from '@/components/Locations/Location/OpeningHourLabel';
 import ServicePopover from '@/components/Locations/Location/ServicePopover';
-import { ServiceDisplayBadge } from '@/components/SearchBar/FilterWidget/ServiceBadge';
+import { ServiceDisplayBadge } from '@/components/MapPage/MapSheet/FilterWidget/ServiceBadge';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Card, CardContent } from '@/components/ui/card';
 
