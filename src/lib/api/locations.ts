@@ -74,7 +74,11 @@ export const findLocations = async (params: { query: Query }): Promise<FindRespo
 };
 
 export const findLocationBySlug = async (slug: string): Promise<Location> => {
-  const response = await publicAPI.get(`/locations/${slug}`);
+  const queryString = qs.stringify({
+    populate: [...defaultQuery.populate, 'images'],
+  });
+
+  const response = await publicAPI.get(`/locations/${slug}?${queryString}`);
 
   return response?.data?.data?.attributes;
 };

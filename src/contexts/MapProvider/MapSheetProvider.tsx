@@ -7,12 +7,14 @@ import { Sheet } from '@/components/ui/sheet';
 
 type MapSheetContextValues = {
   open: boolean;
-  triggerOpen: (content: any) => void;
+  triggerOpen: (isOpen: boolean, content: JSX.Element) => void;
+  triggerClose: () => void;
 };
 
 const initialState: MapSheetContextValues = {
   open: false,
   triggerOpen: () => {},
+  triggerClose: () => {},
 };
 
 export const MapSheetContext: React.Context<MapSheetContextValues> = createContext<MapSheetContextValues>(initialState);
@@ -21,16 +23,19 @@ export const MapSheetContextProvider = ({ children }: { children: React.ReactNod
   const [open, setOpen] = useState<boolean>(true);
   const [content, setContent] = useState<JSX.Element>();
 
-  const triggerOpen = (sheetContent: JSX.Element) => {
+  const triggerOpen = (isOpen: boolean, sheetContent: JSX.Element) => {
     setContent(sheetContent);
-    setOpen(!open);
+    setOpen(isOpen);
   };
+
+  const triggerClose = () => setOpen(false);
 
   return (
     <MapSheetContext.Provider
       value={{
         open,
         triggerOpen,
+        triggerClose,
       }}
     >
       {children}

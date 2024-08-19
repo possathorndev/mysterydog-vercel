@@ -4,7 +4,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 // Components
 import GoogleMap from '@/components/MapPage/GoogleMap/GoogleMap';
-import Directory from '@/components/MapPage/Directory/Directory';
 import SearchFormWithFilter from '@/components/SearchBar/SearchFormWithFilter';
 import QuickFilterMenu from '@/components/MapPage/MapSheet/QuickFilterMenu/QuickFilterMenu';
 
@@ -15,6 +14,8 @@ import { useFormContext } from 'react-hook-form';
 
 // Types
 import { Location } from '@/lib/api/locations';
+import { useMapSheetCtx } from '@/contexts/MapProvider/MapSheetProvider';
+import PlaceWidget from '@/components/MapPage/MapSheet/PlaceWidget/PlaceWidget';
 
 const MapPage = () => {
   const [selectedMarker, setSelectedMarker] = useState<Location | undefined>();
@@ -25,16 +26,20 @@ const MapPage = () => {
 
   const { locations } = useLocations();
   const { selectedLocation, handleSelectLocation } = useMapParamsCtx();
-  const { data } = useLocationBySlug(selectedLocation);
+  const { triggerOpen } = useMapSheetCtx();
+  const { data } = useLocationBySlug(selectedMarker?.slug);
 
   const locationsData = useMemo(() => {
     return locations?.pages?.flatMap((page) => page.data).map((location) => location.attributes);
   }, [locations]);
 
   const onMarkerSelect = async (data?: Location) => {
+    if (!data) return;
+
+    handleSelectLocation(data.slug || '');
     setSelectedMarker(data);
-    handleSelectLocation(data?.slug || '');
-    setValue('selectedLocation', data?.slug);
+    setValue('selectedLocation', data.slug);
+    triggerOpen(true, <PlaceWidget place={data} />);
   };
 
   useEffect(() => {
@@ -64,9 +69,6 @@ const MapPage = () => {
         selectedMarker={selectedMarker}
         onMarkerSelect={onMarkerSelect}
       />
-
-      {/* DIRECTORY */}
-      <Directory selectedMarker={selectedMarker} onMarkerDeselect={() => onMarkerSelect(undefined)} />
     </div>
   );
 };

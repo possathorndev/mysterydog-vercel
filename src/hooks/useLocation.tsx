@@ -66,10 +66,10 @@ export const useLocationsNearMe = () => {
 };
 
 // Find Location from slug
-export const useLocationBySlug = (slug: string) => {
+export const useLocationBySlug = (slug?: string) => {
   return useQuery({
     queryKey: ['location', slug],
-    queryFn: () => findLocationBySlug(slug),
+    queryFn: () => findLocationBySlug(slug!),
     enabled: !!slug,
   });
 };
