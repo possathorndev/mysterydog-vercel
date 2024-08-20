@@ -36,7 +36,7 @@ const PlaceContent = ({ data }: PlaceContent) => {
         <ServiceOptions data={data.services} />
         <div
           dangerouslySetInnerHTML={{ __html: data.description }}
-          className='prose font-gaegu text-font-description lg:prose-xl'
+          className='wysiwyg-container prose font-gaegu text-font-description lg:prose-xl'
         />
       </div>
     </div>

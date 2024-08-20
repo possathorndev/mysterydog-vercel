@@ -40,6 +40,7 @@ export type Location = {
   categories: ListResponseData<Category>;
   areas: ListResponseData<Area>;
   tags: ListResponseData<Tag>;
+  googleMapUrl: string;
 };
 
 const defaultQuery = {

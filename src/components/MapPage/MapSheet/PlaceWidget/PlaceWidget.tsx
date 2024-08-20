@@ -14,6 +14,9 @@ import PlaceImages from '@/components/MapPage/MapSheet/PlaceWidget/PlaceImages';
 import PlaceContent from '@/components/MapPage/MapSheet/PlaceWidget/PlaceContent';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 
+import Image from 'next/image';
+import { Link } from '@/utils/navigation';
+
 interface PlaceWidget {
   place: Location;
 }
@@ -27,10 +30,10 @@ const PlaceWidget = ({ place }: PlaceWidget) => {
   return (
     <SheetContent
       side={'left' as StringToBoolean<'left'>}
-      className='z-40 mt-auto flex h-[calc(100vh-70px)] min-w-full flex-col px-0 py-0 md:h-[calc(100vh-0px)] md:min-w-[460px] md:pt-[90px]'
+      className='z-40 mt-auto flex h-[calc(100vh-70px)] min-w-full flex-col px-0 py-0 pb-[60px] md:h-[calc(100vh-0px)] md:min-w-[460px] md:pt-[90px]'
     >
       <div className='no-scrollbar overflow-y-scroll'>
-        <SheetHeader className='mb-5'>
+        <SheetHeader className='md:mb-5'>
           <div
             style={{ ...(!isDesktop && { backgroundColor: defaultCategory?.color }) }}
             className='flex items-center px-4 py-1'
@@ -45,18 +48,20 @@ const PlaceWidget = ({ place }: PlaceWidget) => {
             <SheetTitle className='ml-2 text-left font-gaegu text-xl text-white md:font-sans md:text-font-header'>
               {place.name}
             </SheetTitle>
-
-            {/*<Button*/}
-            {/*  className='ml-auto rounded-full bg-secondary/20 text-secondary hover:bg-secondary hover:text-white'*/}
-            {/*  onClick={triggerClose}*/}
-            {/*>*/}
-            {/*  <X className='h-4 w-4' />*/}
-            {/*</Button>*/}
           </div>
         </SheetHeader>
 
         <PlaceImages images={place.images} />
         <PlaceContent data={place} />
+
+        <div className='absolute bottom-0 w-full border-t-[1px] bg-white px-4 py-2'>
+          <Link href={place.googleMapUrl} target='_blank' rel='noreferrer noopener'>
+            <Button className='w-full bg-secondary hover:bg-secondary'>
+              <Image src={'/icons/navigation.png'} alt='Navigation' width={20} height={20} className='mr-2' />
+              Open map
+            </Button>
+          </Link>
+        </div>
       </div>
     </SheetContent>
   );
