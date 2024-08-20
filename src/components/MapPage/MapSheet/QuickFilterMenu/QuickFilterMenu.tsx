@@ -32,23 +32,6 @@ const QuickFilterMenu = () => {
   const form = useFormContext();
   const { control, handleSubmit, setValue } = form;
 
-  const categories = useMemo(() => {
-    return categoriesSearchParams ? categoriesSearchParams.split(',') : [];
-  }, [categoriesSearchParams]);
-
-  const debouncedSubmit = useCallback(
-    debounce(() => {
-      console.log('submitting ...');
-      handleSubmit(onFilter)();
-    }, 200),
-    [],
-  );
-
-  useEffect(() => {
-    setValue('selectedCategories', categories);
-    debouncedSubmit();
-  }, [categories]);
-
   return (
     <div>
       {isCategoryLoading ? (

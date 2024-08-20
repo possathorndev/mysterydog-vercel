@@ -6,7 +6,7 @@ import { Separator } from '@/components/ui/separator';
 import CategoryFilter from '@/components/MapPage/MapSheet/FilterWidget/CategoryFilter';
 import ServiceFilter from '@/components/MapPage/MapSheet/FilterWidget/ServiceFilter';
 import AreaFilter from '@/components/MapPage/MapSheet/FilterWidget/AreaFilter';
-import { SlidersHorizontal } from 'lucide-react';
+import { SlidersHorizontal, RotateCcw } from 'lucide-react';
 
 // Types
 import { StringToBoolean } from 'class-variance-authority/types';
@@ -14,6 +14,7 @@ import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useMapParamsCtx } from '@/contexts/MapProvider/MapParamsProvider';
 import { Badge } from '@/components/ui/badge';
 import { useMapSheetCtx } from '@/contexts/MapProvider/MapSheetProvider';
+import { Button } from '@/components/ui/button';
 
 export const FilterSheetTrigger = ({ handleTrigger }: { handleTrigger: () => void }) => {
   const { open } = useMapSheetCtx();
@@ -48,9 +49,20 @@ export const FilterSheetTrigger = ({ handleTrigger }: { handleTrigger: () => voi
 
 interface FilterWidget {
   onSubmit: () => void;
+  onClearFilter: () => void;
 }
 
-const FilterWidget = ({ onSubmit }: FilterWidget) => {
+const FilterWidget = ({ onSubmit, onClearFilter }: FilterWidget) => {
+  const { categoriesParams, servicesParams, areasParams } = useMapParamsCtx();
+
+  const filterCount = useMemo(() => {
+    const categoriesCount = categoriesParams ? categoriesParams.split(',').filter(Boolean).length : 0;
+    const servicesCount = servicesParams ? servicesParams.split(',').filter(Boolean).length : 0;
+    const areasCount = areasParams ? areasParams.split(',').filter(Boolean).length : 0;
+
+    return categoriesCount + servicesCount + areasCount;
+  }, [categoriesParams, servicesParams, areasParams]);
+
   return (
     <SheetContent
       side={'left' as StringToBoolean<'left'>}
@@ -58,7 +70,19 @@ const FilterWidget = ({ onSubmit }: FilterWidget) => {
     >
       <div className='no-scrollbar overflow-y-scroll pt-4'>
         <SheetHeader>
-          <SheetTitle className='text-left text-xl text-font-header'>Filter list</SheetTitle>
+          <div className='flex items-center justify-between'>
+            <SheetTitle className='text-left text-xl text-font-header'>Filter list</SheetTitle>
+            {filterCount > 0 && (
+              <Button
+                variant='secondary'
+                className='bg-secondary/10 text-sm text-font-header hover:text-white focus-visible:ring-0 focus-visible:ring-offset-0'
+                onClick={onClearFilter}
+              >
+                <RotateCcw className='mr-1 text-secondary' width={16} strokeWidth={2} />
+                Clean filters
+              </Button>
+            )}
+          </div>
         </SheetHeader>
 
         <Separator className='mt-3' />

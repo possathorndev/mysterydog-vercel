@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo } from 'react';
 
 // Components
 import { z } from 'zod';
@@ -9,15 +9,19 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/components/ui/form';
 import { useMapParamsCtx } from '@/contexts/MapProvider/MapParamsProvider';
 import { useLocationQueryCtx } from '@/contexts/LocationQueryProvider';
+import { debounce } from 'next/dist/server/utils';
+import { useSearchParams } from 'next/navigation';
 
 type MapFormContextValues = {
   onSearch: (searchQuery: LocationSearchQuery) => void;
   onFilter: (searchQuery: LocationSearchQuery) => void;
+  onClearFilter: () => void;
 };
 
 const initialState: MapFormContextValues = {
   onSearch: (searchQuery: LocationSearchQuery) => {},
   onFilter: (searchQuery: LocationSearchQuery) => {},
+  onClearFilter: () => {},
 };
 
 export interface LocationSearchQuery {
@@ -39,7 +43,8 @@ const formSchema = z.object({
 export const MapFormContext: React.Context<MapFormContextValues> = createContext<MapFormContextValues>(initialState);
 
 export const MapFormContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const { handleUpdateParams } = useMapParamsCtx();
+  const searchParams = useSearchParams();
+  const { handleUpdateSearchParams } = useMapParamsCtx();
   const { handleSearch, handleFilter } = useLocationQueryCtx();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -52,14 +57,61 @@ export const MapFormContextProvider = ({ children }: { children: React.ReactNode
       selectedAreas: [],
     },
   });
-  const { handleSubmit } = form;
+  const { handleSubmit, setValue, reset } = form;
+
+  const searchString = useMemo(() => {
+    return searchParams.get('search') || '';
+  }, [searchParams]);
+
+  const categories = useMemo(() => {
+    const categoriesString = searchParams.get('categories');
+    return categoriesString ? categoriesString.split(',') : [];
+  }, [searchParams]);
+
+  const services = useMemo(() => {
+    const servicesString = searchParams.get('services');
+    return servicesString ? servicesString.split(',') : [];
+  }, [searchParams]);
+
+  const areas = useMemo(() => {
+    const areasString = searchParams.get('areas');
+    return areasString ? areasString.split(',') : [];
+  }, [searchParams]);
+
+  const debouncedSubmitSearch = useCallback(
+    debounce(() => {
+      console.log('submitting search ...');
+      handleSubmit(onSearch)();
+    }, 200),
+    [],
+  );
+
+  const debouncedSubmitFilter = useCallback(
+    debounce(() => {
+      console.log('submitting filter ...');
+      handleSubmit(onFilter)();
+    }, 200),
+    [],
+  );
+
+  useEffect(() => {
+    setValue('search', searchString);
+
+    debouncedSubmitSearch();
+  }, [searchString]);
+
+  useEffect(() => {
+    setValue('selectedCategories', categories);
+    setValue('selectedServices', services);
+    setValue('selectedAreas', areas);
+
+    debouncedSubmitFilter();
+  }, [categories, services, areas]);
 
   const onSearch = async (searchQuery: LocationSearchQuery) => {
     console.log('... on search');
-    if (!searchQuery?.search) return;
-
-    await handleSearch(searchQuery.search);
-    handleUpdateParams('search', searchQuery.search);
+    await handleSearch(searchQuery?.search || '');
+    handleUpdateSearchParams(searchQuery?.search || '');
   };
 
   const onFilter = async (searchQuery: LocationSearchQuery) => {
@@ -71,11 +123,17 @@ export const MapFormContextProvider = ({ children }: { children: React.ReactNode
     });
   };
 
+  const onClearFilter = () => {
+    reset();
+    window.history.replaceState(undefined, '', `/maps`);
+  };
+
   return (
     <MapFormContext.Provider
       value={{
         onSearch,
         onFilter,
+        onClearFilter,
       }}
     >
       <FormProvider {...form}>

@@ -23,7 +23,7 @@ const CategoryBadge = ({
   selectAll = false,
   displayMode = 'lg',
 }: CategoryBadge) => {
-  const { handleUpdateParams } = useMapParamsCtx();
+  const { handleUpdateFilterParams } = useMapParamsCtx();
 
   const form = useFormContext();
   const { setValue } = form;
@@ -44,7 +44,7 @@ const CategoryBadge = ({
 
     handleSubmit?.();
 
-    handleUpdateParams('categories', updatedParams);
+    handleUpdateFilterParams('categories', updatedParams);
     setValue('selectedLocation', '');
   };
 

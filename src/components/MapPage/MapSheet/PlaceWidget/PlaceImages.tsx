@@ -20,7 +20,7 @@ const PlaceImages = ({ images }: { images?: ListResponseData<ImageType> }) => {
   const isMediumScreen = useMediaQuery('(min-width: 640px)');
 
   const logSlidesInView = useCallback((emblaApi: EmblaCarouselType) => {
-    if (emblaApi.slidesInView()?.[0]) setCurrent(emblaApi.slidesInView()[0]);
+    if (emblaApi.slidesInView()?.length) setCurrent(emblaApi.slidesInView()[0]);
   }, []);
 
   useEffect(() => {
