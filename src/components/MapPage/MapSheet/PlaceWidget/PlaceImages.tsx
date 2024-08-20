@@ -10,6 +10,7 @@ import { AspectRatio } from '@/components/ui/aspect-ratio';
 
 // Type
 import { Image as ImageType, ListResponseData } from '@/lib/api/utils/common';
+import { EmblaCarouselType } from 'embla-carousel';
 
 const PlaceImages = ({ images }: { images?: ListResponseData<ImageType> }) => {
   const [api, setApi] = useState<CarouselApi>();
@@ -18,8 +19,8 @@ const PlaceImages = ({ images }: { images?: ListResponseData<ImageType> }) => {
 
   const isMediumScreen = useMediaQuery('(min-width: 640px)');
 
-  const logSlidesInView = useCallback((emblaApi) => {
-    setCurrent(emblaApi.slidesInView()?.[0]);
+  const logSlidesInView = useCallback((emblaApi: EmblaCarouselType) => {
+    if (emblaApi.slidesInView()?.[0]) setCurrent(emblaApi.slidesInView()[0]);
   }, []);
 
   useEffect(() => {
