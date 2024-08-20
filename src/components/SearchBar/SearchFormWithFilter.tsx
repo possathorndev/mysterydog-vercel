@@ -23,7 +23,7 @@ const SearchFormWithFilter = () => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const searchParams = useSearchParams();
 
-  const { triggerOpen } = useMapSheetCtx();
+  const { open, triggerOpen } = useMapSheetCtx();
   const { onFilter } = useMapFormCtx();
 
   const form = useFormContext();
@@ -65,7 +65,7 @@ const SearchFormWithFilter = () => {
     debouncedSubmit();
   }, [searchString, categories, services, areas]);
 
-  const onTrigger = () => triggerOpen(<FilterWidget onSubmit={handleSubmit(onFilter)} />);
+  const onTrigger = () => triggerOpen(!open, <FilterWidget onSubmit={handleSubmit(onFilter)} />);
 
   return (
     <div className='flex items-center gap-2 p-4 md:h-[55px] md:rounded-sm md:border-2 md:border-secondary/10'>
