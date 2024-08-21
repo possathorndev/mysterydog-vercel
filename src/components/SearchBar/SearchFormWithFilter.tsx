@@ -13,8 +13,9 @@ import { useMapSheetCtx } from '@/contexts/MapProvider/MapSheetProvider';
 import { Search } from 'lucide-react';
 import { FormControl, FormField, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import FilterWidget, { FilterSheetTrigger } from '@/components/MapPage/MapSheet/FilterWidget/FilterWidget';
 import { Separator } from '@/components/ui/separator';
+import FilterWidget, { FilterSheetTrigger } from '@/components/MapPage/MapSheet/FilterWidget/FilterWidget';
+import SearchWidget from '@/components/MapPage/MapSheet/SearchWidget/SearchWidget';
 
 // Context
 import { useMapFormCtx } from '@/contexts/MapProvider/MapFormProvider';
@@ -24,48 +25,21 @@ const SearchFormWithFilter = () => {
   const searchParams = useSearchParams();
 
   const { open, triggerOpen } = useMapSheetCtx();
-  const { onFilter } = useMapFormCtx();
+  const { onFilter, onClearFilter } = useMapFormCtx();
 
   const form = useFormContext();
-  const { control, handleSubmit, setValue } = form;
+  const { control, handleSubmit, setValue, watch } = form;
 
   const searchString = useMemo(() => {
     return searchParams.get('search') || '';
   }, [searchParams]);
 
-  const categories = useMemo(() => {
-    const categoriesString = searchParams.get('categories');
-    return categoriesString ? categoriesString.split(',') : [];
-  }, [searchParams]);
-
-  const services = useMemo(() => {
-    const servicesString = searchParams.get('services');
-    return servicesString ? servicesString.split(',') : [];
-  }, [searchParams]);
-
-  const areas = useMemo(() => {
-    const areasString = searchParams.get('areas');
-    return areasString ? areasString.split(',') : [];
-  }, [searchParams]);
-
-  const debouncedSubmit = useCallback(
-    debounce(() => {
-      console.log('submitting ...');
-      handleSubmit(onFilter)();
-    }, 200),
-    [],
-  );
-
   useEffect(() => {
-    setValue('search', searchString);
-    setValue('selectedCategories', categories);
-    setValue('selectedServices', services);
-    setValue('selectedAreas', areas);
+    triggerOpen(!!searchString, <SearchWidget />);
+  }, [searchString]);
 
-    debouncedSubmit();
-  }, [searchString, categories, services, areas]);
-
-  const onTrigger = () => triggerOpen(!open, <FilterWidget onSubmit={handleSubmit(onFilter)} />);
+  const onFilterWidgetTrigger = () =>
+    triggerOpen(!open, <FilterWidget onSubmit={handleSubmit(onFilter)} onClearFilter={onClearFilter} />);
 
   return (
     <div className='flex items-center gap-2 p-4 md:h-[55px] md:rounded-sm md:border-2 md:border-secondary/10'>
@@ -90,7 +64,7 @@ const SearchFormWithFilter = () => {
       />
       {isDesktop && <Separator className='h-[55px]' orientation='vertical' />}
 
-      <FilterSheetTrigger handleTrigger={onTrigger} />
+      <FilterSheetTrigger handleTrigger={onFilterWidgetTrigger} />
     </div>
   );
 };

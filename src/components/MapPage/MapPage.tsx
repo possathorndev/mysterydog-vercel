@@ -22,12 +22,10 @@ const MapPage = () => {
 
   const form = useFormContext();
   const { watch, setValue } = form;
-  const locationWatch = watch('selectedLocation');
 
   const { locations } = useLocations();
   const { selectedLocation, handleSelectLocation } = useMapParamsCtx();
   const { triggerOpen } = useMapSheetCtx();
-  const { data } = useLocationBySlug(selectedMarker?.slug);
 
   const locationsData = useMemo(() => {
     return locations?.pages?.flatMap((page) => page.data).map((location) => location.attributes);
@@ -36,19 +34,21 @@ const MapPage = () => {
   const onMarkerSelect = async (data?: Location) => {
     if (!data) return;
 
-    handleSelectLocation(data.slug || '');
     setSelectedMarker(data);
     setValue('selectedLocation', data.slug);
-    triggerOpen(true, <PlaceWidget place={data} />);
+    handleSelectLocation(data.slug || '');
+
+    triggerOpen(true, <PlaceWidget slug={data.slug} />);
   };
 
   useEffect(() => {
-    data && onMarkerSelect(data);
-  }, [data, selectedLocation]);
+    console.log('... handle select location', selectedLocation);
+    triggerOpen(true, <PlaceWidget slug={selectedLocation} />);
+  }, [selectedLocation]);
 
   useEffect(() => {
-    !locationWatch && setSelectedMarker(undefined);
-  }, [locationWatch]);
+    !watch('selectedLocation') && setSelectedMarker(undefined);
+  }, [watch('selectedLocation')]);
 
   return (
     <div className='h-[calc(100vh-70px)]'>

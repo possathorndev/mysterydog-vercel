@@ -12,7 +12,7 @@ interface AreaBadge {
 }
 
 const AreaBadge = ({ formController, handleSubmit, item, showAlphabet = false, selectAll }: AreaBadge) => {
-  const { handleUpdateParams } = useMapParamsCtx();
+  const { handleUpdateFilterParams } = useMapParamsCtx();
 
   const form = useFormContext();
   const { setValue } = form;
@@ -33,7 +33,7 @@ const AreaBadge = ({ formController, handleSubmit, item, showAlphabet = false, s
 
     handleSubmit?.();
 
-    handleUpdateParams('areas', updatedParams);
+    handleUpdateFilterParams('areas', updatedParams);
     setValue('selectedLocation', '');
   };
 

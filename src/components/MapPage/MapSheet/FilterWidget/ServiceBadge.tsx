@@ -52,7 +52,7 @@ export const ServiceDisplayBadge = ({
 };
 
 const ServiceBadge = ({ item, formController, selectAll, handleSubmit }: ServiceBadge) => {
-  const { handleUpdateParams } = useMapParamsCtx();
+  const { handleUpdateFilterParams } = useMapParamsCtx();
 
   const form = useFormContext();
   const { setValue } = form;
@@ -73,7 +73,7 @@ const ServiceBadge = ({ item, formController, selectAll, handleSubmit }: Service
 
     handleSubmit?.();
 
-    handleUpdateParams('services', updatedParams);
+    handleUpdateFilterParams('services', updatedParams);
     setValue('selectedLocation', '');
   };
 

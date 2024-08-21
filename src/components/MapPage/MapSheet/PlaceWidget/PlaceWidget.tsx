@@ -1,31 +1,34 @@
+import Image from 'next/image';
+import { Link } from '@/utils/navigation';
+
 // Components
 import { SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { Separator } from '@/components/ui/separator';
-import { ChevronLeft, X } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import PlaceImages from '@/components/MapPage/MapSheet/PlaceWidget/PlaceImages';
+import PlaceContent from '@/components/MapPage/MapSheet/PlaceWidget/PlaceContent';
 
 // Hooks
+import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { useLocationBySlug } from '@/hooks/useLocation';
 import { useMapSheetCtx } from '@/contexts/MapProvider/MapSheetProvider';
 
 // Types
 import { StringToBoolean } from 'class-variance-authority/types';
-import { Location } from '@/lib/api/locations';
-import PlaceImages from '@/components/MapPage/MapSheet/PlaceWidget/PlaceImages';
-import PlaceContent from '@/components/MapPage/MapSheet/PlaceWidget/PlaceContent';
-import { useMediaQuery } from '@/hooks/useMediaQuery';
-
-import Image from 'next/image';
-import { Link } from '@/utils/navigation';
 
 interface PlaceWidget {
-  place: Location;
+  slug: string;
 }
 
-const PlaceWidget = ({ place }: PlaceWidget) => {
+const PlaceWidget = ({ slug }: PlaceWidget) => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const { triggerClose } = useMapSheetCtx();
 
-  const defaultCategory = place.categories?.data?.[0]?.attributes;
+  const { data, isLoading } = useLocationBySlug(slug);
+
+  if (isLoading || !data) return;
+
+  const defaultCategory = data?.categories?.data?.[0]?.attributes;
 
   return (
     <SheetContent
@@ -35,7 +38,12 @@ const PlaceWidget = ({ place }: PlaceWidget) => {
       <div className='no-scrollbar overflow-y-scroll'>
         <SheetHeader className='md:mb-5'>
           <div
-            style={{ ...(!isDesktop && { backgroundColor: defaultCategory?.color }) }}
+            style={{
+              ...(!isDesktop && {
+                backgroundColor: defaultCategory?.color,
+                ':hover': { backgroundColor: defaultCategory?.color },
+              }),
+            }}
             className='flex items-center px-4 py-1'
           >
             <Button
@@ -46,21 +54,23 @@ const PlaceWidget = ({ place }: PlaceWidget) => {
               Back
             </Button>
             <SheetTitle className='ml-2 text-left font-gaegu text-xl text-white md:font-sans md:text-font-header'>
-              {place.name}
+              {data.name}
             </SheetTitle>
           </div>
         </SheetHeader>
 
-        <PlaceImages images={place.images} />
-        <PlaceContent data={place} />
+        <PlaceImages images={data.images} />
+        <PlaceContent data={data} />
 
         <div className='absolute bottom-0 w-full border-t-[1px] bg-white px-4 py-2'>
-          <Link href={place.googleMapUrl} target='_blank' rel='noreferrer noopener'>
-            <Button className='w-full bg-secondary hover:bg-secondary'>
-              <Image src={'/icons/navigation.png'} alt='Navigation' width={20} height={20} className='mr-2' />
-              Open map
-            </Button>
-          </Link>
+          {data?.googleMapUrl && (
+            <Link href={data.googleMapUrl} target='_blank' rel='noreferrer noopener'>
+              <Button className='w-full bg-secondary hover:bg-secondary'>
+                <Image src={'/icons/navigation.png'} alt='Navigation' width={20} height={20} className='mr-2' />
+                Open map
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
     </SheetContent>
