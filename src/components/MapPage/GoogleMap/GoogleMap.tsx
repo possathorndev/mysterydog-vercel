@@ -128,7 +128,7 @@ const GoogleMapComponent = ({
   onMarkerSelectCallback,
 }: {
   locations?: Location[];
-  onMarkerSelectCallback: () => void;
+  onMarkerSelectCallback?: () => void;
 }) => {
   const [hoverLocation, setHoverLocation] = useState<string>();
   const [selectedMarker, setSelectedMarker] = useState<Location | undefined>();
