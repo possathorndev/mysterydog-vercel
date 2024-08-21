@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { formatAddressToString } from '@/utils/helpers';
 import OpeningHourLabel from '@/components/Locations/Location/OpeningHourLabel';
 import ServicePopover from '@/components/Locations/Location/ServicePopover';
-import { ServiceDisplayBadge } from '@/components/SearchBar/FilterWidget/ServiceBadge';
+import { ServiceDisplayBadge } from '@/components/MapPage/MapSheet/FilterWidget/ServiceBadge';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -34,7 +34,7 @@ const LocationCard = ({
       }}
       className={cn(
         'overflow-hidden',
-        size === 'small' ? 'max-w-52' : 'max-w-96',
+        size === 'small' ? 'max-w-52' : 'max-w-full',
         imagePosition === 'left' ? 'max-h-72' : 'max-h-96 min-h-72',
       )}
     >
@@ -53,7 +53,7 @@ const LocationCard = ({
           </AspectRatio>
         </div>
         {/* HEX Alpha - https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4 */}
-        <div className='h-full rounded-b-[13.8px] p-2'>
+        <div className='h-full rounded-b-[13.8px] p-2 px-3'>
           <div className='flex items-center justify-between'>
             <div style={{ color: defaultCategory?.color }} className='font-gaegu text-sm'>
               {defaultCategory?.name}

@@ -8,9 +8,9 @@ import { useLocationServices } from '@/hooks/useLocation';
 
 // Components
 import { Label } from '@/components/ui/label';
-import ServiceBadge from '@/components/SearchBar/FilterWidget/ServiceBadge';
+import ServiceBadge from '@/components/MapPage/MapSheet/FilterWidget/ServiceBadge';
 import ConnectForm from '@/components/FormConnect/FormConnect';
-import { useMapParamsCtx } from '@/contexts/MapParamsProvider';
+import { useMapParamsCtx } from '@/contexts/MapProvider/MapParamsProvider';
 
 interface ServiceFilter {
   onSubmit: () => void;

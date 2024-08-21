@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
-import { Control, useController } from 'react-hook-form';
-import { useMapParamsCtx } from '@/contexts/MapParamsProvider';
+import { Control, useController, useFormContext } from 'react-hook-form';
+import { useMapParamsCtx } from '@/contexts/MapProvider/MapParamsProvider';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -23,7 +23,10 @@ const CategoryBadge = ({
   selectAll = false,
   displayMode = 'lg',
 }: CategoryBadge) => {
-  const { handleUpdateParams } = useMapParamsCtx();
+  const { handleUpdateFilterParams } = useMapParamsCtx();
+
+  const form = useFormContext();
+  const { setValue } = form;
 
   const { field } = useController({
     name: 'selectedCategories',
@@ -41,7 +44,8 @@ const CategoryBadge = ({
 
     handleSubmit?.();
 
-    handleUpdateParams('categories', updatedParams);
+    handleUpdateFilterParams('categories', updatedParams);
+    setValue('selectedLocation', '');
   };
 
   const buttonCn = useMemo(() => {

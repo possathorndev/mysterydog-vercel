@@ -6,19 +6,23 @@ import { useParams, useSearchParams } from 'next/navigation';
 
 type MapParamsContextValues = {
   selectedLocation: string;
+  searchTextParams: string;
   categoriesParams: string;
   servicesParams: string;
   areasParams: string;
-  handleUpdateParams: (key: 'search' | 'categories' | 'services' | 'areas', updatedParams: string[] | string) => void;
+  handleUpdateSearchParams: (searchText: string) => void;
+  handleUpdateFilterParams: (key: 'categories' | 'services' | 'areas', updatedParams: string[]) => void;
   handleSelectLocation: (slug: string) => void;
 };
 
 const initialState: MapParamsContextValues = {
   selectedLocation: '',
+  searchTextParams: '',
   categoriesParams: '',
   servicesParams: '',
   areasParams: '',
-  handleUpdateParams: () => {},
+  handleUpdateSearchParams: () => {},
+  handleUpdateFilterParams: () => {},
   handleSelectLocation: () => {},
 };
 
@@ -30,6 +34,7 @@ export const MapParamsContextProvider = ({ children }: { children: React.ReactNo
   const searchParams = useSearchParams();
 
   const selectedLocation = params?.slug as string;
+  const searchTextParams = useSearchParams().get('search') || '';
   const categoriesParams = useSearchParams().get('categories') || '';
   const servicesParams = useSearchParams().get('services') || '';
   const areasParams = useSearchParams().get('areas') || '';
@@ -42,15 +47,15 @@ export const MapParamsContextProvider = ({ children }: { children: React.ReactNo
     window.history.replaceState(undefined, '', `/maps${slug ? `/${slug}` : ''}${queryString}`);
   };
 
-  const handleUpdateParams = (
-    key: 'search' | 'categories' | 'services' | 'areas',
-    updatedParams: string[] | string,
-  ) => {
+  const handleUpdateSearchParams = (searchText: string) => {
+    const queryString = qs.stringify({ search: searchText }, { encode: false });
+
+    window.history.replaceState(undefined, '', `/maps${searchText && `?${queryString}`}`);
+  };
+
+  const handleUpdateFilterParams = (key: 'categories' | 'services' | 'areas', updatedParams: string[]) => {
     const newParams = {
-      ...(updatedParams &&
-        updatedParams?.length > 0 && {
-          [key]: Array.isArray(updatedParams) ? updatedParams.join(',') : updatedParams,
-        }),
+      ...(updatedParams && updatedParams?.length > 0 && { [key]: updatedParams.join(',') }),
       ...Array.from(searchParams.entries()).reduce(
         (acc, [k, v]) => {
           if (k !== key) acc[k] = v;
@@ -62,17 +67,19 @@ export const MapParamsContextProvider = ({ children }: { children: React.ReactNo
 
     const queryString = qs.stringify({ ...newParams }, { encode: false });
 
-    window.history.replaceState(undefined, '', `?${queryString}`);
+    window.history.replaceState(undefined, '', `/maps?${queryString}`);
   };
 
   return (
     <MapParamsContext.Provider
       value={{
         selectedLocation,
+        searchTextParams,
         categoriesParams,
         servicesParams,
         areasParams,
-        handleUpdateParams,
+        handleUpdateSearchParams,
+        handleUpdateFilterParams,
         handleSelectLocation,
       }}
     >
