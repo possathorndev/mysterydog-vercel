@@ -8,47 +8,17 @@ import SearchFormWithFilter from '@/components/SearchBar/SearchFormWithFilter';
 import QuickFilterMenu from '@/components/MapPage/MapSheet/QuickFilterMenu/QuickFilterMenu';
 
 // Hooks
-import useLocations, { useLocationBySlug } from '@/hooks/useLocation';
-import { useMapParamsCtx } from '@/contexts/MapProvider/MapParamsProvider';
-import { useFormContext } from 'react-hook-form';
+import useLocations from '@/hooks/useLocation';
 
 // Types
 import { Location } from '@/lib/api/locations';
-import { useMapSheetCtx } from '@/contexts/MapProvider/MapSheetProvider';
-import PlaceWidget from '@/components/MapPage/MapSheet/PlaceWidget/PlaceWidget';
 
 const MapPage = () => {
-  const [selectedMarker, setSelectedMarker] = useState<Location | undefined>();
-
-  const form = useFormContext();
-  const { watch, setValue } = form;
-
   const { locations } = useLocations();
-  const { selectedLocation, handleSelectLocation } = useMapParamsCtx();
-  const { triggerOpen } = useMapSheetCtx();
 
   const locationsData = useMemo(() => {
     return locations?.pages?.flatMap((page) => page.data).map((location) => location.attributes);
   }, [locations]);
-
-  const onMarkerSelect = async (data?: Location) => {
-    if (!data) return;
-
-    setSelectedMarker(data);
-    setValue('selectedLocation', data.slug);
-    handleSelectLocation(data.slug || '');
-
-    triggerOpen(true, <PlaceWidget slug={data.slug} />);
-  };
-
-  useEffect(() => {
-    console.log('... handle select location', selectedLocation);
-    triggerOpen(true, <PlaceWidget slug={selectedLocation} />);
-  }, [selectedLocation]);
-
-  useEffect(() => {
-    !watch('selectedLocation') && setSelectedMarker(undefined);
-  }, [watch('selectedLocation')]);
 
   return (
     <div className='h-[calc(100vh-70px)]'>
@@ -64,11 +34,7 @@ const MapPage = () => {
       </div>
 
       {/* MAP */}
-      <GoogleMap
-        locations={locationsData as Location[]}
-        selectedMarker={selectedMarker}
-        onMarkerSelect={onMarkerSelect}
-      />
+      <GoogleMap locations={locationsData as Location[]} />
     </div>
   );
 };

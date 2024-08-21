@@ -56,7 +56,6 @@ const SearchWidget = () => {
               <SheetTitle className='text-left text-xl text-font-header'>
                 <div className='flex items-center'>
                   <Button
-                    variant='primary'
                     className='rounded-md bg-primary py-1 pl-1 font-bold text-white'
                     onClick={() => {
                       triggerClose();

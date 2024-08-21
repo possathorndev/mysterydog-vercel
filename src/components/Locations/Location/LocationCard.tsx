@@ -4,6 +4,8 @@ import { useMemo } from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { formatAddressToString } from '@/utils/helpers';
+
+// Components
 import OpeningHourLabel from '@/components/Locations/Location/OpeningHourLabel';
 import ServicePopover from '@/components/Locations/Location/ServicePopover';
 import { ServiceDisplayBadge } from '@/components/MapPage/MapSheet/FilterWidget/ServiceBadge';

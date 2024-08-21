@@ -1,10 +1,15 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
+import { GoogleMap, InfoWindow, Marker, useJsApiLoader } from '@react-google-maps/api';
 
 // Components
 import { Location } from '@/lib/api/locations';
 import { useGeolocationCtx } from '@/contexts/GeolocationProvider';
+import LocationCard from '@/components/Locations/Location/LocationCard';
+import { useFormContext } from 'react-hook-form';
+import PlaceWidget from '@/components/MapPage/MapSheet/PlaceWidget/PlaceWidget';
+import { useMapParamsCtx } from '@/contexts/MapProvider/MapParamsProvider';
+import { useMapSheetCtx } from '@/contexts/MapProvider/MapSheetProvider';
 
 const mapStyle = [
   {
@@ -120,13 +125,14 @@ const center = {
 
 const GoogleMapComponent = ({
   locations = [],
-  selectedMarker,
-  onMarkerSelect,
+  onMarkerSelectCallback,
 }: {
   locations?: Location[];
-  selectedMarker?: Location;
-  onMarkerSelect: (marker: Location) => void;
+  onMarkerSelectCallback: () => void;
 }) => {
+  const [hoverLocation, setHoverLocation] = useState<string>();
+  const [selectedMarker, setSelectedMarker] = useState<Location | undefined>();
+
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
@@ -135,6 +141,26 @@ const GoogleMapComponent = ({
   const { currentLocation } = useGeolocationCtx();
 
   const [map, setMap] = useState<google.maps.Map>();
+
+  const { handleSelectLocation } = useMapParamsCtx();
+  const { triggerOpen } = useMapSheetCtx();
+  const form = useFormContext();
+  const { watch, setValue } = form;
+
+  const onMarkerSelect = async (data?: Location) => {
+    if (!data) return;
+
+    setSelectedMarker(data);
+    setValue('selectedLocation', data.slug);
+    handleSelectLocation(data.slug || '', selectedMarker ? 'replace' : 'push');
+    triggerOpen(true, <PlaceWidget slug={data.slug} />);
+
+    onMarkerSelectCallback?.();
+  };
+
+  useEffect(() => {
+    !watch('selectedLocation') && setSelectedMarker(undefined);
+  }, [watch('selectedLocation')]);
 
   useEffect(() => {
     if (map && selectedMarker) {
@@ -187,13 +213,25 @@ const GoogleMapComponent = ({
           <Marker
             key={index}
             position={{ lat: location.lat, lng: location.long }}
+            onMouseOver={() => {
+              setHoverLocation(location.slug);
+            }}
             onClick={() => onMarkerSelect(location)}
             icon={{
               url: mainCategoryIcon || '',
               scale: 2,
-              scaledSize: new google.maps.Size(50, 55),
+              scaledSize:
+                selectedMarker?.slug === location?.slug ? new google.maps.Size(70, 77) : new google.maps.Size(50, 55),
             }}
-          />
+          >
+            {hoverLocation === location.slug && (
+              <InfoWindow position={{ lat: location.lat, lng: location.long }}>
+                <div className='cursor-pointer' onClick={() => onMarkerSelect(location)}>
+                  <LocationCard data={location} showOpeningHourButton />
+                </div>
+              </InfoWindow>
+            )}
+          </Marker>
         );
       })}
     </GoogleMap>
