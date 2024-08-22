@@ -64,13 +64,7 @@ const SearchWidget = () => {
             <SheetHeader>
               <SheetTitle className='text-left text-xl text-font-header'>
                 <div className='flex items-center'>
-                  <Button
-                    className='rounded-md bg-primary py-1 pl-1 font-bold text-white'
-                    onClick={() => {
-                      triggerClose();
-                      setSeeAll(false);
-                    }}
-                  >
+                  <Button className='rounded-md bg-primary py-1 pl-1 font-bold text-white' onClick={onBack}>
                     <ChevronLeft />
                     Back
                   </Button>

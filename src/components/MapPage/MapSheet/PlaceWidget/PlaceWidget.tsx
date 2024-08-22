@@ -39,6 +39,9 @@ const PlaceWidget = ({ slug }: PlaceWidget) => {
 
   const onBack = () => {
     setExpanded(false);
+
+    if (!isDesktop && expanded) return;
+
     triggerClose();
     form.setValue('selectedLocation', '');
     window.history.back();
