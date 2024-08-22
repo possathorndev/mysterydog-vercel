@@ -125,9 +125,11 @@ const center = {
 
 const GoogleMapComponent = ({
   locations = [],
+  defaultSelectedLocation,
   onMarkerSelectCallback,
 }: {
   locations?: Location[];
+  defaultSelectedLocation?: Location;
   onMarkerSelectCallback?: () => void;
 }) => {
   const [hoverLocation, setHoverLocation] = useState<string>();
@@ -157,6 +159,10 @@ const GoogleMapComponent = ({
 
     onMarkerSelectCallback?.();
   };
+
+  useEffect(() => {
+    defaultSelectedLocation && onMarkerSelect(defaultSelectedLocation);
+  }, [defaultSelectedLocation]);
 
   useEffect(() => {
     !watch('selectedLocation') && setSelectedMarker(undefined);
