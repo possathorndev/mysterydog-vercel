@@ -51,19 +51,16 @@ const useLocations = (params?: { query: Query }) => {
 
 // Find Location Near Me
 export const useLocationsNearMe = () => {
-  const locale = useLocale();
-  // TODO: get user current location
+  const query: Query = {
+    sort: ['createdAt:desc'],
+    filters: {},
+  };
 
-  const { data: locations, isLoading } = useQuery({
-    queryKey: ['locationsNearMe', locale],
-    queryFn: () => {
-      return findLocations({
-        query: {
-          sort: ['createdAt:desc'],
-          filters: {},
-        },
-      });
-    },
+  // TODO: get user current location
+  const { data: locations, isLoading } = useLocaleQuery({
+    queryKey: ['locationsNearMe'],
+    queryFn: (query) => findLocations({ query }),
+    query,
   });
 
   return {
