@@ -35,11 +35,10 @@ const PlaceWidget = ({ slug }: PlaceWidget) => {
   const { triggerClose } = useMapSheetCtx();
 
   const { data, isLoading } = useLocationBySlug(slug);
-  const locationData = useMemo(() => data?.data.attributes, [data]);
 
   if (isLoading || !data) return;
 
-  const defaultCategory = locationData?.categories?.data?.[0]?.attributes;
+  const defaultCategory = data?.categories?.data?.[0]?.attributes;
 
   const onBack = () => {
     setExpanded(false);
@@ -76,17 +75,17 @@ const PlaceWidget = ({ slug }: PlaceWidget) => {
                 {tGlobal('back')}
               </Button>
               <SheetTitle className='ml-2 text-left font-gaegu text-xl text-white md:font-sans md:text-font-header'>
-                {locationData.name}
+                {data.name}
               </SheetTitle>
             </div>
           </SheetHeader>
 
-          <PlaceImages images={locationData.images} />
-          <PlaceContent data={locationData} />
+          <PlaceImages images={data.images} />
+          <PlaceContent data={data} />
 
           <div className='absolute bottom-0 w-full border-t-[1px] bg-white px-4 py-2'>
-            {locationData?.googleMapUrl && (
-              <Link href={locationData.googleMapUrl} target='_blank' rel='noreferrer noopener'>
+            {data?.googleMapUrl && (
+              <Link href={data.googleMapUrl} target='_blank' rel='noreferrer noopener'>
                 <Button className='w-full bg-secondary hover:bg-secondary'>
                   <Image src={'/icons/navigation.png'} alt='Navigation' width={20} height={20} className='mr-2' />
                   Open map
@@ -109,7 +108,7 @@ const PlaceWidget = ({ slug }: PlaceWidget) => {
         </SheetHeader>
 
         <div className='cursor-pointer' onClick={() => setExpanded(true)}>
-          <LocationCard data={locationData} />
+          <LocationCard data={data} />
         </div>
       </SheetContent>
     </>

@@ -74,12 +74,9 @@ export const useLocationsNearMe = () => {
 
 // Find Location from slug
 export const useLocationBySlug = (slug: string) => {
-  const query: Query = {};
-
-  return useLocaleQuery({
+  return useQuery({
     queryKey: ['location', slug],
-    queryFn: (query) => findLocationBySlug(slug, query),
-    query,
+    queryFn: () => findLocationBySlug(slug),
     enabled: !!slug,
   });
 };

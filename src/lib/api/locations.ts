@@ -15,6 +15,8 @@ import {
 import { Service } from '@/lib/api/services';
 import { Area } from '@/lib/api/areas';
 import { Tag } from '@/lib/api/tags';
+import { getCookie } from 'cookies-next';
+import { defaultLocale } from '@/constants/config';
 
 export type OpeningHour = {
   title: string;
@@ -71,15 +73,16 @@ export const findLocations = async (params: { query: Query }): Promise<FindRespo
   return response.data;
 };
 
-export const findLocationBySlug = async (slug: string, query: Query): Promise<SingleResponseData<Location>> => {
+export const findLocationBySlug = async (slug: string): Promise<Location> => {
   const queryString = qs.stringify({
-    ...query,
+    filters: { slug },
     populate: [...defaultQuery.populate, 'images'],
+    locale: getCookie('NEXT_LOCALE') || defaultLocale,
   });
 
-  const response = await publicAPI.get(`/locations/${slug}?${queryString}`);
+  const response = await publicAPI.get(`/locations?${queryString}`);
 
-  return response?.data;
+  return response?.data?.data?.[0]?.attributes;
 };
 
 export const findLocationBySlugSSR = async ({ queryKey }: { queryKey: QueryKey }): Promise<Location | undefined> => {

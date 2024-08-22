@@ -11,7 +11,7 @@ export const useLocaleQuery = <
   Filters extends FiltersSchema = FiltersSchema,
 >(params: {
   queryKey: any[];
-  queryFn: (query: Query) => Promise<FindResponse<T> | SingleResponseData<T>>;
+  queryFn: (query: Query) => Promise<FindResponse<T>>;
   query: Query;
   enabled?: boolean;
 }) => {
