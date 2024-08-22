@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
 // API
-import { findAreaBySlug, findLocationAreas } from '@/lib/api/areas';
+import { findAreaBySlug, findLocationAreas, findLocationAreasWithLocationCount } from '@/lib/api/areas';
+import { useLocaleQuery } from '@/hooks/useLocaleQuery';
 
 export const useAreas = () => {
   const { data: areas, isLoading } = useQuery({
@@ -13,6 +14,21 @@ export const useAreas = () => {
           filters: {},
         },
       });
+    },
+  });
+
+  return {
+    areas,
+    isLoading,
+  };
+};
+
+export const useAreasWithLocationCount = () => {
+  const { data: areas, isLoading } = useLocaleQuery({
+    queryKey: ['areasWithCount'],
+    queryFn: (query) => findLocationAreasWithLocationCount({ query }),
+    query: {
+      sort: ['name:asc'],
     },
   });
 

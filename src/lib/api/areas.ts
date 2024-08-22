@@ -18,6 +18,7 @@ export type Area = {
   image: SingleResponseData<Image>;
   tags: ListResponseData<Tag>;
   localizations: ListResponseData<Area>;
+  locationsCount: number;
 };
 
 const defaultQuery = {
@@ -27,7 +28,7 @@ const defaultQuery = {
 };
 
 export const findLocationAreas = async (params: { query: Query }): Promise<FindResponse<Area>> => {
-  const query = qs.stringify(
+  const querystring = qs.stringify(
     {
       ...params.query,
       filters: { ...defaultQuery.filters, ...params.query?.filters },
@@ -38,7 +39,21 @@ export const findLocationAreas = async (params: { query: Query }): Promise<FindR
     { encodeValuesOnly: true },
   );
 
-  const response = await publicAPI.get<FindResponse<Area>>(`/location-areas?${query}`);
+  const response = await publicAPI.get<FindResponse<Area>>(`/location-areas?${querystring}`);
+
+  return response.data;
+};
+
+export const findLocationAreasWithLocationCount = async (params: { query: Query }): Promise<FindResponse<Area>> => {
+  const querystring = qs.stringify({
+    ...params.query,
+    filters: { ...defaultQuery.filters, ...params.query?.filters },
+    populate: [...defaultQuery.populate, ...(params.query?.populate ? params.query?.populate : [])],
+    sort: params.query?.sort || [],
+    locale: getCookie('NEXT_LOCALE') || defaultLocale,
+  });
+
+  const response = await publicAPI.get<FindResponse<Area>>(`/location-areas/count?${querystring}`);
 
   return response.data;
 };
