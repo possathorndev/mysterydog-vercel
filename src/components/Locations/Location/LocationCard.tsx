@@ -40,10 +40,12 @@ const LocationCard = ({
         imagePosition === 'left' ? 'max-h-72' : 'max-h-96 min-h-72',
       )}
     >
-      <CardContent className={cn('flex h-full w-full p-0', imagePosition === 'left' ? 'flex-row' : 'flex-col')}>
+      <CardContent
+        className={cn('flex h-full w-full bg-white p-0', imagePosition === 'left' ? 'flex-row' : 'flex-col')}
+      >
         <div className={cn(imagePosition === 'left' ? 'min-w-[33%]' : 'w-full')}>
           <AspectRatio
-            ratio={imagePosition === 'left' ? 120 / 143 : size === 'small' ? 16 / 9 : 16 / 6}
+            ratio={imagePosition === 'left' ? 120 / 150 : size === 'small' ? 16 / 9 : 16 / 6}
             className={cn('bg-muted', imagePosition === 'top' && 'rounded-t-[13.8px]')}
           >
             <Image
