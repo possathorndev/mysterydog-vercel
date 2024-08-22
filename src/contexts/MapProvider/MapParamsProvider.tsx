@@ -52,8 +52,10 @@ export const MapParamsContextProvider = ({ children }: { children: React.ReactNo
 
   const handleUpdateSearchParams = (searchText: string) => {
     if (selectedArea) return;
+
     const queryString = qs.stringify({ search: searchText }, { encode: false });
-    window.history.replaceState(undefined, '', `/maps${searchText && `?${queryString}`}`);
+
+    searchText && window.history.replaceState(undefined, '', `/maps${searchText && `?${queryString}`}`);
   };
 
   const handleUpdateFilterParams = (key: 'categories' | 'services' | 'areas', updatedParams: string[]) => {

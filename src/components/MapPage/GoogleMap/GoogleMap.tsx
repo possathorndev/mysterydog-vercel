@@ -145,14 +145,14 @@ const GoogleMapComponent = ({
   const { handleSelectLocation } = useMapParamsCtx();
   const { triggerOpen } = useMapSheetCtx();
   const form = useFormContext();
-  const { watch, setValue } = form;
+  const { watch, getValues, setValue } = form;
 
   const onMarkerSelect = async (data?: Location) => {
     if (!data) return;
 
+    handleSelectLocation(data.slug || '', !!getValues('selectedLocation') ? 'replace' : 'push');
     setSelectedMarker(data);
     setValue('selectedLocation', data.slug);
-    handleSelectLocation(data.slug || '', selectedMarker ? 'replace' : 'push');
     triggerOpen(true, <PlaceWidget slug={data.slug} />);
 
     onMarkerSelectCallback?.();

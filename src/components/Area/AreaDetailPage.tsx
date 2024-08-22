@@ -41,8 +41,8 @@ const AreaDetailPage = ({ slug }: { slug: string }) => {
   const onLocationClick = async (data?: Location) => {
     if (!data) return;
 
-    form.setValue('selectedLocation', data.slug);
     handleSelectLocation(data.slug || '', 'push');
+    form.setValue('selectedLocation', data.slug);
     triggerOpen(true, <PlaceWidget slug={data.slug} />);
 
     !isDesktop && setHideAreaContent(true);
