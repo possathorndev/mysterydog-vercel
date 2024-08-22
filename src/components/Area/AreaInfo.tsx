@@ -46,7 +46,7 @@ const AreaInfo = ({ area, totalLocations, locations, isLocationLoading, onLocati
             &quot;There Are No Places In This Area&quot;
           </div>
         ) : (
-          <div className='grid grid-cols-1 place-items-center gap-4 md:grid-cols-4 lg:grid-cols-2 2xl:grid-cols-3'>
+          <div className='grid grid-cols-1 place-items-stretch gap-4 lg:grid-cols-2'>
             {locations?.map((location, index) => (
               <div key={index} className='cursor-pointer' onClick={() => onLocationClick(location)}>
                 <LocationCard
