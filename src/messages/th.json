@@ -6,6 +6,7 @@
   },
   "Navbar": {
     "ChangeLanguage": "เปลี่ยนภาษา",
+    "Home": "หน้าหลัก",
     "AreaList": "สถานที่",
     "Maps": "แผนที่",
     "Blogs": "บทความ"
