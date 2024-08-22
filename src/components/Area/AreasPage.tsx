@@ -38,7 +38,9 @@ const AreasPage = () => {
         </div>
       ) : (
         <div className='flex flex-wrap gap-2'>
-          {areasData?.map((item, index) => <AreaCard key={index} data={item} locationCount={30} border />)}
+          {areasData?.map((item, index) => (
+            <AreaCard key={index} data={item} locationCount={30} border navigateToMap />
+          ))}
         </div>
       )}
 

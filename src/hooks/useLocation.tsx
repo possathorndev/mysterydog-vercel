@@ -11,7 +11,7 @@ import { Query } from '@/lib/api/utils/common';
 import { useLocale } from 'next-intl';
 
 // Find Location
-const useLocations = () => {
+const useLocations = (params?: { query: Query }) => {
   const locale = useLocale();
   const {
     data: locations,
@@ -20,7 +20,7 @@ const useLocations = () => {
     isLoadingMoreData,
     hasMoreData,
   } = useInfiniteFindQuery({
-    queryKey: ['locations', locale],
+    queryKey: ['locations', locale, params],
     queryCtxFunction: useLocationQueryCtx,
     queryFn: ({ pageParam, pagination, sort, filters }) => {
       return findLocations({
@@ -29,8 +29,9 @@ const useLocations = () => {
             page: pageParam,
             pageSize: pagination.pageSize,
           },
+          filters: { ...filters, ...params?.query?.filters },
+          populate: params?.query?.populate,
           sort,
-          filters,
         },
       });
     },
