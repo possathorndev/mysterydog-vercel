@@ -11,6 +11,7 @@ import AreaCard from '@/components/Area/AreaCard';
 const AreaList = ({ data, isLoading }: { data?: ListResponseData<Area>; isLoading?: boolean }) => {
   const tHome = useTranslations('HomePage');
   const tGlobal = useTranslations('Global');
+  const tAreaPage = useTranslations('AreaPage');
 
   const areas = useMemo(() => {
     return data?.data?.map((location) => location.attributes);
@@ -27,10 +28,10 @@ const AreaList = ({ data, isLoading }: { data?: ListResponseData<Area>; isLoadin
       </div>
 
       {isLoading ? (
-        <div className='text-center font-gaegu text-lg font-bold text-secondary'>Loading...</div>
+        <div className='text-center font-gaegu text-lg font-bold text-secondary'>{tGlobal('loading')}</div>
       ) : !areas?.length ? (
         <div className='text-center font-gaegu text-lg font-bold text-secondary'>
-          &quot;No Popular Areas Found&quot;
+          &quot;{tAreaPage('noPopularArea')}&quot;
         </div>
       ) : (
         <div className='grid w-full grid-cols-3 md:grid-cols-6 lg:grid-cols-8'>

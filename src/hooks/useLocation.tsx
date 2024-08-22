@@ -9,10 +9,12 @@ import { findLocationAreas } from '@/lib/api/areas';
 import { findLocationServices } from '@/lib/api/services';
 import { Query } from '@/lib/api/utils/common';
 import { useLocale } from 'next-intl';
+import { useLocaleQuery } from '@/hooks/useLocaleQuery';
 
 // Find Location
 const useLocations = (params?: { query: Query }) => {
   const locale = useLocale();
+
   const {
     data: locations,
     isLoading: isLocationLoading,
@@ -32,6 +34,7 @@ const useLocations = (params?: { query: Query }) => {
           filters: { ...filters, ...params?.query?.filters },
           populate: params?.query?.populate,
           sort,
+          locale,
         },
       });
     },
@@ -70,10 +73,13 @@ export const useLocationsNearMe = () => {
 };
 
 // Find Location from slug
-export const useLocationBySlug = (slug?: string) => {
-  return useQuery({
+export const useLocationBySlug = (slug: string) => {
+  const query: Query = {};
+
+  return useLocaleQuery({
     queryKey: ['location', slug],
-    queryFn: () => findLocationBySlug(slug!),
+    queryFn: (query) => findLocationBySlug(slug, query),
+    query,
     enabled: !!slug,
   });
 };
@@ -84,9 +90,10 @@ export const useLocationCategories = ({ query }: { query: Query }) => {
     data: categories,
     isLoading: isCategoryLoading,
     isFetched: isCategoryFetched,
-  } = useQuery({
+  } = useLocaleQuery({
     queryKey: ['categories'],
-    queryFn: () => findLocationCategories({ query }),
+    queryFn: (query) => findLocationCategories({ query }),
+    query,
   });
 
   return {
@@ -102,9 +109,10 @@ export const useLocationServices = ({ query }: { query: Query }) => {
     data: services,
     isLoading: isServiceLoading,
     isFetched: isServiceFetched,
-  } = useQuery({
+  } = useLocaleQuery({
     queryKey: ['services'],
     queryFn: () => findLocationServices({ query }),
+    query,
   });
 
   return { services, isServiceLoading, isServiceFetched };
@@ -116,9 +124,10 @@ export const useLocationAreas = ({ query }: { query: Query }) => {
     data: areas,
     isLoading: isAreaLoading,
     isFetched: isAreaFetched,
-  } = useQuery({
+  } = useLocaleQuery({
     queryKey: ['areas'],
     queryFn: () => findLocationAreas({ query }),
+    query,
   });
 
   return { areas, isAreaLoading, isAreaFetched };

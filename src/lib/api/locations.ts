@@ -3,8 +3,6 @@ import { QueryKey } from '@tanstack/react-query';
 
 import { defaultStaleTime, publicAPI } from '@/lib/api';
 import { Category } from '@/lib/api/categories';
-import { getCookie } from 'cookies-next';
-import { defaultLocale } from '@/constants/config';
 import {
   Address,
   FindResponse,
@@ -63,7 +61,6 @@ export const findLocations = async (params: { query: Query }): Promise<FindRespo
       ...params.query,
       filters: { ...defaultQuery.filters, ...params.query?.filters },
       populate: [...defaultQuery.populate, ...(params.query?.populate ? params.query?.populate : [])],
-      locale: getCookie('NEXT_LOCALE') || defaultLocale,
       sort: params.query?.sort || [],
     },
     { encode: false },
@@ -74,14 +71,15 @@ export const findLocations = async (params: { query: Query }): Promise<FindRespo
   return response.data;
 };
 
-export const findLocationBySlug = async (slug: string): Promise<Location> => {
+export const findLocationBySlug = async (slug: string, query: Query): Promise<SingleResponseData<Location>> => {
   const queryString = qs.stringify({
+    ...query,
     populate: [...defaultQuery.populate, 'images'],
   });
 
   const response = await publicAPI.get(`/locations/${slug}?${queryString}`);
 
-  return response?.data?.data?.attributes;
+  return response?.data;
 };
 
 export const findLocationBySlugSSR = async ({ queryKey }: { queryKey: QueryKey }): Promise<Location | undefined> => {

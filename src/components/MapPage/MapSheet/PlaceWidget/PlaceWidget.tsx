@@ -15,16 +15,19 @@ import { useMapSheetCtx } from '@/contexts/MapProvider/MapSheetProvider';
 
 // Types
 import { StringToBoolean } from 'class-variance-authority/types';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import LocationCard from '@/components/Locations/Location/LocationCard';
 import * as React from 'react';
 import { useFormContext } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 
 interface PlaceWidget {
   slug: string;
 }
 
 const PlaceWidget = ({ slug }: PlaceWidget) => {
+  const tGlobal = useTranslations('Global');
+
   const [expanded, setExpanded] = useState<boolean>(false);
   const isDesktop = useMediaQuery('(min-width: 768px)');
 
@@ -32,10 +35,11 @@ const PlaceWidget = ({ slug }: PlaceWidget) => {
   const { triggerClose } = useMapSheetCtx();
 
   const { data, isLoading } = useLocationBySlug(slug);
+  const locationData = useMemo(() => data?.data.attributes, [data]);
 
   if (isLoading || !data) return;
 
-  const defaultCategory = data?.categories?.data?.[0]?.attributes;
+  const defaultCategory = locationData?.categories?.data?.[0]?.attributes;
 
   const onBack = () => {
     setExpanded(false);
@@ -69,20 +73,20 @@ const PlaceWidget = ({ slug }: PlaceWidget) => {
                 onClick={onBack}
               >
                 <ChevronLeft />
-                Back
+                {tGlobal('back')}
               </Button>
               <SheetTitle className='ml-2 text-left font-gaegu text-xl text-white md:font-sans md:text-font-header'>
-                {data.name}
+                {locationData.name}
               </SheetTitle>
             </div>
           </SheetHeader>
 
-          <PlaceImages images={data.images} />
-          <PlaceContent data={data} />
+          <PlaceImages images={locationData.images} />
+          <PlaceContent data={locationData} />
 
           <div className='absolute bottom-0 w-full border-t-[1px] bg-white px-4 py-2'>
-            {data?.googleMapUrl && (
-              <Link href={data.googleMapUrl} target='_blank' rel='noreferrer noopener'>
+            {locationData?.googleMapUrl && (
+              <Link href={locationData.googleMapUrl} target='_blank' rel='noreferrer noopener'>
                 <Button className='w-full bg-secondary hover:bg-secondary'>
                   <Image src={'/icons/navigation.png'} alt='Navigation' width={20} height={20} className='mr-2' />
                   Open map
@@ -105,7 +109,7 @@ const PlaceWidget = ({ slug }: PlaceWidget) => {
         </SheetHeader>
 
         <div className='cursor-pointer' onClick={() => setExpanded(true)}>
-          <LocationCard data={data} />
+          <LocationCard data={locationData} />
         </div>
       </SheetContent>
     </>
