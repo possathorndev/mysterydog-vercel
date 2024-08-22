@@ -1,7 +1,9 @@
+import { defaultLocale } from '@/constants/config';
 import { defaultStaleTime, publicAPI } from '@/lib/api';
 import { Tag } from '@/lib/api/tags';
 import { FindResponse, Image, ListResponseData, Query, SingleResponseData } from '@/lib/api/utils/common';
 import { QueryKey } from '@tanstack/react-query';
+import { getCookie } from 'cookies-next';
 import qs from 'qs';
 
 export type Area = {
@@ -31,6 +33,7 @@ export const findLocationAreas = async (params: { query: Query }): Promise<FindR
       filters: { ...defaultQuery.filters, ...params.query?.filters },
       populate: [...defaultQuery.populate, ...(params.query?.populate ? params.query?.populate : [])],
       sort: params.query?.sort || [],
+      locale: getCookie('NEXT_LOCALE') || defaultLocale,
     },
     { encodeValuesOnly: true },
   );
@@ -45,6 +48,7 @@ export const findAreaBySlug = async (slug: string): Promise<Area> => {
     {
       filters: { slug },
       populate: defaultQuery.populate,
+      locale: getCookie('NEXT_LOCALE') || defaultLocale,
     },
     { encodeValuesOnly: true },
   );
@@ -54,12 +58,13 @@ export const findAreaBySlug = async (slug: string): Promise<Area> => {
 };
 
 export const findAreaBySlugSSR = async ({ queryKey }: { queryKey: QueryKey }): Promise<Area | undefined> => {
-  const [_key, slug] = queryKey;
+  const [_key, slug, locale] = queryKey;
 
   const query = qs.stringify(
     {
       filters: { slug },
       populate: defaultQuery.populate,
+      locale: locale || getCookie('NEXT_LOCALE') || defaultLocale,
     },
     { encodeValuesOnly: true },
   );

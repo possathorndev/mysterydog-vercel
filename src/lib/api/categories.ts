@@ -26,16 +26,17 @@ const defaultQuery = {
 };
 
 export const findLocationCategories = async (params: { query: Query }): Promise<FindResponse<Category>> => {
-  const query = qs.stringify(
+  const { query } = params;
+  const querystring = qs.stringify(
     {
       ...params.query,
-      filters: { ...defaultQuery.filters, ...params.query?.filters },
-      populate: [...defaultQuery.populate, ...(params.query?.populate ? params.query?.populate : [])],
+      filters: { ...defaultQuery.filters, ...query?.filters },
+      populate: [...defaultQuery.populate, ...(query?.populate ? query?.populate : [])],
     },
     { encodeValuesOnly: true },
   );
 
-  const response = await publicAPI.get<FindResponse<Category>>(`/location-categories?${query}`);
+  const response = await publicAPI.get<FindResponse<Category>>(`/location-categories?${querystring}`);
 
   return response.data;
 };

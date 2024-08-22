@@ -1,10 +1,9 @@
 'use client';
 
 import { NavbarMenuList } from '@/constants/config';
+import { Link } from '@/utils/navigation';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react';
 
 const SocialList = [
   {

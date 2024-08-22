@@ -10,6 +10,7 @@ import { useMemo } from 'react';
 const LocationNearMe = () => {
   const tHome = useTranslations('HomePage');
   const tGlobal = useTranslations('Global');
+  const tLocationPage = useTranslations('LocationPage');
 
   const { locations, isLoading } = useLocationsNearMe();
   const locationsData = useMemo(() => {
@@ -32,10 +33,10 @@ const LocationNearMe = () => {
       </div>
 
       {isLoading ? (
-        <div className='text-center font-gaegu text-lg font-bold text-secondary'>Loading...</div>
+        <div className='text-center font-gaegu text-lg font-bold text-secondary'>{tGlobal('loading')}</div>
       ) : !locationsData?.length ? (
         <div className='text-center font-gaegu text-lg font-bold text-secondary'>
-          &quot;There Are No Venues Near You&quot;
+          &quot;{tLocationPage('noLocation')}&quot;
         </div>
       ) : (
         <div className='flex flex-wrap justify-center gap-4'>

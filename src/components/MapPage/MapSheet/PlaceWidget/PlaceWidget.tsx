@@ -15,16 +15,19 @@ import { useMapSheetCtx } from '@/contexts/MapProvider/MapSheetProvider';
 
 // Types
 import { StringToBoolean } from 'class-variance-authority/types';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import LocationCard from '@/components/Locations/Location/LocationCard';
 import * as React from 'react';
 import { useFormContext } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 
 interface PlaceWidget {
   slug: string;
 }
 
 const PlaceWidget = ({ slug }: PlaceWidget) => {
+  const tGlobal = useTranslations('Global');
+
   const [expanded, setExpanded] = useState<boolean>(false);
   const isDesktop = useMediaQuery('(min-width: 768px)');
 
@@ -69,7 +72,7 @@ const PlaceWidget = ({ slug }: PlaceWidget) => {
                 onClick={onBack}
               >
                 <ChevronLeft />
-                Back
+                {tGlobal('back')}
               </Button>
               <SheetTitle className='ml-2 text-left font-gaegu text-xl text-white md:font-sans md:text-font-header'>
                 {data.name}

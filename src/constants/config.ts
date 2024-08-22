@@ -1,3 +1,5 @@
+import { LocalePrefix } from 'next-intl/routing';
+
 export const locales = ['en', 'th'];
 export const defaultLocale = 'en';
 
@@ -9,6 +11,11 @@ export const MAPS_PATH = '/maps';
 export const BLOGS_PATH = '/blogs';
 
 export const NavbarMenuList = [
+  {
+    title: 'Home',
+    key: 'Home',
+    url: '/',
+  },
   {
     title: 'Area List',
     key: 'AreaList',
@@ -25,3 +32,5 @@ export const NavbarMenuList = [
     url: BLOGS_PATH,
   },
 ];
+
+export const localePrefix: LocalePrefix<typeof locales> = 'as-needed';

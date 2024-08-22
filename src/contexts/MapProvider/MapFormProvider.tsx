@@ -109,13 +109,11 @@ export const MapFormContextProvider = ({ children }: { children: React.ReactNode
   }, [categories, services, areas]);
 
   const onSearch = async (searchQuery: LocationSearchQuery) => {
-    console.log('... on search');
     await handleSearch(searchQuery?.search || '');
     handleUpdateSearchParams(searchQuery?.search || '');
   };
 
   const onFilter = async (searchQuery: LocationSearchQuery) => {
-    console.log('... on filter');
     await handleFilter({
       categories: searchQuery?.selectedCategories || [],
       services: searchQuery?.selectedServices || [],

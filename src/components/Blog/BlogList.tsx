@@ -10,6 +10,7 @@ import { useBlogs } from '@/hooks/useBlog';
 const BlogList = () => {
   const tHome = useTranslations('HomePage');
   const tGlobal = useTranslations('Global');
+  const tBlogPage = useTranslations('BlogPage');
 
   const { blogs, isLoading } = useBlogs();
   const blogsData = useMemo(() => {
@@ -33,9 +34,11 @@ const BlogList = () => {
         </div>
 
         {isLoading ? (
-          <div className='text-center font-gaegu text-lg font-bold text-secondary'>Loading...</div>
+          <div className='text-center font-gaegu text-lg font-bold text-secondary'>{tGlobal('loading')}</div>
         ) : !blogsData?.length ? (
-          <div className='text-center font-gaegu text-lg font-bold text-secondary'>&quot;No Blogs Found&quot;</div>
+          <div className='text-center font-gaegu text-lg font-bold text-secondary'>
+            &quot;{tBlogPage('noBlog')}&quot;
+          </div>
         ) : (
           <div className='flex flex-wrap justify-center gap-4'>
             {blogsData?.map((blog, index) => <BlogCard key={index} data={blog} />)}
