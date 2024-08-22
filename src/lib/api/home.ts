@@ -18,12 +18,12 @@ const defaultQuery = {
   populate: ['bannerImages', 'categories', 'popularAreas', 'categories.thumbnailImage', 'popularAreas.localizations'],
 };
 
-export const findHome = async (): Promise<Home> => {
+export const findHome = async ({ locale }: { locale?: string }): Promise<Home> => {
   const query = qs.stringify(
     {
       filters: { ...defaultQuery.filters },
       populate: [...defaultQuery.populate],
-      locale: getCookie('NEXT_LOCALE') || defaultLocale,
+      locale: locale || getCookie('NEXT_LOCALE') || defaultLocale,
     },
     { encodeValuesOnly: true },
   );
@@ -33,12 +33,12 @@ export const findHome = async (): Promise<Home> => {
   return response?.data?.data?.attributes;
 };
 
-export const findHomeServerSide = async (): Promise<Home> => {
+export const findHomeServerSide = async ({ locale }: { locale?: string }): Promise<Home> => {
   const query = qs.stringify(
     {
       filters: { ...defaultQuery.filters },
       populate: [...defaultQuery.populate],
-      locale: getCookie('NEXT_LOCALE') || defaultLocale,
+      locale: locale || defaultLocale,
     },
     { encodeValuesOnly: true },
   );

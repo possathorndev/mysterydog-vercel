@@ -8,9 +8,11 @@ import { findLocationCategories } from '@/lib/api/categories';
 import { findLocationAreas } from '@/lib/api/areas';
 import { findLocationServices } from '@/lib/api/services';
 import { Query } from '@/lib/api/utils/common';
+import { useLocale } from 'next-intl';
 
 // Find Location
 const useLocations = () => {
+  const locale = useLocale();
   const {
     data: locations,
     isLoading: isLocationLoading,
@@ -18,7 +20,7 @@ const useLocations = () => {
     isLoadingMoreData,
     hasMoreData,
   } = useInfiniteFindQuery({
-    queryKey: ['locations'],
+    queryKey: ['locations', locale],
     queryCtxFunction: useLocationQueryCtx,
     queryFn: ({ pageParam, pagination, sort, filters }) => {
       return findLocations({
@@ -45,10 +47,11 @@ const useLocations = () => {
 
 // Find Location Near Me
 export const useLocationsNearMe = () => {
+  const locale = useLocale();
   // TODO: get user current location
 
   const { data: locations, isLoading } = useQuery({
-    queryKey: ['locationsNearMe'],
+    queryKey: ['locationsNearMe', locale],
     queryFn: () => {
       return findLocations({
         query: {

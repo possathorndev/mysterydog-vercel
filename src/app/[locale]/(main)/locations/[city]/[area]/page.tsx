@@ -9,7 +9,7 @@ import { toUpperCaseFirstLetter } from '@/utils/helpers';
 import AreaDetailPage from '@/components/Area/AreaDetailPage';
 
 type Props = {
-  params: { city: string; area: string };
+  params: { city: string; area: string; locale: string };
 };
 
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
 
 export default async function Page({ params }: Props) {
   const dehydratedState = await prefetchQuerySSR({
-    queryKey: ['area', params.area],
+    queryKey: ['area', params.area, params.locale],
     queryFn: findAreaBySlugSSR,
   });
 
