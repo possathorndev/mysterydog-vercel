@@ -19,12 +19,14 @@ import { cn } from '@/lib/utils';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import * as React from 'react';
 import LocationCard from '@/components/Locations/Location/LocationCard';
+import { useFormContext } from 'react-hook-form';
 
 const SearchWidget = () => {
   const [seeAll, setSeeAll] = useState<boolean>(false);
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const { ref, inView } = useInView({ threshold: 0 });
 
+  const form = useFormContext();
   const { searchTextParams } = useMapParamsCtx();
   const { triggerClose } = useMapSheetCtx();
 
@@ -35,6 +37,13 @@ const SearchWidget = () => {
   }, [locations]);
 
   const totalLocations = useMemo(() => locations?.pages?.[0]?.meta?.pagination?.total || 0, [locations]);
+
+  const onBack = () => {
+    setSeeAll(false);
+    triggerClose();
+    form.setValue('search', '');
+    window.history.replaceState(undefined, '', `/maps`);
+  };
 
   useEffect(() => {
     if (inView && hasMoreData) {
@@ -55,18 +64,11 @@ const SearchWidget = () => {
             <SheetHeader>
               <SheetTitle className='text-left text-xl text-font-header'>
                 <div className='flex items-center'>
-                  <Button
-                    variant='primary'
-                    className='rounded-md bg-primary py-1 pl-1 font-bold text-white'
-                    onClick={() => {
-                      triggerClose();
-                      setSeeAll(false);
-                    }}
-                  >
+                  <Button className='rounded-md bg-primary py-1 pl-1 font-bold text-white' onClick={onBack}>
                     <ChevronLeft />
                     Back
                   </Button>
-                  <div className={cn(isDesktop ? '' : 'ml-4 text-sm')}>
+                  <div className={cn(isDesktop ? '' : 'text-sm', 'ml-2')}>
                     Pet Friendly Places <span className='text-secondary'>{`"${searchTextParams}"`}</span>
                   </div>
 
@@ -98,16 +100,16 @@ const SearchWidget = () => {
           <SheetTitle className='text-left text-xl text-font-header'>
             <div className='mb-2 flex items-center'>
               <div className='text-sm'>
-                Pet Friendly Places{' '}
-                <span
-                  className='ml-2 cursor-pointer font-gaegu text-secondary underline'
-                  onClick={() => setSeeAll(true)}
-                >
+                Search <span className='text-secondary'>{`"${searchTextParams}"`}</span>
+                <span className='ml-2 font-gaegu text-sm text-font-description'>({totalLocations} Places)</span>
+              </div>
+
+              <div className='ml-auto text-sm'>
+                <span className='cursor-pointer font-gaegu text-secondary underline' onClick={() => setSeeAll(true)}>
                   See all
                 </span>
               </div>
-
-              <X className='ml-auto h-5 w-5 text-primary' />
+              <X className='ml-2 h-5 w-5 text-primary' onClick={onBack} />
             </div>
           </SheetTitle>
         </SheetHeader>

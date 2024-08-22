@@ -10,7 +10,7 @@ import { findLocationServices } from '@/lib/api/services';
 import { Query } from '@/lib/api/utils/common';
 
 // Find Location
-const useLocations = () => {
+const useLocations = (params?: { query: Query }) => {
   const {
     data: locations,
     isLoading: isLocationLoading,
@@ -18,7 +18,7 @@ const useLocations = () => {
     isLoadingMoreData,
     hasMoreData,
   } = useInfiniteFindQuery({
-    queryKey: ['locations'],
+    queryKey: ['locations', params],
     queryCtxFunction: useLocationQueryCtx,
     queryFn: ({ pageParam, pagination, sort, filters }) => {
       return findLocations({
@@ -27,8 +27,9 @@ const useLocations = () => {
             page: pageParam,
             pageSize: pagination.pageSize,
           },
+          filters: { ...filters, ...params?.query?.filters },
+          populate: params?.query?.populate,
           sort,
-          filters,
         },
       });
     },

@@ -27,7 +27,7 @@ const AreaCard = ({
   }, [data]);
 
   return (
-    <Link href={navigateToMap ? `${MAPS_PATH}?areas=${data.slug}` : `${currentPath}/${data.slug}`}>
+    <Link href={navigateToMap ? `${MAPS_PATH}/area/${data.slug}` : `${currentPath}/${data.slug}`}>
       <div className={cn('flex justify-between p-2', border && 'rounded-md border-2')}>
         <div className='flex flex-col'>
           <div className='text-sm text-secondary'>{data.name}</div>
