@@ -92,3 +92,25 @@
     /* Firefox */
   }
 }
+
+.gm-style .gm-style-iw-d::-webkit-scrollbar-track,
+.gm-style .gm-style-iw-d::-webkit-scrollbar-track-piece,
+.gm-style .gm-style-iw-c,
+.gm-style .gm-style-iw-tc::after,
+.gm-style .gm-style-iw-t::after {
+  margin-top: 20px;
+  overflow: hidden;
+  background-color: transparent;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.0);
+}
+
+.gm-ui-hover-effect {
+  opacity: 1;
+  pointer-events: none;
+  box-shadow: none;
+  outline: none;
+}
+
+.gm-ui-hover-effect span {
+  background-color: transparent;
+}

@@ -10,7 +10,7 @@ import { Form } from '@/components/ui/form';
 import { useMapParamsCtx } from '@/contexts/MapProvider/MapParamsProvider';
 import { useLocationQueryCtx } from '@/contexts/LocationQueryProvider';
 import { debounce } from 'next/dist/server/utils';
-import { useSearchParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 
 type MapFormContextValues = {
   onSearch: (searchQuery: LocationSearchQuery) => void;
@@ -43,6 +43,7 @@ const formSchema = z.object({
 export const MapFormContext: React.Context<MapFormContextValues> = createContext<MapFormContextValues>(initialState);
 
 export const MapFormContextProvider = ({ children }: { children: React.ReactNode }) => {
+  const params = useParams();
   const searchParams = useSearchParams();
   const { handleUpdateSearchParams } = useMapParamsCtx();
   const { handleSearch, handleFilter } = useLocationQueryCtx();
@@ -58,6 +59,10 @@ export const MapFormContextProvider = ({ children }: { children: React.ReactNode
     },
   });
   const { handleSubmit, setValue, reset } = form;
+
+  const selectedLocation = useMemo(() => {
+    return params?.slug;
+  }, [params]);
 
   const searchString = useMemo(() => {
     return searchParams.get('search') || '';
@@ -93,6 +98,8 @@ export const MapFormContextProvider = ({ children }: { children: React.ReactNode
     }, 200),
     [],
   );
+
+  useEffect(() => setValue('selectedLocation', selectedLocation), [selectedLocation]);
 
   useEffect(() => {
     setValue('search', searchString);
