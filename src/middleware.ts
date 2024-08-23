@@ -1,34 +1,36 @@
-import createMiddleware from 'next-intl/middleware';
-import { auth } from '@/auth';
-import { locales, defaultLocale, localePrefix } from '@/constants/config';
+export { auth as middleware } from '@/auth';
 
-const intlMiddleware = createMiddleware({
-  locales,
-  defaultLocale,
-  localePrefix,
-});
+// import createMiddleware from 'next-intl/middleware';
+// import { auth } from '@/auth';
+// import { locales, defaultLocale, localePrefix } from '@/constants/config';
 
-export const config = {
-  matcher: [
-    // Enable a redirect to a matching locale at the root
-    '/',
+// const intlMiddleware = createMiddleware({
+//   locales,
+//   defaultLocale,
+//   localePrefix,
+// });
 
-    // Set a cookie to remember the previous locale for
-    // all requests that have a locale prefix
-    '/(th)/:path*', // (th|en) for both locales
+// export const config = {
+//   matcher: [
+//     // Enable a redirect to a matching locale at the root
+//     '/',
 
-    // Enable redirects that add missing locales
-    // (e.g. `/pathnames` -> `/en/pathnames`)
-    '/((?!_next|_vercel|.*\\..*).*)',
-  ],
-};
+//     // Set a cookie to remember the previous locale for
+//     // all requests that have a locale prefix
+//     '/(th)/:path*', // (th|en) for both locales
 
-export default auth((request) => {
-  const { pathname } = request.nextUrl;
+//     // Enable redirects that add missing locales
+//     // (e.g. `/pathnames` -> `/en/pathnames`)
+//     '/((?!_next|_vercel|.*\\..*).*)',
+//   ],
+// };
 
-  const shouldHandle = /^\/(?!api\/|_next\/|_vercel\/|.*\..*).*$/.test(pathname);
+// export default auth((request) => {
+//   const { pathname } = request.nextUrl;
 
-  if (!shouldHandle) return;
+//   const shouldHandle = /^\/(?!api\/|_next\/|_vercel\/|.*\..*).*$/.test(pathname);
 
-  return intlMiddleware(request);
-});
+//   if (!shouldHandle) return;
+
+//   return intlMiddleware(request);
+// });

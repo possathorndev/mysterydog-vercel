@@ -50,12 +50,14 @@ export default async function RootLayout({
           } as React.CSSProperties
         }
       >
-        <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
+        {/* <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
           <AuthSessionProvider>
             <APIQueryProvider>{children}</APIQueryProvider>
           </AuthSessionProvider>
           <Toaster />
-        </ThemeProvider>
+        </ThemeProvider> */}
+
+        <div>HELLLOOOO</div>
       </body>
     </html>
   );
