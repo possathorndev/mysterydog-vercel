@@ -99,7 +99,10 @@ export const MapFormContextProvider = ({ children }: { children: React.ReactNode
     [],
   );
 
-  useEffect(() => setValue('selectedLocation', selectedLocation), [selectedLocation]);
+  useEffect(
+    () => setValue('selectedLocation', Array.isArray(selectedLocation) ? selectedLocation?.[0] : selectedLocation),
+    [selectedLocation],
+  );
 
   useEffect(() => {
     setValue('search', searchString);
