@@ -79,7 +79,7 @@ export const useLocationBySlug = (slug: string) => {
 };
 
 // Category
-export const useLocationCategories = ({ query }: { query: Query }) => {
+export const useLocationCategories = (params?: { query: Query }) => {
   const {
     data: categories,
     isLoading: isCategoryLoading,
@@ -87,7 +87,7 @@ export const useLocationCategories = ({ query }: { query: Query }) => {
   } = useLocaleQuery({
     queryKey: ['categories'],
     queryFn: (query) => findLocationCategories({ query }),
-    query,
+    query: params?.query || {},
   });
 
   return {
@@ -98,30 +98,30 @@ export const useLocationCategories = ({ query }: { query: Query }) => {
 };
 
 // Service
-export const useLocationServices = ({ query }: { query: Query }) => {
+export const useLocationServices = (params?: { query: Query }) => {
   const {
     data: services,
     isLoading: isServiceLoading,
     isFetched: isServiceFetched,
   } = useLocaleQuery({
     queryKey: ['services'],
-    queryFn: () => findLocationServices({ query }),
-    query,
+    queryFn: (query) => findLocationServices({ query }),
+    query: params?.query || {},
   });
 
   return { services, isServiceLoading, isServiceFetched };
 };
 
 // Area
-export const useLocationAreas = ({ query }: { query: Query }) => {
+export const useLocationAreas = (params?: { query: Query }) => {
   const {
     data: areas,
     isLoading: isAreaLoading,
     isFetched: isAreaFetched,
   } = useLocaleQuery({
     queryKey: ['areas'],
-    queryFn: () => findLocationAreas({ query }),
-    query,
+    queryFn: (query) => findLocationAreas({ query }),
+    query: params?.query || {},
   });
 
   return { areas, isAreaLoading, isAreaFetched };

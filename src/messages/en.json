@@ -11,7 +11,11 @@
     "Home": "Home",
     "AreaList": "Area List",
     "Maps": "Maps",
-    "Blogs": "Blogs"
+    "Blogs": "Blogs",
+    "HomeDescription": "Welcome Waggin’",
+    "AreaListDescription": "Pet Friendly Places",
+    "MapsDescription": "Furry Friends Hub",
+    "BlogsDescription": "Pet's Diary"
   },
   "HomePage": {
     "title": "Hello world!",
