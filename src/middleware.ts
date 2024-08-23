@@ -5,7 +5,10 @@ import { NextRequest } from 'next/server';
 
 const publicPages = [
   '/',
-  '/login',
+  '/locations',
+  '/locations/*',
+  '/maps',
+  '/maps/*',
   // (/secret requires auth)
 ];
 
