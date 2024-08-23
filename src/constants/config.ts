@@ -14,22 +14,30 @@ export const NavbarMenuList = [
   {
     title: 'Home',
     key: 'Home',
+    descriptionKey: 'HomeDescription',
     url: '/',
+    color: '#98C002',
   },
   {
     title: 'Area List',
     key: 'AreaList',
+    descriptionKey: 'AreaListDescription',
     url: `${LOCATION_PATH}/${defaultCity}`,
+    color: '#0F1EAF',
   },
   {
     title: 'Maps',
     key: 'Maps',
+    descriptionKey: 'MapsDescription',
     url: MAPS_PATH,
+    color: '#E8A302',
   },
   {
     title: 'Blogs',
     key: 'Blogs',
+    descriptionKey: 'BlogsDescription',
     url: BLOGS_PATH,
+    color: '#007AFF',
   },
 ];
 

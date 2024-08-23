@@ -11,7 +11,11 @@
     "Home": "หน้าหลัก",
     "AreaList": "สถานที่",
     "Maps": "แผนที่",
-    "Blogs": "บทความ"
+    "Blogs": "บทความ",
+    "HomeDescription": "กระดิกหาง ดุกดิกๆ",
+    "AreaListDescription": "หาพิกัดน้องเข้าได้",
+    "MapsDescription": "ชุมชนกระดิกหาง",
+    "BlogsDescription": "มหาลัยดุกดิกๆ"
   },
   "HomePage": {
     "title": "สวัสดี!",

@@ -6,8 +6,12 @@ import { useLocationsNearMe } from '@/hooks/useLocation';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useMemo } from 'react';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 const LocationNearMe = () => {
+  const isDesktop = useMediaQuery('(min-width: 768px)');
+
   const tHome = useTranslations('HomePage');
   const tGlobal = useTranslations('Global');
   const tLocationPage = useTranslations('LocationPage');
@@ -38,12 +42,21 @@ const LocationNearMe = () => {
         <div className='text-center font-gaegu text-lg font-bold text-secondary'>
           &quot;{tLocationPage('noLocation')}&quot;
         </div>
-      ) : (
+      ) : isDesktop ? (
         <div className='flex flex-wrap justify-center gap-4'>
           {locationsData?.map((location, index) => (
-            <LocationCard key={index} data={location} imagePosition='top' size='small' />
+            <LocationCard key={index} data={location} imagePosition='top' size='small' showOpeningHourButton />
           ))}
         </div>
+      ) : (
+        <ScrollArea className='w-[calc(100vw-25px)] max-w-screen-2xl whitespace-nowrap md:w-[calc(100vw-50px)]'>
+          <div className='mt-4 flex gap-2'>
+            {locationsData?.map((location, index) => (
+              <LocationCard key={index} data={location} imagePosition='top' size='small' showOpeningHourButton />
+            ))}
+          </div>
+          <ScrollBar orientation='horizontal' />
+        </ScrollArea>
       )}
 
       {!!locationsData?.length && (

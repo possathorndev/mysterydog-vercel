@@ -61,7 +61,7 @@ export const MapFormContextProvider = ({ children }: { children: React.ReactNode
   const { handleSubmit, setValue, reset } = form;
 
   const selectedLocation = useMemo(() => {
-    return params?.slug;
+    return params?.slug as string;
   }, [params]);
 
   const searchString = useMemo(() => {
@@ -99,10 +99,7 @@ export const MapFormContextProvider = ({ children }: { children: React.ReactNode
     [],
   );
 
-  useEffect(
-    () => setValue('selectedLocation', Array.isArray(selectedLocation) ? selectedLocation?.[0] : selectedLocation),
-    [selectedLocation],
-  );
+  useEffect(() => setValue('selectedLocation', selectedLocation), [selectedLocation]);
 
   useEffect(() => {
     setValue('search', searchString);

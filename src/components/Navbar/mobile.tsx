@@ -17,6 +17,7 @@ import {
 import LocaleSwitcher from '@/components/Navbar/RightNavbar/LocaleSwitcher';
 import SearchBar from '@/components/SearchBar/SearchBar';
 import { useTranslations } from 'next-intl';
+import { cn } from '@/lib/utils';
 
 const HamburgerMenu = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -29,18 +30,25 @@ const HamburgerMenu = () => {
           {open ? <X className='h-6 w-6 text-white' /> : <Menu className='h-6 w-6 text-white' />}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className='w-[100vw] bg-primary p-4 text-white'>
+      <DropdownMenuContent className='w-[100vw] p-4'>
         <DropdownMenuGroup>
           {NavbarMenuList.map((item, index) => (
-            <DropdownMenuItem key={index} className='focus:bg-accent/10 focus:text-white'>
+            <DropdownMenuItem
+              key={index}
+              className={cn(
+                'text-white focus:bg-accent/10 focus:text-white',
+                index % 2 == 0 ? 'rotate-1' : '-rotate-1',
+              )}
+            >
               <Link
                 href={item.url}
                 key={index}
-                className='flex w-full items-center gap-4 py-2'
+                style={{ backgroundColor: item.color }}
+                className='flex w-full items-center justify-between gap-4 rounded-3xl px-4 py-2'
                 onClick={() => setOpen(false)}
               >
-                <Image src='/icons/arrow-right.png' alt='Mystery Dog Logo' width={18} height={18} />
                 <span>{t(item.key)?.toUpperCase()}</span>
+                <span className='font-gaegu'>{t(item.descriptionKey)}</span>
               </Link>
             </DropdownMenuItem>
           ))}
@@ -49,7 +57,7 @@ const HamburgerMenu = () => {
         <DropdownMenuGroup className='mt-4'>
           <span className='ml-2 text-sm'>{t('ChangeLanguage')}</span>
           <div className='ml-2 mt-1 w-[102px]'>
-            <LocaleSwitcher color='secondary' />
+            <LocaleSwitcher color='support-main' />
           </div>
         </DropdownMenuGroup>
       </DropdownMenuContent>
