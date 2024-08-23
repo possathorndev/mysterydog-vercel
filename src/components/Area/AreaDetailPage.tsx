@@ -66,7 +66,7 @@ const AreaDetailPage = ({ slug }: { slug: string }) => {
   return (
     <div className='h-[calc(100vh-70px)]'>
       {!hideAreaContent && (
-        <div className='absolute left-0 top-0 z-10 mt-[70px] h-[calc(100vh-70px)] w-full bg-white md:min-w-[460px]'>
+        <div className='absolute left-0 top-0 z-10 mt-[70px] h-[calc(100vh-70px)] w-full bg-white md:max-w-[460px]'>
           {isAreaLoading ? (
             <div className='text-center font-gaegu text-lg font-bold text-secondary'>{tGlobal('loading')}</div>
           ) : !area ? (
