@@ -4,7 +4,7 @@ import { Category } from '@/lib/api/categories';
 
 import { Button } from '@/components/ui/button';
 
-const CategorySelect = ({ handleSubmit }: { handleSubmit?: (slug: string) => Promise<void> }) => {
+const CategorySelect = ({ handleSubmit }: { handleSubmit: (slug: string) => Promise<void> }) => {
   const { isCategoryLoading, categories } = useLocationCategories();
 
   const categoriesData = useMemo(() => categories?.data.flatMap((category) => category.attributes), [categories]);
