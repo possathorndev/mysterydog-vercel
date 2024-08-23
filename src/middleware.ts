@@ -33,11 +33,13 @@ export default function middleware(req: NextRequest) {
   );
   const isPublicPage = publicPathnameRegex.test(req.nextUrl.pathname);
 
-  if (isPublicPage) {
-    return intlMiddleware(req);
-  } else {
-    return (authMiddleware as any)(req);
-  }
+  // if (isPublicPage) {
+  //   return intlMiddleware(req);
+  // } else {
+  //   return (authMiddleware as any)(req);
+  // }
+
+  return intlMiddleware(req);
 }
 
 export const config = {
