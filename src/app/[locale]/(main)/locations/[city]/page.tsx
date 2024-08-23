@@ -8,6 +8,10 @@ type Props = {
   params: { city: string };
 };
 
+export async function generateStaticParams() {
+  return allowCities.map((city) => ({ area: city }));
+}
+
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
   const { city } = params;
 
