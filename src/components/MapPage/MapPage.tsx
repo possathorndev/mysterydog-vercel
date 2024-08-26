@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 
 // Components
 import GoogleMap from '@/components/MapPage/GoogleMap/GoogleMap';
@@ -9,9 +9,6 @@ import QuickFilterMenu from '@/components/MapPage/MapSheet/QuickFilterMenu/Quick
 
 // Hooks
 import useLocations from '@/hooks/useLocation';
-
-// Types
-import { Location } from '@/lib/api/locations';
 
 const MapPage = () => {
   const { locations } = useLocations();
@@ -34,7 +31,7 @@ const MapPage = () => {
       </div>
 
       {/* MAP */}
-      <GoogleMap locations={locationsData as Location[]} />
+      <GoogleMap locations={locationsData} />
     </div>
   );
 };

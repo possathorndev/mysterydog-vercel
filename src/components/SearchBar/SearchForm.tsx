@@ -8,12 +8,15 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 const formSchema = z.object({
   search: z.string(),
 });
 
 const SearchForm = ({ handleSubmit }: { handleSubmit?: (search: string) => Promise<void> }) => {
+  const tSearchWidget = useTranslations('SearchWidget');
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -29,7 +32,7 @@ const SearchForm = ({ handleSubmit }: { handleSubmit?: (search: string) => Promi
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className='flex items-center gap-2 p-4'>
-          <div className='bg-secondary/10 rounded-sm p-2'>
+          <div className='rounded-sm bg-secondary/10 p-2'>
             <Search className='h-6 w-6 text-secondary' />
           </div>
           <FormField
@@ -39,8 +42,8 @@ const SearchForm = ({ handleSubmit }: { handleSubmit?: (search: string) => Promi
               <>
                 <FormControl>
                   <Input
-                    placeholder='Search Area, Location Category...'
-                    className='focus-visible:ring-secondary/10 h-8 border-none text-secondary placeholder:text-secondary'
+                    placeholder={tSearchWidget('placeholder')}
+                    className='h-8 border-none text-secondary placeholder:text-secondary focus-visible:ring-secondary/10'
                     {...field}
                   />
                 </FormControl>

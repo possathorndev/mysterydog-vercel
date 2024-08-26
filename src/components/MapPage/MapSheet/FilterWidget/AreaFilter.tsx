@@ -11,12 +11,16 @@ import { useMapParamsCtx } from '@/contexts/MapProvider/MapParamsProvider';
 import { Label } from '@/components/ui/label';
 import AreaBadge from '@/components/MapPage/MapSheet/FilterWidget/AreaBadge';
 import ConnectForm from '@/components/FormConnect/FormConnect';
+import { useTranslations } from 'next-intl';
 
 interface AreaFilter {
   onSubmit: () => void;
 }
 
 const AreaFilter = ({ onSubmit }: AreaFilter) => {
+  const tGlobal = useTranslations('Global');
+  const tFilterWidget = useTranslations('FilterWidget');
+
   const { areasParams } = useMapParamsCtx();
   const { isAreaLoading, areas } = useLocationAreas({ query: { sort: ['name:asc'] } });
 
@@ -37,10 +41,11 @@ const AreaFilter = ({ onSubmit }: AreaFilter) => {
       {({ control }) => (
         <>
           <Label htmlFor='name' className='text-left font-bold text-primary'>
-            By Area <span className='font-gaegu text-font-description/50'>(multiple select)</span>
+            {tFilterWidget('byArea')}{' '}
+            <span className='font-gaegu text-font-description/50'>({tFilterWidget('multipleSelect')})</span>
           </Label>
           {isAreaLoading ? (
-            <span>Loading ...</span>
+            <span>{tGlobal('loading')}</span>
           ) : (
             <div className={`grid grid-flow-col gap-1`} style={{ gridTemplateRows: `repeat(${rowsHeight}, auto)` }}>
               {areasData?.map((item: Area, index) => {

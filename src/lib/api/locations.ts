@@ -3,8 +3,6 @@ import { QueryKey } from '@tanstack/react-query';
 
 import { defaultStaleTime, publicAPI } from '@/lib/api';
 import { Category } from '@/lib/api/categories';
-import { getCookie } from 'cookies-next';
-import { defaultLocale } from '@/constants/config';
 import {
   Address,
   FindResponse,
@@ -17,6 +15,8 @@ import {
 import { Service } from '@/lib/api/services';
 import { Area } from '@/lib/api/areas';
 import { Tag } from '@/lib/api/tags';
+import { getCookie } from 'cookies-next';
+import { defaultLocale } from '@/constants/config';
 
 export type OpeningHour = {
   title: string;
@@ -63,7 +63,6 @@ export const findLocations = async (params: { query: Query }): Promise<FindRespo
       ...params.query,
       filters: { ...defaultQuery.filters, ...params.query?.filters },
       populate: [...defaultQuery.populate, ...(params.query?.populate ? params.query?.populate : [])],
-      locale: getCookie('NEXT_LOCALE') || defaultLocale,
       sort: params.query?.sort || [],
     },
     { encode: false },
@@ -76,12 +75,14 @@ export const findLocations = async (params: { query: Query }): Promise<FindRespo
 
 export const findLocationBySlug = async (slug: string): Promise<Location> => {
   const queryString = qs.stringify({
+    filters: { slug },
     populate: [...defaultQuery.populate, 'images'],
+    locale: getCookie('NEXT_LOCALE') || defaultLocale,
   });
 
-  const response = await publicAPI.get(`/locations/${slug}?${queryString}`);
+  const response = await publicAPI.get(`/locations?${queryString}`);
 
-  return response?.data?.data?.attributes;
+  return response?.data?.data?.[0]?.attributes;
 };
 
 export const findLocationBySlugSSR = async ({ queryKey }: { queryKey: QueryKey }): Promise<Location | undefined> => {

@@ -11,12 +11,16 @@ import { Label } from '@/components/ui/label';
 import ServiceBadge from '@/components/MapPage/MapSheet/FilterWidget/ServiceBadge';
 import ConnectForm from '@/components/FormConnect/FormConnect';
 import { useMapParamsCtx } from '@/contexts/MapProvider/MapParamsProvider';
+import { useTranslations } from 'next-intl';
 
 interface ServiceFilter {
   onSubmit: () => void;
 }
 
 const ServiceFilter = ({ onSubmit }: ServiceFilter) => {
+  const tGlobal = useTranslations('Global');
+  const tFilterWidget = useTranslations('FilterWidget');
+
   const { servicesParams } = useMapParamsCtx();
   const { isServiceLoading, services } = useLocationServices({ query: {} });
 
@@ -29,10 +33,11 @@ const ServiceFilter = ({ onSubmit }: ServiceFilter) => {
       {({ control }) => (
         <>
           <Label htmlFor='name' className='text-left font-bold text-primary'>
-            By Service <span className='font-gaegu text-font-description/50'>(multiple select)</span>
+            {tFilterWidget('byService')}{' '}
+            <span className='font-gaegu text-font-description/50'>({tFilterWidget('multipleSelect')})</span>
           </Label>
           {isServiceLoading ? (
-            <span>Loading ...</span>
+            <span>{tGlobal('loading')}</span>
           ) : (
             <div className='flex flex-wrap gap-2'>
               {servicesData?.map((data: Service, index: number) => (

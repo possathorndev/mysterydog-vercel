@@ -1,8 +1,8 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from '@/utils/navigation';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname } from '@/utils/navigation';
 
 import { NavbarMenuList } from '@/constants/config';
 import { cn } from '@/lib/utils';
@@ -24,7 +24,11 @@ const DesktopNavbar = () => {
             <Link
               href={item.url}
               key={index}
-              className={cn('pt-1 text-base font-bold text-secondary', pathname.includes(item.url) && 'text-[#0F1EAF]')}
+              className={cn(
+                'pt-1 text-base font-bold text-secondary',
+                index !== 0 && pathname.includes(item.url) && 'rounded-full bg-font-header p-3 text-white',
+                pathname === '/' && index === 0 && 'rounded-full bg-font-header p-3 text-white',
+              )}
             >
               {t(item.key)}
             </Link>

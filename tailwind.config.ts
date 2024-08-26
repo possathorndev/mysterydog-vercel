@@ -69,6 +69,9 @@ const config = {
           subheader: 'hsl(var(--font-sub-header))',
           description: 'hsl(var(--font-description))',
         },
+        support: {
+          main: 'hsl(var(--support-main))',
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',

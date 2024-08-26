@@ -15,8 +15,11 @@ import { useMapParamsCtx } from '@/contexts/MapProvider/MapParamsProvider';
 import { Badge } from '@/components/ui/badge';
 import { useMapSheetCtx } from '@/contexts/MapProvider/MapSheetProvider';
 import { Button } from '@/components/ui/button';
+import { useTranslations } from 'next-intl';
 
 export const FilterSheetTrigger = ({ handleTrigger }: { handleTrigger: () => void }) => {
+  const tFilterWidget = useTranslations('FilterWidget');
+
   const { open } = useMapSheetCtx();
   const { categoriesParams, servicesParams, areasParams } = useMapParamsCtx();
   const isDesktop = useMediaQuery('(min-width: 768px)');
@@ -31,13 +34,13 @@ export const FilterSheetTrigger = ({ handleTrigger }: { handleTrigger: () => voi
 
   return (
     <div
-      className={`flex cursor-pointer items-center rounded-sm p-2 md:p-0 ${open ? 'bg-secondary' : 'bg-secondary/10'} md:bg-white`}
+      className={`flex min-w-[25%] cursor-pointer items-center justify-center rounded-sm p-2 md:p-0 ${open ? 'bg-secondary' : 'bg-secondary/10'} md:bg-white`}
       onClick={handleTrigger}
     >
       <SlidersHorizontal
-        className={`h-6 w-6 md:h-5 md:w-5 ${open ? 'text-white' : 'text-secondary'} md:text-secondary`}
+        className={`h-5 w-5 md:h-4 md:w-4 ${open ? 'text-white' : 'text-secondary'} md:text-secondary`}
       />
-      {isDesktop && <p className='ml-1 text-sm font-bold text-font-header'>Filters</p>}
+      {isDesktop && <p className='ml-1 text-sm font-bold text-font-header'>{tFilterWidget('filter')}</p>}
       {filterCount > 0 && (
         <Badge className='absolute mb-7 ml-5 flex h-5 w-5 items-center justify-center px-0 py-0 md:relative md:mb-0 md:ml-1'>
           {filterCount}
@@ -53,6 +56,8 @@ interface FilterWidget {
 }
 
 const FilterWidget = ({ onSubmit, onClearFilter }: FilterWidget) => {
+  const tFilterWidget = useTranslations('FilterWidget');
+
   const { categoriesParams, servicesParams, areasParams } = useMapParamsCtx();
 
   const filterCount = useMemo(() => {
@@ -71,7 +76,7 @@ const FilterWidget = ({ onSubmit, onClearFilter }: FilterWidget) => {
       <div className='no-scrollbar overflow-y-scroll pt-4'>
         <SheetHeader>
           <div className='flex items-center justify-between'>
-            <SheetTitle className='text-left text-xl text-font-header'>Filter list</SheetTitle>
+            <SheetTitle className='text-left text-xl text-font-header'>{tFilterWidget('filterList')}</SheetTitle>
             {filterCount > 0 && (
               <Button
                 variant='secondary'
@@ -79,7 +84,7 @@ const FilterWidget = ({ onSubmit, onClearFilter }: FilterWidget) => {
                 onClick={onClearFilter}
               >
                 <RotateCcw className='mr-1 text-secondary' width={16} strokeWidth={2} />
-                Clean filters
+                {tFilterWidget('clean')}
               </Button>
             )}
           </div>

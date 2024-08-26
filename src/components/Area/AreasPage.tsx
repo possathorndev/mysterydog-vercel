@@ -2,7 +2,7 @@
 
 import AreaCard from '@/components/Area/AreaCard';
 import LocationCard from '@/components/Locations/Location/LocationCard';
-import { useAreas } from '@/hooks/useArea';
+import { useAreas, useAreasWithLocationCount } from '@/hooks/useArea';
 import { useLocationsNearMe } from '@/hooks/useLocation';
 import { toUpperCaseFirstLetter } from '@/utils/helpers';
 import { useTranslations } from 'next-intl';
@@ -11,10 +11,13 @@ import { useMemo } from 'react';
 
 const AreasPage = () => {
   const params = useParams<{ city: string }>();
-  const tAreaPage = useTranslations('AreaPage');
+  const tGlobal = useTranslations('Global');
   const tHome = useTranslations('HomePage');
+  const tAreaPage = useTranslations('AreaPage');
+  const tLocationPage = useTranslations('LocationPage');
 
-  const { areas, isLoading } = useAreas();
+  const { areas, isLoading } = useAreasWithLocationCount();
+
   const areasData = useMemo(() => {
     return areas?.data?.map((location) => location.attributes);
   }, [areas]);
@@ -31,15 +34,13 @@ const AreasPage = () => {
       </div>
 
       {isLoading ? (
-        <div className='text-center font-gaegu text-lg font-bold text-secondary'>Loading...</div>
+        <div className='text-center font-gaegu text-lg font-bold text-secondary'>{tGlobal('loading')}</div>
       ) : !areasData?.length ? (
-        <div className='text-center font-gaegu text-lg font-bold text-secondary'>
-          &quot;There Are No Areas Found&quot;
-        </div>
+        <div className='text-center font-gaegu text-lg font-bold text-secondary'>&quot;{tAreaPage('noArea')}&quot;</div>
       ) : (
         <div className='flex flex-wrap gap-2'>
           {areasData?.map((item, index) => (
-            <AreaCard key={index} data={item} locationCount={30} border navigateToMap />
+            <AreaCard key={index} data={item} locationCount={item.locationsCount || 0} border navigateToMap />
           ))}
         </div>
       )}
@@ -47,10 +48,10 @@ const AreasPage = () => {
       <div className='text-2xl font-bold text-font-header'>{tHome('locationHeader')}</div>
 
       {isLocationLoading ? (
-        <div className='text-center font-gaegu text-lg font-bold text-secondary'>Loading...</div>
+        <div className='text-center font-gaegu text-lg font-bold text-secondary'>{tGlobal('loading')}</div>
       ) : !locationsData?.length ? (
         <div className='text-center font-gaegu text-lg font-bold text-secondary'>
-          &quot;There Are No Venues Near You&quot;
+          &quot;{tLocationPage('noLocation')}&quot;
         </div>
       ) : (
         <div className='grid grid-cols-1 place-items-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>

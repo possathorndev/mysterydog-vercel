@@ -20,8 +20,12 @@ import { useMediaQuery } from '@/hooks/useMediaQuery';
 import * as React from 'react';
 import LocationCard from '@/components/Locations/Location/LocationCard';
 import { useFormContext } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 
 const SearchWidget = () => {
+  const tGlobal = useTranslations('Global');
+  const tSearchWidget = useTranslations('SearchWidget');
+
   const [seeAll, setSeeAll] = useState<boolean>(false);
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const { ref, inView } = useInView({ threshold: 0 });
@@ -66,13 +70,15 @@ const SearchWidget = () => {
                 <div className='flex items-center'>
                   <Button className='rounded-md bg-primary py-1 pl-1 font-bold text-white' onClick={onBack}>
                     <ChevronLeft />
-                    Back
+                    {tGlobal('back')}
                   </Button>
                   <div className={cn(isDesktop ? '' : 'text-sm', 'ml-2')}>
-                    Pet Friendly Places <span className='text-secondary'>{`"${searchTextParams}"`}</span>
+                    {tSearchWidget('search')} <span className='text-secondary'>{`"${searchTextParams}"`}</span>
                   </div>
 
-                  <span className={'ml-auto font-gaegu text-sm text-font-description'}>({totalLocations} Places)</span>
+                  <span className={'ml-auto font-gaegu text-sm text-font-description'}>
+                    ({totalLocations} {tSearchWidget('places')})
+                  </span>
                 </div>
               </SheetTitle>
             </SheetHeader>

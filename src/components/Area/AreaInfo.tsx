@@ -18,7 +18,9 @@ interface AreaInfo {
 }
 
 const AreaInfo = ({ area, totalLocations, locations, isLocationLoading, onLocationClick }: AreaInfo) => {
+  const tGlobal = useTranslations('Global');
   const tAreaPage = useTranslations('AreaPage');
+
   const { services, isServiceLoading } = useLocationServices({ query: {} });
   const isDesktop = useMediaQuery('(min-width: 768px)');
 
@@ -40,10 +42,10 @@ const AreaInfo = ({ area, totalLocations, locations, isLocationLoading, onLocati
           <span className='text-secondary'>{area.name}</span> {tAreaPage('detailLocationTitle')}
         </div>
         {isLocationLoading ? (
-          <div className='text-center font-gaegu text-lg font-bold text-secondary'>Loading...</div>
+          <div className='text-center font-gaegu text-lg font-bold text-secondary'>{tGlobal('loading')}</div>
         ) : !locations?.length ? (
           <div className='text-center font-gaegu text-lg font-bold text-secondary'>
-            &quot;There Are No Places In This Area&quot;
+            &quot;{tAreaPage('noLocation')}&quot;
           </div>
         ) : (
           <div className='grid grid-cols-1 place-items-stretch gap-4 lg:grid-cols-2'>

@@ -2,13 +2,20 @@
   "Global": {
     "category": "Category",
     "categoryDescription": "Find the purr-fect spot for your furry friend!",
-    "seeAll": "See all"
+    "seeAll": "See all",
+    "loading": "Loading...",
+    "back": "Back"
   },
   "Navbar": {
     "ChangeLanguage": "Change Language",
+    "Home": "Home",
     "AreaList": "Area List",
     "Maps": "Maps",
-    "Blogs": "Blogs"
+    "Blogs": "Blogs",
+    "HomeDescription": "Welcome Waggin’",
+    "AreaListDescription": "Pet Friendly Places",
+    "MapsDescription": "Furry Friends Hub",
+    "BlogsDescription": "Pet's Diary"
   },
   "HomePage": {
     "title": "Hello world!",
@@ -23,9 +30,32 @@
     "blogDescription": "Find the purr-fect spot for your furry friend!",
     "popularAreaHeader": "Popular Areas"
   },
+  "LocationPage": {
+    "noLocation": "There Are No Venues Near You"
+  },
   "AreaPage": {
+    "noArea": "There Are No Areas Found",
+    "noPopularArea": "No Popular Areas Found",
+    "noLocation": "There Are No Places In This Area",
     "title": "Pet Friendly in {city}",
     "detailTitle": "Find Pet Friendly Options in",
     "detailLocationTitle": "Pet Friendly Places"
+  },
+  "BlogPage": {
+    "noBlog": "No Blogs Found"
+  },
+  "SearchWidget": {
+    "placeholder": "Search Area, Location Category...",
+    "search": "Search",
+    "places": "Places"
+  },
+  "FilterWidget": {
+    "filter": "Filters",
+    "filterList": "Filter list",
+    "clean": "Clean filters",
+    "multipleSelect": "Multiple Select",
+    "byArea": "By Area",
+    "byService": "By Service",
+    "byCategory": "By Category"
   }
 }

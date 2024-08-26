@@ -15,8 +15,11 @@ import { useFormContext } from 'react-hook-form';
 import { Location } from '@/lib/api/locations';
 import PlaceWidget from '@/components/MapPage/MapSheet/PlaceWidget/PlaceWidget';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { useTranslations } from 'next-intl';
 
 const AreaDetailPage = ({ slug }: { slug: string }) => {
+  const tGlobal = useTranslations('Global');
+
   const [hideAreaContent, setHideAreaContent] = useState<boolean>(false);
   const isDesktop = useMediaQuery('(min-width: 768px)');
 
@@ -63,9 +66,9 @@ const AreaDetailPage = ({ slug }: { slug: string }) => {
   return (
     <div className='h-[calc(100vh-70px)]'>
       {!hideAreaContent && (
-        <div className='absolute left-0 top-0 z-10 mt-[70px] h-[calc(100vh-70px)] w-full bg-white md:w-[460px]'>
+        <div className='absolute left-0 top-0 z-10 mt-[70px] h-[calc(100vh-70px)] w-full bg-white md:max-w-[460px]'>
           {isAreaLoading ? (
-            <div className='text-center font-gaegu text-lg font-bold text-secondary'>Loading...</div>
+            <div className='text-center font-gaegu text-lg font-bold text-secondary'>{tGlobal('loading')}</div>
           ) : !area ? (
             <div className='text-center font-gaegu text-lg font-bold text-secondary'>&quot;No Data&quot;</div>
           ) : (

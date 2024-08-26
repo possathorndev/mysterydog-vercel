@@ -19,8 +19,11 @@ import SearchWidget from '@/components/MapPage/MapSheet/SearchWidget/SearchWidge
 
 // Context
 import { useMapFormCtx } from '@/contexts/MapProvider/MapFormProvider';
+import { useTranslations } from 'next-intl';
 
 const SearchFormWithFilter = () => {
+  const tSearchWidget = useTranslations('SearchWidget');
+
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const searchParams = useSearchParams();
 
@@ -53,7 +56,7 @@ const SearchFormWithFilter = () => {
           <>
             <FormControl>
               <Input
-                placeholder='Search Area, Location Category...'
+                placeholder={tSearchWidget('placeholder')}
                 className='z-20 h-8 border-none text-font-header placeholder:text-secondary focus-visible:ring-secondary/10 md:focus-visible:ring-0'
                 {...field}
               />

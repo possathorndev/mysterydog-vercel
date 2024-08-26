@@ -52,19 +52,36 @@ export const findBlogs = async (params: { query: Query }): Promise<FindResponse<
 };
 
 export const findBlogBySlug = async (slug: string): Promise<Blog> => {
-  const response = await publicAPI.get(`/blogs/${slug}`);
+  const query = qs.stringify(
+    {
+      filters: { slug },
+      populate: defaultQuery.populate,
+      locale: getCookie('NEXT_LOCALE') || defaultLocale,
+    },
+    { encodeValuesOnly: true },
+  );
+  const response = await publicAPI.get<ListResponseData<Blog>>(`/blogs?${query}`);
 
-  return response?.data?.data?.attributes;
+  return response?.data?.data?.[0]?.attributes;
 };
 
 export const findBlogBySlugSSR = async ({ queryKey }: { queryKey: QueryKey }): Promise<Blog | undefined> => {
-  const [_key, slug] = queryKey;
+  const [_key, slug, locale] = queryKey;
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blogs/${slug}`, {
+  const query = qs.stringify(
+    {
+      filters: { slug },
+      populate: defaultQuery.populate,
+      locale: locale || getCookie('NEXT_LOCALE') || defaultLocale,
+    },
+    { encodeValuesOnly: true },
+  );
+
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blogs?${query}`, {
     next: { revalidate: defaultStaleTime },
   });
 
-  const result: SingleResponseData<Blog> = await response.json();
+  const result: ListResponseData<Blog> = await response.json();
 
-  return result?.data?.attributes;
+  return result?.data?.[0]?.attributes;
 };

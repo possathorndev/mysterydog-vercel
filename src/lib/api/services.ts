@@ -1,5 +1,7 @@
+import { defaultLocale } from '@/constants/config';
 import { publicAPI } from '@/lib/api';
 import { FindResponse, Image, Query, SingleResponseData } from '@/lib/api/utils/common';
+import { getCookie } from 'cookies-next';
 import qs from 'qs';
 
 export type Service = {
@@ -25,6 +27,7 @@ export const findLocationServices = async (params: { query: Query }): Promise<Fi
       ...params.query,
       filters: { ...defaultQuery.filters, ...params.query?.filters },
       populate: [...defaultQuery.populate, ...(params.query?.populate ? params.query?.populate : [])],
+      locale: getCookie('NEXT_LOCALE') || defaultLocale,
     },
     { encodeValuesOnly: true },
   );
