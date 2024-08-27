@@ -107,8 +107,8 @@ const PlaceWidget = ({ slug }: PlaceWidget) => {
           </SheetTitle>
         </SheetHeader>
 
-        <div className='cursor-pointer' onClick={() => setExpanded(true)}>
-          <LocationCard data={data} />
+        <div className='cursor-pointer'>
+          <LocationCard data={data} onClick={() => setExpanded(true)} />
         </div>
       </SheetContent>
     </>

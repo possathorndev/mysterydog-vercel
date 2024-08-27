@@ -121,6 +121,9 @@ export type Query = {
   sort?: Sort;
   fields?: Fields;
   pagination?: Pagination;
+  sortByNearest?: boolean;
+  lat?: number;
+  lng?: number;
 };
 
 export type Address = {

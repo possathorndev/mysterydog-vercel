@@ -31,6 +31,7 @@
     "popularAreaHeader": "สถานที่ยอดฮิต"
   },
   "LocationPage": {
+    "noLocationPermission": "แชร์โลเคชั่นเพื่อให้เราแนะนำสถานที่ใกล้คุณ",
     "noLocation": "ไม่พบสถานที่ใกล้คุณ"
   },
   "AreaPage": {

@@ -39,9 +39,12 @@ export const useAreasWithLocationCount = () => {
 };
 
 export const useAreaBySlug = (slug: string) => {
-  return useQuery({
+  return useLocaleQuery({
     queryKey: ['area', slug],
-    queryFn: () => findAreaBySlug(slug),
+    queryFn: (query) => findAreaBySlug({ query }),
+    query: {
+      filters: { slug: { $eq: slug } },
+    },
     enabled: !!slug,
   });
 };

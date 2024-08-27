@@ -20,11 +20,13 @@ const LocationCard = ({
   imagePosition = 'left',
   size = 'large',
   showOpeningHourButton,
+  onClick,
 }: {
   data: Location;
   imagePosition?: 'left' | 'top';
   size?: 'small' | 'large';
   showOpeningHourButton?: boolean;
+  onClick?: () => void;
 }) => {
   const defaultCategory = useMemo(() => data?.categories?.data?.[0]?.attributes, [data?.categories]);
 
@@ -40,10 +42,8 @@ const LocationCard = ({
         imagePosition === 'left' ? 'max-h-72' : 'max-h-96 min-h-72',
       )}
     >
-      <CardContent
-        className={cn('flex h-full w-full bg-white p-0', imagePosition === 'left' ? 'flex-row' : 'flex-col')}
-      >
-        <div className={cn(imagePosition === 'left' ? 'min-w-[33%]' : 'w-full')}>
+      <CardContent className={cn('flex h-full w-full p-0', imagePosition === 'left' ? 'flex-row' : 'flex-col')}>
+        <div className={cn(imagePosition === 'left' ? 'min-w-[33%]' : 'w-full')} onClick={onClick}>
           <AspectRatio
             ratio={imagePosition === 'left' ? 120 / 150 : size === 'small' ? 16 / 9 : 16 / 6}
             className={cn('bg-muted', imagePosition === 'top' && 'rounded-t-[13.8px]')}
@@ -59,17 +59,19 @@ const LocationCard = ({
         {/* HEX Alpha - https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4 */}
         <div className='h-full rounded-b-[13.8px] p-2 px-3'>
           <div className='flex items-center justify-between'>
-            <div style={{ color: defaultCategory?.color }} className='font-gaegu text-sm'>
+            <div style={{ color: defaultCategory?.color }} className='font-gaegu text-sm' onClick={onClick}>
               {defaultCategory?.name}
             </div>
             <ServicePopover services={data.services.data.map((service) => service.attributes)} />
           </div>
-          <div className='text-sm font-bold text-font-header'>{data.name}</div>
-          <div className='font-gaegu text-sm text-font-description'>{formatAddressToString(data.address)}</div>
-          <div className='mt-1 flex flex-wrap gap-1'>
-            {data.services?.data?.map((service) => (
-              <ServiceDisplayBadge key={service.id} item={service.attributes} small showIcon={false} />
-            ))}
+          <div onClick={onClick}>
+            <div className='text-sm font-bold text-font-header'>{data.name}</div>
+            <div className='font-gaegu text-sm text-font-description'>{formatAddressToString(data.address)}</div>
+            <div className='mt-1 flex flex-wrap gap-1'>
+              {data.services?.data?.map((service) => (
+                <ServiceDisplayBadge key={service.id} item={service.attributes} small showIcon={false} />
+              ))}
+            </div>
           </div>
           <div className='mt-1'>
             <OpeningHourLabel data={data.openingHours} showAllButton={showOpeningHourButton} />

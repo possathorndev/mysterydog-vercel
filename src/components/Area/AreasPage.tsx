@@ -8,6 +8,7 @@ import { toUpperCaseFirstLetter } from '@/utils/helpers';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { useMemo } from 'react';
+import { useGeolocationCtx } from '@/contexts/GeolocationProvider';
 
 const AreasPage = () => {
   const params = useParams<{ city: string }>();
@@ -16,6 +17,7 @@ const AreasPage = () => {
   const tAreaPage = useTranslations('AreaPage');
   const tLocationPage = useTranslations('LocationPage');
 
+  const { currentLocation } = useGeolocationCtx();
   const { areas, isLoading } = useAreasWithLocationCount();
 
   const areasData = useMemo(() => {
@@ -33,7 +35,11 @@ const AreasPage = () => {
         {tAreaPage('title', { city: toUpperCaseFirstLetter(params.city) })}
       </div>
 
-      {isLoading ? (
+      {!currentLocation ? (
+        <div className='text-center font-gaegu text-lg font-bold text-secondary'>
+          &quot;{tLocationPage('noLocationPermission')}&quot;
+        </div>
+      ) : isLoading ? (
         <div className='text-center font-gaegu text-lg font-bold text-secondary'>{tGlobal('loading')}</div>
       ) : !areasData?.length ? (
         <div className='text-center font-gaegu text-lg font-bold text-secondary'>&quot;{tAreaPage('noArea')}&quot;</div>
