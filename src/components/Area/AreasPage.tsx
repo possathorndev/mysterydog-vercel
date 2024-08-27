@@ -9,9 +9,14 @@ import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { useMemo } from 'react';
 import { useGeolocationCtx } from '@/contexts/GeolocationProvider';
+import { Location } from '@/lib/api/locations';
+import { MAPS_PATH } from '@/constants/config';
+import { useRouter } from '@/utils/navigation';
 
 const AreasPage = () => {
+  const router = useRouter();
   const params = useParams<{ city: string }>();
+
   const tGlobal = useTranslations('Global');
   const tHome = useTranslations('HomePage');
   const tAreaPage = useTranslations('AreaPage');
@@ -28,6 +33,8 @@ const AreasPage = () => {
   const locationsData = useMemo(() => {
     return locations?.data?.map((location) => location.attributes);
   }, [locations]);
+
+  const onLocationCardClick = (location: Location) => router.push(`${MAPS_PATH}/${location.slug}`);
 
   return (
     <div className='mx-auto my-6 flex min-h-[calc(100vh-230px)] max-w-screen-2xl flex-col gap-6 px-6'>
@@ -61,7 +68,11 @@ const AreasPage = () => {
         </div>
       ) : (
         <div className='grid grid-cols-1 place-items-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-          {locationsData?.map((location, index) => <LocationCard key={index} data={location} imagePosition='top' />)}
+          {locationsData?.map((location, index) => (
+            <div className='cursor-pointer' key={index}>
+              <LocationCard data={location} imagePosition='top' onClick={() => onLocationCardClick(location)} />
+            </div>
+          ))}
         </div>
       )}
     </div>

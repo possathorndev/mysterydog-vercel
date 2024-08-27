@@ -67,7 +67,7 @@ export const findAreaBySlug = async (params: { query: Query }): Promise<FindResp
     },
     { encodeValuesOnly: true },
   );
-  const response = await publicAPI.get<ListResponseData<Area>>(`/location-areas/count?${query}`);
+  const response = await publicAPI.get<FindResponse<Area>>(`/location-areas/count?${query}`);
 
   return response?.data;
 };
