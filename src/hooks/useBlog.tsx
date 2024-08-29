@@ -1,7 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
 
 // API
-import { findBlogBySlug, findBlogs } from '@/lib/api/blog';
+import { BlogCMS, findBlogBySlug, findBlogCMS, findBlogs } from '@/lib/api/blog';
+import { useLocale } from 'next-intl';
+
+export const useBlogPage = ({ initialData }: { initialData?: BlogCMS }) => {
+  const locale = useLocale();
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['blog-cms', locale],
+    queryFn: () => findBlogCMS({ locale }),
+    initialData,
+  });
+
+  return { data, isLoading };
+};
 
 // Find Blogs
 export const useBlogs = () => {

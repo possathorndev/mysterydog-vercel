@@ -17,6 +17,7 @@ export type BlogCategory = {
   image: SingleResponseData<Image>;
   tags: ListResponseData<Tag>;
   locale: string;
+  bannerImages: ListResponseData<Image>;
 };
 
 export type Blog = {
@@ -29,9 +30,56 @@ export type Blog = {
   categories: ListResponseData<BlogCategory>;
 };
 
+export type BlogCMS = {
+  title: string;
+  shortDescription: string;
+  bannerImages: ListResponseData<Image>;
+  categories: ListResponseData<BlogCategory>;
+  popularBlogs: ListResponseData<Blog>;
+};
+
+const defaultBlogCMSQuery = {
+  filters: {},
+  populate: ['categories', 'bannerImages', 'popularBlogs', 'popularBlogs.categories'],
+};
+
 const defaultQuery = {
   filters: {},
   populate: ['image', 'categories'],
+};
+
+export const findBlogCMS = async ({ locale }: { locale?: string }): Promise<BlogCMS> => {
+  const query = qs.stringify(
+    {
+      filters: { ...defaultBlogCMSQuery.filters },
+      populate: [...defaultBlogCMSQuery.populate],
+      locale: locale || getCookie('NEXT_LOCALE') || defaultLocale,
+    },
+    { encodeValuesOnly: true },
+  );
+
+  const response = await publicAPI.get<SingleResponseData<BlogCMS>>(`/blog-page?${query}`);
+
+  return response?.data?.data?.attributes;
+};
+
+export const findBlogCMSServerSide = async ({ locale }: { locale?: string }): Promise<BlogCMS> => {
+  const query = qs.stringify(
+    {
+      filters: { ...defaultBlogCMSQuery.filters },
+      populate: [...defaultBlogCMSQuery.populate],
+      locale: locale || defaultLocale,
+    },
+    { encodeValuesOnly: true },
+  );
+
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blog-page?${query}`, {
+    next: { revalidate: 60 * 60 },
+  });
+
+  const result: SingleResponseData<BlogCMS> = await response.json();
+
+  return result.data?.attributes;
 };
 
 export const findBlogs = async (params: { query: Query }): Promise<FindResponse<Blog>> => {
