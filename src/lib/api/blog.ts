@@ -99,6 +99,45 @@ export const findBlogs = async (params: { query: Query }): Promise<FindResponse<
   return response.data;
 };
 
+export const findBlogCategoryBySlug = async (slug: string): Promise<BlogCategory> => {
+  const query = qs.stringify(
+    {
+      filters: { slug },
+      populate: defaultQuery.populate,
+      locale: getCookie('NEXT_LOCALE') || defaultLocale,
+    },
+    { encodeValuesOnly: true },
+  );
+  const response = await publicAPI.get<ListResponseData<BlogCategory>>(`/blog-categories?${query}`);
+
+  return response?.data?.data?.[0]?.attributes;
+};
+
+export const findBlogCategoryBySlugSSR = async ({
+  queryKey,
+}: {
+  queryKey: QueryKey;
+}): Promise<BlogCategory | undefined> => {
+  const [_key, slug, locale] = queryKey;
+
+  const query = qs.stringify(
+    {
+      filters: { slug },
+      populate: defaultQuery.populate,
+      locale: locale || getCookie('NEXT_LOCALE') || defaultLocale,
+    },
+    { encodeValuesOnly: true },
+  );
+
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blog-categories?${query}`, {
+    next: { revalidate: defaultStaleTime },
+  });
+
+  const result: ListResponseData<BlogCategory> = await response.json();
+
+  return result?.data?.[0]?.attributes;
+};
+
 export const findBlogBySlug = async (slug: string): Promise<Blog> => {
   const query = qs.stringify(
     {
