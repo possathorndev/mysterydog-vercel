@@ -31,6 +31,7 @@
     "popularAreaHeader": "Popular Areas"
   },
   "LocationPage": {
+    "noLocationPermission": "Please allow location permission to find places nearby",
     "noLocation": "There Are No Venues Near You"
   },
   "AreaPage": {

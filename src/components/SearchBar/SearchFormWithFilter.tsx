@@ -31,7 +31,7 @@ const SearchFormWithFilter = () => {
   const { onFilter, onClearFilter } = useMapFormCtx();
 
   const form = useFormContext();
-  const { control, handleSubmit, setValue, watch } = form;
+  const { control, handleSubmit } = form;
 
   const searchString = useMemo(() => {
     return searchParams.get('search') || '';

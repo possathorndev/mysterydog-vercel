@@ -10,6 +10,7 @@ import { useFormContext } from 'react-hook-form';
 import PlaceWidget from '@/components/MapPage/MapSheet/PlaceWidget/PlaceWidget';
 import { useMapParamsCtx } from '@/contexts/MapProvider/MapParamsProvider';
 import { useMapSheetCtx } from '@/contexts/MapProvider/MapSheetProvider';
+import { useLocationBySlug } from '@/hooks/useLocation';
 
 const mapStyle = [
   {
@@ -119,8 +120,8 @@ const containerStyle = {
 };
 
 const center = {
-  lat: 0,
-  lng: 0,
+  lat: 13.7458,
+  lng: 100.5344,
 };
 
 const GoogleMapComponent = ({
@@ -132,6 +133,7 @@ const GoogleMapComponent = ({
   defaultSelectedLocation?: Location;
   onMarkerSelectCallback?: () => void;
 }) => {
+  const [map, setMap] = useState<google.maps.Map>();
   const [hoverLocation, setHoverLocation] = useState<string>();
   const [selectedMarker, setSelectedMarker] = useState<Location | undefined>();
 
@@ -140,21 +142,22 @@ const GoogleMapComponent = ({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
   });
 
-  const { currentLocation } = useGeolocationCtx();
-
-  const [map, setMap] = useState<google.maps.Map>();
-
-  const { handleSelectLocation } = useMapParamsCtx();
-  const { triggerOpen } = useMapSheetCtx();
   const form = useFormContext();
   const { watch, getValues, setValue } = form;
 
+  const { currentLocation } = useGeolocationCtx();
+  const { data: selectedLocationInfo } = useLocationBySlug(watch('selectedLocation'));
+
+  const { handleSelectLocation } = useMapParamsCtx();
+  const { triggerOpen } = useMapSheetCtx();
+
   const onMarkerSelect = async (data?: Location) => {
+    setSelectedMarker(data);
+
     if (!data) return;
 
-    handleSelectLocation(data.slug || '', !!getValues('selectedLocation') ? 'replace' : 'push');
-    setSelectedMarker(data);
     setValue('selectedLocation', data.slug);
+    handleSelectLocation(data.slug || '', !!getValues('selectedLocation') ? 'replace' : 'push');
     triggerOpen(true, <PlaceWidget slug={data.slug} />);
 
     onMarkerSelectCallback?.();
@@ -165,13 +168,13 @@ const GoogleMapComponent = ({
   }, [defaultSelectedLocation]);
 
   useEffect(() => {
-    !watch('selectedLocation') && setSelectedMarker(undefined);
-  }, [watch('selectedLocation')]);
+    onMarkerSelect(selectedLocationInfo);
+  }, [selectedLocationInfo]);
 
   useEffect(() => {
     if (map && selectedMarker) {
-      map.setZoom(16);
       const latLng = new google.maps.LatLng(selectedMarker.lat, selectedMarker.long);
+      map.setZoom(16);
       map.panTo(latLng);
     }
   }, [map, selectedMarker]);
@@ -191,11 +194,13 @@ const GoogleMapComponent = ({
         bounds.extend(new google.maps.LatLng(location.lat, location.long));
       });
 
-      map?.fitBounds(bounds);
-      const zoomLevel = map?.getZoom() || 16;
-      if (map && zoomLevel > 16) {
-        map.setZoom(16);
-      }
+      setTimeout(() => {
+        !selectedMarker && map?.fitBounds(bounds);
+
+        const zoomLevel = map?.getZoom() || 16;
+
+        if (map && zoomLevel > 16) map.setZoom(16);
+      }, 100);
     }
   }, [map, locations]);
 
@@ -232,8 +237,8 @@ const GoogleMapComponent = ({
           >
             {hoverLocation === location.slug && (
               <InfoWindow position={{ lat: location.lat, lng: location.long }}>
-                <div className='cursor-pointer' onClick={() => onMarkerSelect(location)}>
-                  <LocationCard data={location} showOpeningHourButton />
+                <div className='cursor-pointer rounded-3xl bg-white'>
+                  <LocationCard data={location} showOpeningHourButton onClick={() => onMarkerSelect(location)} />
                 </div>
               </InfoWindow>
             )}

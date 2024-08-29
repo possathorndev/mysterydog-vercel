@@ -26,7 +26,7 @@ const AreaDetailPage = ({ slug }: { slug: string }) => {
   const { handleSelectLocation } = useMapParamsCtx();
   const { triggerOpen } = useMapSheetCtx();
 
-  const { data: area, isLoading: isAreaLoading } = useAreaBySlug(slug);
+  const { data: areas, isLoading: isAreaLoading } = useAreaBySlug(slug);
   const { locations, isLocationLoading } = useLocations({
     query: {
       populate: ['areas'],
@@ -34,7 +34,10 @@ const AreaDetailPage = ({ slug }: { slug: string }) => {
     },
   });
 
-  const totalLocations = useMemo(() => locations?.pages?.[0]?.meta?.pagination?.total || 0, [locations]);
+  const areaData = useMemo(() => {
+    return areas?.data?.[0]?.attributes;
+  }, [locations]);
+
   const locationsData = useMemo(() => {
     return locations?.pages?.flatMap((page) => page.data).map((location) => location.attributes) || [];
   }, [locations]);
@@ -69,19 +72,21 @@ const AreaDetailPage = ({ slug }: { slug: string }) => {
         <div className='absolute left-0 top-0 z-10 mt-[70px] h-[calc(100vh-70px)] w-full bg-white md:max-w-[460px]'>
           {isAreaLoading ? (
             <div className='text-center font-gaegu text-lg font-bold text-secondary'>{tGlobal('loading')}</div>
-          ) : !area ? (
+          ) : !areaData ? (
             <div className='text-center font-gaegu text-lg font-bold text-secondary'>&quot;No Data&quot;</div>
           ) : (
             <>
-              <MenuBreadcrumb data={[{ title: 'Bangkok', href: `${LOCATION_PATH}/bangkok` }, { title: area.name }]} />
+              <MenuBreadcrumb
+                data={[{ title: 'Bangkok', href: `${LOCATION_PATH}/bangkok` }, { title: areaData.name }]}
+              />
               <ScrollArea className='h-[calc(100vh-125px)] w-full'>
                 {/* Map Banner - for mobile */}
                 <div className='lg:hidden'>
                   <MapBanner />
                 </div>
                 <AreaInfo
-                  area={area}
-                  totalLocations={totalLocations}
+                  area={areaData}
+                  totalLocations={areaData?.locationsCount || 0}
                   locations={locationsData}
                   isLocationLoading={isLocationLoading}
                   onLocationClick={(location) => onLocationClick(location)}

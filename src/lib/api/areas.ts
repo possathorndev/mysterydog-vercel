@@ -58,18 +58,18 @@ export const findLocationAreasWithLocationCount = async (params: { query: Query 
   return response.data;
 };
 
-export const findAreaBySlug = async (slug: string): Promise<Area> => {
+export const findAreaBySlug = async (params: { query: Query }): Promise<FindResponse<Area>> => {
   const query = qs.stringify(
     {
-      filters: { slug },
+      ...params.query,
       populate: defaultQuery.populate,
       locale: getCookie('NEXT_LOCALE') || defaultLocale,
     },
     { encodeValuesOnly: true },
   );
-  const response = await publicAPI.get<ListResponseData<Area>>(`/location-areas?${query}`);
+  const response = await publicAPI.get<FindResponse<Area>>(`/location-areas/count?${query}`);
 
-  return response?.data?.data?.[0]?.attributes;
+  return response?.data;
 };
 
 export const findAreaBySlugSSR = async ({ queryKey }: { queryKey: QueryKey }): Promise<Area | undefined> => {
@@ -84,7 +84,7 @@ export const findAreaBySlugSSR = async ({ queryKey }: { queryKey: QueryKey }): P
     { encodeValuesOnly: true },
   );
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/location-areas?${query}`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/location-areas/count?${query}`, {
     next: { revalidate: defaultStaleTime },
   });
 

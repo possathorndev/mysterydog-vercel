@@ -50,11 +50,12 @@ const AreaInfo = ({ area, totalLocations, locations, isLocationLoading, onLocati
         ) : (
           <div className='grid grid-cols-1 place-items-stretch gap-4 lg:grid-cols-2'>
             {locations?.map((location, index) => (
-              <div key={index} className='cursor-pointer' onClick={() => onLocationClick(location)}>
+              <div key={index} className='cursor-pointer'>
                 <LocationCard
                   data={location}
                   imagePosition={isDesktop ? 'top' : 'left'}
                   size={isDesktop ? 'small' : 'large'}
+                  onClick={() => onLocationClick(location)}
                 />
               </div>
             ))}

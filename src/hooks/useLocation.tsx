@@ -10,6 +10,7 @@ import { findLocationServices } from '@/lib/api/services';
 import { Query } from '@/lib/api/utils/common';
 import { useLocale } from 'next-intl';
 import { useLocaleQuery } from '@/hooks/useLocaleQuery';
+import { useGeolocationCtx } from '@/contexts/GeolocationProvider';
 
 // Find Location
 const useLocations = (params?: { query: Query }) => {
@@ -35,6 +36,13 @@ const useLocations = (params?: { query: Query }) => {
           populate: params?.query?.populate,
           sort,
           locale,
+          ...(params?.query?.sortByNearest &&
+            params?.query?.lat &&
+            params?.query?.lng && {
+              lat: params?.query?.lat,
+              long: params?.query?.lng,
+              sortByNearest: params?.query?.sortByNearest,
+            }),
         },
       });
     },
@@ -51,16 +59,20 @@ const useLocations = (params?: { query: Query }) => {
 
 // Find Location Near Me
 export const useLocationsNearMe = () => {
+  const { currentLocation } = useGeolocationCtx();
   const query: Query = {
     sort: ['createdAt:desc'],
     filters: {},
+    lat: currentLocation?.latitude,
+    lng: currentLocation?.longitude,
+    sortByNearest: true,
   };
 
-  // TODO: get user current location
   const { data: locations, isLoading } = useLocaleQuery({
-    queryKey: ['locationsNearMe'],
+    queryKey: ['locationsNearMe', currentLocation],
     queryFn: (query) => findLocations({ query }),
     query,
+    enabled: !!currentLocation?.latitude && !!currentLocation?.longitude,
   });
 
   return {
