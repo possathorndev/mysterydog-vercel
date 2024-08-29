@@ -1,7 +1,12 @@
-import React from 'react';
+import BlogMainPage from '@/components/Blog/BlogMainPage';
+import { findBlogCMSServerSide } from '@/lib/api/blog';
+import { unstable_setRequestLocale } from 'next-intl/server';
 
-const Page = () => {
-  return <div>Blogs List</div>;
-};
+export default async function Page({ params }: { params: { locale: string } }) {
+  // Enable static rendering
+  unstable_setRequestLocale(params.locale);
 
-export default Page;
+  const data = await findBlogCMSServerSide({ locale: params.locale });
+
+  return <BlogMainPage initialData={data} />;
+}

@@ -1,9 +1,9 @@
 import React from 'react';
 
 type Props = {
-  params: { slug: string };
+  params: { category: string };
 };
 
 export default async function Page({ params }: Props) {
-  return <div>Blog Slug: {params.slug}</div>;
+  return <div>Blog Category: {params.category}</div>;
 }
