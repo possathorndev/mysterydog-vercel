@@ -72,7 +72,6 @@ export const useLocationsNearMe = () => {
     queryKey: ['locationsNearMe', currentLocation],
     queryFn: (query) => findLocations({ query }),
     query,
-    enabled: !!currentLocation?.latitude && !!currentLocation?.longitude,
   });
 
   return {

@@ -2,13 +2,12 @@
 
 import AreaCard from '@/components/Area/AreaCard';
 import LocationCard from '@/components/Locations/Location/LocationCard';
-import { useAreas, useAreasWithLocationCount } from '@/hooks/useArea';
+import { useAreasWithLocationCount } from '@/hooks/useArea';
 import { useLocationsNearMe } from '@/hooks/useLocation';
 import { toUpperCaseFirstLetter } from '@/utils/helpers';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { useMemo } from 'react';
-import { useGeolocationCtx } from '@/contexts/GeolocationProvider';
 import { Location } from '@/lib/api/locations';
 import { MAPS_PATH } from '@/constants/config';
 import { useRouter } from '@/utils/navigation';
@@ -22,7 +21,6 @@ const AreasPage = () => {
   const tAreaPage = useTranslations('AreaPage');
   const tLocationPage = useTranslations('LocationPage');
 
-  const { currentLocation } = useGeolocationCtx();
   const { areas, isLoading } = useAreasWithLocationCount();
 
   const areasData = useMemo(() => {
@@ -42,11 +40,7 @@ const AreasPage = () => {
         {tAreaPage('title', { city: toUpperCaseFirstLetter(params.city) })}
       </div>
 
-      {!currentLocation ? (
-        <div className='text-center font-gaegu text-lg font-bold text-secondary'>
-          &quot;{tLocationPage('noLocationPermission')}&quot;
-        </div>
-      ) : isLoading ? (
+      {isLoading ? (
         <div className='text-center font-gaegu text-lg font-bold text-secondary'>{tGlobal('loading')}</div>
       ) : !areasData?.length ? (
         <div className='text-center font-gaegu text-lg font-bold text-secondary'>&quot;{tAreaPage('noArea')}&quot;</div>
