@@ -42,6 +42,11 @@
     "detailLocationTitle": "สาหกดาห าหกาหกกห"
   },
   "BlogPage": {
+    "blogListHeader": "หัวข้อทั้งหมด",
+    "popularBlogHeader": "หัวข้อยอดนิยม",
+    "popularBlogSubHeader": "ดูเพิ่มเดินเลย!",
+    "newBlogHeader": "บทความใหม่",
+    "newBlogSubHeader": "ดูเพิ่มเดินเลย!",
     "noBlog": "ไม่พบบทความ"
   },
   "SearchWidget": {
