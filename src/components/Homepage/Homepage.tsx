@@ -6,7 +6,7 @@ import BannerImages from '@/components/Homepage/BannerImages';
 import CategoryList from '@/components/Category/CategoryList';
 import MapBanner from '@/components/Homepage/MapBanner';
 import LocationNearMe from '@/components/Homepage/LocationNearMe';
-import BlogList from '@/components/Blog/BlogList';
+import BlogHomeList from '@/components/Blog/BlogHomeList';
 import AreaList from '@/components/Area/AreaList';
 
 export default function Homepage({ initialData }: { initialData?: Home }) {
@@ -23,7 +23,7 @@ export default function Homepage({ initialData }: { initialData?: Home }) {
         </div>
         <LocationNearMe />
       </div>
-      <BlogList />
+      <BlogHomeList />
       <div className='mx-auto w-full max-w-screen-2xl px-2 md:px-6'>
         <AreaList data={data?.popularAreas} />
       </div>

@@ -6,7 +6,7 @@ import { BLOGS_PATH } from '@/constants/config';
 import { Blog } from '@/lib/api/blog';
 import readingTime from 'reading-time';
 
-const BlogCard = ({ data }: { data: Blog }) => {
+const BlogHomeCard = ({ data }: { data: Blog }) => {
   const defaultCategory = useMemo(() => data?.categories?.data?.[0]?.attributes, [data?.categories]);
 
   const readTime = useMemo(() => readingTime(data.content), [data.content]);
@@ -32,4 +32,4 @@ const BlogCard = ({ data }: { data: Blog }) => {
   );
 };
 
-export default BlogCard;
+export default BlogHomeCard;

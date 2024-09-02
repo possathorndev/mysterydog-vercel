@@ -43,6 +43,11 @@
     "detailLocationTitle": "Pet Friendly Places"
   },
   "BlogPage": {
+    "blogListHeader": "Blog Categories Section",
+    "popularBlogHeader": "Popular Topic",
+    "popularBlogSubHeader": "Find the purr-fect spot for your furry friend!",
+    "newBlogHeader": "New Blogs",
+    "newBlogSubHeader": "Find the purr-fect spot for your furry friend!",
     "noBlog": "No Blogs Found"
   },
   "SearchWidget": {
