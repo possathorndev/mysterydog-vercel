@@ -1,16 +1,15 @@
 'use client';
 
+import { useMemo } from 'react';
+import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import LocationCard from '@/components/Locations/Location/LocationCard';
 import { MAPS_PATH } from '@/constants/config';
 import { useLocationsNearMe } from '@/hooks/useLocation';
-import { useTranslations } from 'next-intl';
-import Link from 'next/link';
-import { useMemo } from 'react';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { useRouter } from '@/utils/navigation';
 import { Location } from '@/lib/api/locations';
-import { useGeolocationCtx } from '@/contexts/GeolocationProvider';
 
 const LocationNearMe = () => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
@@ -20,7 +19,6 @@ const LocationNearMe = () => {
   const tGlobal = useTranslations('Global');
   const tLocationPage = useTranslations('LocationPage');
 
-  const { currentLocation } = useGeolocationCtx();
   const { locations, isLoading } = useLocationsNearMe();
   const locationsData = useMemo(() => {
     return locations?.data?.map((location) => location.attributes);
@@ -43,11 +41,7 @@ const LocationNearMe = () => {
         <div className='font-gaegu text-lg font-bold text-primary'>{tHome('locationDescription')}</div>
       </div>
 
-      {!currentLocation ? (
-        <div className='text-center font-gaegu text-lg font-bold text-secondary'>
-          &quot;{tLocationPage('noLocationPermission')}&quot;
-        </div>
-      ) : isLoading ? (
+      {isLoading ? (
         <div className='text-center font-gaegu text-lg font-bold text-secondary'>{tGlobal('loading')}</div>
       ) : !locationsData?.length ? (
         <div className='text-center font-gaegu text-lg font-bold text-secondary'>
