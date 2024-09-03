@@ -6,7 +6,7 @@ const LoginPage = () => {
   return (
     <div>
       <h1>Hello this is login page !</h1>
-      <AuthenticationModal />;
+      <AuthenticationModal />
     </div>
   );
 };
