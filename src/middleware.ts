@@ -3,11 +3,10 @@ import type { NextRequest } from 'next/server';
 import createIntlMiddleware from 'next-intl/middleware';
 
 import { auth } from '@/auth';
-
 import { locales, defaultLocale, localePrefix } from '@/constants/config';
 
-const privatePages = ['/profile', '/profile/test'];
-const authPages = ['/login', '/register'];
+const privatePages = ['/profile'];
+const authPages = ['/auth/login', '/auth/register'];
 
 const testPathnameRegex = (pages: string[], pathName: string): boolean => {
   return RegExp(
@@ -24,13 +23,18 @@ const intlMiddleware = createIntlMiddleware({
 });
 
 const authMiddleware = auth((req) => {
-  const isAuthPage = testPathnameRegex(authPages, req.nextUrl.pathname);
-  const session = req.auth;
+  const { nextUrl } = req;
+  const isLoggedIn = !!req.auth;
 
-  if (!session && !isAuthPage) return NextResponse.redirect(new URL('/login', req.nextUrl));
-  if (session && isAuthPage) return NextResponse.redirect(new URL('/', req.nextUrl));
+  const isPrivatePage = testPathnameRegex(privatePages, nextUrl.pathname);
+  const isAuthPage = testPathnameRegex(authPages, nextUrl.pathname);
 
-  return intlMiddleware(req);
+  if (!isLoggedIn && isPrivatePage) return NextResponse.redirect(new URL('/auth/login', nextUrl));
+
+  if (isLoggedIn) {
+    if (isAuthPage) return NextResponse.redirect(new URL('/', nextUrl));
+    return intlMiddleware(req);
+  }
 });
 
 export default function middleware(req: NextRequest) {
@@ -45,5 +49,6 @@ export default function middleware(req: NextRequest) {
 }
 
 export const config = {
+  // matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
   matcher: ['/((?!api|_next|.*\\..*).*)'],
 };
