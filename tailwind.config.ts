@@ -14,6 +14,14 @@ const config = {
       },
     },
     extend: {
+      fontSize: {
+        '2xs': [
+          '0.625rem',
+          {
+            lineHeight: '0.75rem',
+          },
+        ],
+      },
       fontFamily: {
         sans: ['var(--font-sans)', ...fontFamily.sans],
         gaegu: ['var(--font-gaegu)'],
@@ -29,17 +37,12 @@ const config = {
           foreground: 'hsl(var(--primary-foreground))',
         },
         secondary: {
-          DEFAULT: 'var(--secondary)',
+          DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))',
         },
         tertiary: {
-          DEFAULT: 'var(--tertiary)',
-          foreground: 'hsl(var(--secondary-foreground))',
-        },
-        main: {
-          support1: 'var(--main-support-1)',
-          support2: 'var(--main-support-2)',
-          venue: 'var(--main-venue)',
+          DEFAULT: 'hsl(var(--tertiary))',
+          foreground: 'hsl(var(--tertiary-foreground))',
         },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
@@ -60,6 +63,14 @@ const config = {
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
+        },
+        font: {
+          header: 'hsl(var(--font-header))',
+          subheader: 'hsl(var(--font-sub-header))',
+          description: 'hsl(var(--font-description))',
+        },
+        support: {
+          main: 'hsl(var(--support-main))',
         },
       },
       borderRadius: {
@@ -83,7 +94,7 @@ const config = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],
 } satisfies Config;
 
 export default config;

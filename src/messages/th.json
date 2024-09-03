@@ -1,0 +1,67 @@
+{
+  "Global": {
+    "category": "หมวดหมู่",
+    "categoryDescription": "หกดหมทกดื หกสดา่หสกา่ด สาหก่ดสา่หกสด่",
+    "seeAll": "ทั้งหมด",
+    "loading": "กำลังโหลด...",
+    "back": "กลับ"
+  },
+  "Navbar": {
+    "ChangeLanguage": "เปลี่ยนภาษา",
+    "Home": "หน้าหลัก",
+    "AreaList": "สถานที่",
+    "Maps": "แผนที่",
+    "Blogs": "บทความ",
+    "HomeDescription": "กระดิกหาง ดุกดิกๆ",
+    "AreaListDescription": "หาพิกัดน้องเข้าได้",
+    "MapsDescription": "ชุมชนกระดิกหาง",
+    "BlogsDescription": "มหาลัยดุกดิกๆ"
+  },
+  "HomePage": {
+    "title": "สวัสดี!",
+    "mapTitle": "่ด้ดเ้ด้เดเ้้ดเ",
+    "mapDescription": "ไำดไำดำไดไำดหกดหกดหหกด",
+    "mapLinkTitle": "หกดหกด",
+    "mapLinkDescription": "กดหดกหดหกดหกหกดกดห",
+    "mapLinkNavigate": "หกดหกดหกดหกด",
+    "locationHeader": "สถานที่ใกล้ฉัน",
+    "locationDescription": "ดหกดหกดหกดกหด",
+    "blogHeader": "หกดหกดดหก",
+    "blogDescription": "กดหหกดกดหกดหกดหดกห",
+    "popularAreaHeader": "สถานที่ยอดฮิต"
+  },
+  "LocationPage": {
+    "noLocationPermission": "แชร์โลเคชั่นเพื่อให้เราแนะนำสถานที่ใกล้คุณ",
+    "noLocation": "ไม่พบสถานที่ใกล้คุณ"
+  },
+  "AreaPage": {
+    "noArea": "ไม่พบพื้นที่",
+    "noPopularArea": "ไม่พบสถานที่ยอดนิยม",
+    "noLocation": "ไม่พบสถานที่ในบริเวณนี้",
+    "title": "พื้นที่ใน {city}",
+    "detailTitle": "พื้นที่ใน",
+    "detailLocationTitle": "สาหกดาห าหกาหกกห"
+  },
+  "BlogPage": {
+    "blogListHeader": "หัวข้อทั้งหมด",
+    "popularBlogHeader": "หัวข้อยอดนิยม",
+    "popularBlogSubHeader": "ดูเพิ่มเดินเลย!",
+    "newBlogHeader": "บทความใหม่",
+    "newBlogSubHeader": "ดูเพิ่มเดินเลย!",
+    "noBlog": "ไม่พบบทความ"
+  },
+  "SearchWidget": {
+    "placeholder": "ค้นหาจากพื้นที่ ชื่อร้าน หมวดหมู่...",
+    "search": "ค้นหา",
+    "places": "สถานที่"
+  },
+  "FilterWidget": {
+    "filter": "ตัวกรอง",
+    "filterList": "ตัวกรองทั้งหมด",
+    "clean": "ล้าง",
+    "multipleSelect": "เลือกได้มากกว่า 1",
+    "byArea": "กรองพื้นที่",
+    "byService": "กรองบริการ",
+    "byCategory": "กรองหมวดหมู่"
+  }
+}

@@ -1,38 +1,42 @@
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { loginAPI } from '@/lib/api/authentication';
+import { loginAPI, LoginResponse } from '@/lib/api/authentication';
+import NextAuth, { DefaultSession } from 'next-auth';
 
-export const authOptions = {
-  providers: [
-    CredentialsProvider({
-      name: 'username and password',
-      credentials: {
-        identifier: {
-          label: 'Username *',
-          type: 'text',
-        },
-        password: { label: 'Password *', type: 'password' },
-      },
-      async authorize(credentials, req): Promise<any> {
-        try {
-          const response = await loginAPI({
-            identifier: credentials!.identifier,
-            password: credentials!.password,
-          });
+declare module 'next-auth' {
+  interface User extends LoginResponse {
+    error: string;
+  }
 
-          if (!response?.jwt || !response?.user) throw new Error('Failed to login');
+  /**
+   * Returned by `auth`, `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
+   */
+  interface Session {
+    user: {
+      jwt: string;
+      username: string;
+      /**
+       * By default, TypeScript merges new interface properties and overwrites existing ones.
+       * In this case, the default session user properties will be overwritten,
+       * with the new ones defined above. To keep the default session user properties,
+       * you need to add them back into the newly declared interface.
+       */
+    } & DefaultSession['user'];
+  }
+}
 
-          return response;
-        } catch (error) {
-          console.log('error', error);
-          return null;
-        }
-      },
-    }),
-  ],
-  database: process.env.NEXT_PUBLIC_DATABASE_URL,
+declare module '@auth/core/jwt' {
+  interface JWT {
+    jwt: string;
+    username: string;
+  }
+}
+
+export const { handlers, signIn, signOut, auth } = NextAuth({
+  trustHost: true,
   session: {
-    jwt: true,
+    strategy: 'jwt',
   },
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
@@ -44,13 +48,38 @@ export const authOptions = {
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user = {
-          ...session.user,
-          jwt: token.jwt,
-          username: token.username,
-        };
+        session.user = { ...session.user, jwt: token.jwt, username: token.username };
       }
       return session;
     },
   },
-};
+  providers: [
+    CredentialsProvider({
+      name: 'username and password',
+      credentials: {
+        identifier: {
+          label: 'Username',
+          type: 'text',
+        },
+        password: { label: 'Password', type: 'password' },
+      },
+      async authorize(credentials, req): Promise<any> {
+        try {
+          const { identifier, password } = credentials as {
+            identifier: string;
+            password: string;
+          };
+
+          const response = await loginAPI({ identifier, password });
+
+          if (!response?.jwt || !response?.user) throw new Error('Failed to login');
+
+          return response;
+        } catch (error) {
+          console.log('error', error);
+          return null;
+        }
+      },
+    }),
+  ],
+});
