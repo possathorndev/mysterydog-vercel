@@ -49,18 +49,19 @@ const intlMiddleware = createIntlMiddleware({
 //   return intlMiddleware(req);
 // };
 
-// export default function middleware(req: NextRequest) {
-// const isPrivatePage = testPathnameRegex(privatePages, req.nextUrl.pathname);
-// const isAuthPage = testPathnameRegex(authPages, req.nextUrl.pathname);
+export default function middleware(req: NextRequest) {
+  // const isPrivatePage = testPathnameRegex(privatePages, req.nextUrl.pathname);
+  // const isAuthPage = testPathnameRegex(authPages, req.nextUrl.pathname);
 
-// return handleAuthMiddleware(req, isPrivatePage, isAuthPage);
+  // return handleAuthMiddleware(req, isPrivatePage, isAuthPage);
 
-// if (isAuthPage || isPrivatePage) {
-//   return (authMiddleware as any)(req);
-// }
-//
-//   return intlMiddleware(req);
-// }
+  // if (isAuthPage || isPrivatePage) {
+  //   return (authMiddleware as any)(req);
+  // }
+  //
+  //   return intlMiddleware(req);
+  return req;
+}
 
 export const config = {
   matcher: ['/((?!api|_next|.*\\..*).*)'],
