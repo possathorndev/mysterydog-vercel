@@ -50,8 +50,8 @@ const intlMiddleware = createIntlMiddleware({
 // };
 
 export default function middleware(req: NextRequest) {
-  const isPrivatePage = testPathnameRegex(privatePages, req.nextUrl.pathname);
-  const isAuthPage = testPathnameRegex(authPages, req.nextUrl.pathname);
+  // const isPrivatePage = testPathnameRegex(privatePages, req.nextUrl.pathname);
+  // const isAuthPage = testPathnameRegex(authPages, req.nextUrl.pathname);
 
   // return handleAuthMiddleware(req, isPrivatePage, isAuthPage);
 
@@ -63,6 +63,5 @@ export default function middleware(req: NextRequest) {
 }
 
 export const config = {
-  // matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
   matcher: ['/((?!api|_next|.*\\..*).*)'],
 };
