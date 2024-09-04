@@ -1,5 +1,4 @@
 import LoginPage from '@/components/Authentication/LoginPage';
-import AuthenticationModal from '@/components/Navbar/RightNavbar/AuthenticationModal';
 
 export default async function Login() {
   return (

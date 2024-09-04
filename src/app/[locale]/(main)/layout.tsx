@@ -20,7 +20,9 @@ export default async function MainLayout({
   return (
     <>
       <div className='relative pt-[70px]'>{children}</div>
-      <div className='w-full'>{/*<Footer />*/}</div>
+      <div className='w-full'>
+        <Footer />
+      </div>
       <MapPin />
     </>
   );

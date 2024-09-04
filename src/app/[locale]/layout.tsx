@@ -12,8 +12,8 @@ import { Balsamiq_Sans, Gaegu } from 'next/font/google';
 import { locales } from '@/constants/config';
 
 // Internationalisation
-// import { NextIntlClientProvider } from 'next-intl';
-// import { getMessages, unstable_setRequestLocale } from 'next-intl/server';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages, unstable_setRequestLocale } from 'next-intl/server';
 
 // Providers
 import { LocationQueryContextProvider } from '@/contexts/LocationQueryProvider';
@@ -59,9 +59,9 @@ export default async function LocaleLayout({
   params: { locale: string };
 }) {
   // Enable static rendering
-  // unstable_setRequestLocale(locale);
+  unstable_setRequestLocale(locale);
 
-  // const messages = await getMessages();
+  const messages = await getMessages();
 
   return (
     <html lang={locale || 'en'} suppressHydrationWarning>
@@ -77,14 +77,16 @@ export default async function LocaleLayout({
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
           <AuthSessionProvider>
             <APIQueryProvider>
-              {/*<NextIntlClientProvider messages={messages}>*/}
-              <LocationQueryContextProvider>
-                <GeolocationContextProvider>
-                  <div className='fixed top-0 z-50 w-full'>{/*<Navbar />*/}</div>
-                  {children}
-                </GeolocationContextProvider>
-              </LocationQueryContextProvider>
-              {/*</NextIntlClientProvider>*/}
+              <NextIntlClientProvider messages={messages}>
+                <LocationQueryContextProvider>
+                  <GeolocationContextProvider>
+                    <div className='fixed top-0 z-50 w-full'>
+                      <Navbar />
+                    </div>
+                    {children}
+                  </GeolocationContextProvider>
+                </LocationQueryContextProvider>
+              </NextIntlClientProvider>
             </APIQueryProvider>
           </AuthSessionProvider>
           <Toaster />
