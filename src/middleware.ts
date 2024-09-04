@@ -22,20 +22,20 @@ const intlMiddleware = createIntlMiddleware({
   localeDetection: false,
 });
 
-// const authMiddleware = auth((req) => {
-//   const { nextUrl } = req;
-//   const isLoggedIn = !!req.auth;
-//
-//   const isPrivatePage = testPathnameRegex(privatePages, nextUrl.pathname);
-//   const isAuthPage = testPathnameRegex(authPages, nextUrl.pathname);
-//
-//   if (!isLoggedIn && isPrivatePage) return NextResponse.redirect(new URL('/auth/login', nextUrl));
-//
-//   if (isLoggedIn) {
-//     if (isAuthPage) return NextResponse.redirect(new URL('/', nextUrl));
-//     return intlMiddleware(req);
-//   }
-// });
+const authMiddleware = auth((req) => {
+  const { nextUrl } = req;
+  const isLoggedIn = !!req.auth;
+
+  const isPrivatePage = testPathnameRegex(privatePages, nextUrl.pathname);
+  const isAuthPage = testPathnameRegex(authPages, nextUrl.pathname);
+
+  if (!isLoggedIn && isPrivatePage) return NextResponse.redirect(new URL('/auth/login', nextUrl));
+
+  if (isLoggedIn) {
+    if (isAuthPage) return NextResponse.redirect(new URL('/', nextUrl));
+    return intlMiddleware(req);
+  }
+});
 
 // const handleAuthMiddleware = async (req: NextRequest, isPrivatePage: boolean, isAuthPage: boolean) => {
 //   const { nextUrl } = req;
@@ -50,15 +50,15 @@ const intlMiddleware = createIntlMiddleware({
 // };
 
 export default function middleware(req: NextRequest) {
-  // const isPrivatePage = testPathnameRegex(privatePages, req.nextUrl.pathname);
-  // const isAuthPage = testPathnameRegex(authPages, req.nextUrl.pathname);
+  const isPrivatePage = testPathnameRegex(privatePages, req.nextUrl.pathname);
+  const isAuthPage = testPathnameRegex(authPages, req.nextUrl.pathname);
 
   // return handleAuthMiddleware(req, isPrivatePage, isAuthPage);
 
-  // if (isAuthPage || isPrivatePage) {
-  //   return (authMiddleware as any)(req);
-  // }
-  //
+  if (isAuthPage || isPrivatePage) {
+    return (authMiddleware as any)(req);
+  }
+
   return intlMiddleware(req);
 }
 
