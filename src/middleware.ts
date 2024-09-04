@@ -59,8 +59,7 @@ export default function middleware(req: NextRequest) {
   //   return (authMiddleware as any)(req);
   // }
   //
-  //   return intlMiddleware(req);
-  return req;
+  return intlMiddleware(req);
 }
 
 export const config = {
