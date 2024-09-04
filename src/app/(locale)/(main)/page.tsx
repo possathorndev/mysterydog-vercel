@@ -4,9 +4,10 @@ import { unstable_setRequestLocale } from 'next-intl/server';
 
 export default async function Home({ params }: { params: { locale: string } }) {
   // Enable static rendering
-  unstable_setRequestLocale(params.locale);
+  // unstable_setRequestLocale(params.locale);
 
-  const data = await findHomeServerSide({ locale: params.locale });
+  // const data = await findHomeServerSide({ locale: params.locale });
 
-  return <Homepage initialData={data} />;
+  // return <Homepage initialData={data} />;
+  return <></>;
 }
